@@ -1,0 +1,36 @@
+body {
+    background: white;
+    padding: 20px;
+  }
+  #autocomplete {
+      opacity: 0.6;
+      background: transparent;
+      position: absolute;
+      box-sizing: border-box;
+      cursor: text;
+      pointer-events: none;
+      color: black;
+      width: 600px;
+    
+  }
+  .vc_textarea{
+        padding: 10px;
+        min-height: 100px;
+        resize: none;
+  }
+  #mainInput{
+    background: transparent;
+    color: black;
+    opacity: 1;
+    width: 600px
+  }
+  #autocomplete{
+    opacity: 0.6;
+    background: transparent;
+  }
+  
+  button{
+      height:50px;
+      width:205px;
+      padding:10;
+  }

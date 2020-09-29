@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>First Flask App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script></head><script>function myFunction() {
+var text= $('#text').val();
+var nwords= $('#nwords').val();
+  $.ajax({
+              url: "/predict",
+              type: "POST",
+              data: {text:text,
+              nwords:nwords}          }).done(function(response) {            var html= "<br><br><br><p> <b> RESULT : <b><p>";            response =response.result;
+                 $.each(response,function(key,val){
+                 console.log(val);
+                    html+="<p>"+val+"<p>"                });
+                html +="<br>";
+                $(".show-data").append(html);
+            });
+};  </script>
+<body>
+    <p>
+        Taking input from web<br><br>            
+            Text_Value1<input type="text" id="text" name="text"><br><br>
+            Text_Value2<input type="text" id="nwords" name="nwords"><br><br>
+            <button id="clicked" onclick="myFunction()">Submit</button>
+        </p>
+    <div class="show-data">    </div>
+</body>
+</html>

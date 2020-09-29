@@ -1,0 +1,287 @@
+<html>
+<body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<style>
+body {
+  background: white;
+  padding: 20px;
+}
+#autocomplete {
+    opacity: 0.6;
+    background: transparent;
+    position: absolute;
+    box-sizing: border-box;
+    cursor: text;
+    pointer-events: none;
+    color: black;
+    width: 600px;
+  
+}
+.vc_textarea{
+      padding: 10px;
+      min-height: 100px;
+      resize: none;
+}
+#mainInput{
+  background: transparent;
+  color: black;
+  opacity: 1;
+  width: 600px
+}
+#autocomplete{
+  opacity: 0.6;
+  background: transparent;
+}
+
+
+.code-back {
+	    background: #000000;
+    color: white;
+    padding: 15px;
+        font-size: 14px;
+    letter-spacing: 1px;
+    border-radius: 2px;
+}
+
+
+</style>
+<div class="container">
+<h1><center>Smart compose text editor</center></h1>
+<p>
+	<center>
+		<span>Document version 1.0.0<span>
+			<br>
+		<span>Author : <a href="https://linkkaro.com">Golap Hazarika</a></span>
+	</center>
+</p>
+<h3>About custom suggestions</h3>
+<p>Smart Compose personalized suggestions are tailored to the way you normally write, to maintain your writing style. You see generic suggestions as you type.
+</p>
+<p>
+<strong>Example:</strong>	
+</p>
+
+<textarea id="autocomplete" type="text" class="vc_textarea" ></textarea>
+<textarea id="mainInput" type="text" name="comments" placeholder="Write some text" class="vc_textarea"></textarea>
+     
+<br> 
+
+<h3>Explanation:</h3>
+
+<p>
+	<strong>HTML:</strong>
+	<br>
+	<div class="code-back">
+		<code >&lt;textarea id="autocomplete" type="text" class="vc_textarea"&gt;&lt;/textarea&gt;</code>
+		<br>
+		<code>&lt;textarea id="mainInput" type="text" name="comments" placeholder="Write some text" class="vc_textarea"&gt;&lt;/textarea&gt;</code>
+	</div>
+</p>
+<p>
+	<strong>CSS:</strong>
+	<br>
+	<div class="code-back">
+		<code >&lt;style&gt;#autocomplete {
+    opacity: 0.6;
+    background: transparent;
+    position: absolute;
+    box-sizing: border-box;
+    cursor: text;
+    pointer-events: none;
+    color: black;
+    width: 400px;
+}
+.vc_textarea{
+      padding: 10px;
+      min-height: 100px;
+      resize: none;
+}
+#mainInput{
+  background: transparent;
+  color: black;
+  opacity: 1;
+  width: 400px;
+}
+#autocomplete{
+  opacity: 0.6;
+  background: transparent;
+}&lt;/style&gt;</code>
+</div>
+</p>
+<script>
+$(document).ready(function(){
+
+//dummy random output start
+var example = {
+	1:"Lorem Ipsum is simply",
+	2:"Contrary to popular belief",
+	3:"comes from a line in",
+	4:"The Extremes of Good and Evil",
+	5:"dolor sit amet..",
+	6:"or non-characteristic",
+	7:"of a page",
+	8:"PageMaker including",
+	9:"I must explain",
+	10:"On the other hand,"
+};
+function randomobj(obj) {
+	var objkeys = Object.keys(obj)
+	return objkeys[Math.floor(Math.random() * objkeys.length)]
+}
+//////////////////////////
+
+	var autocomplete = document.querySelectorAll("#autocomplete");
+	var mainInput = document.querySelectorAll("#mainInput");
+
+	var foundName = '';
+    var predicted = '';
+    var apibusy= false;
+    var mlresponsebusy = false;
+
+$('#mainInput').keyup(function(e) {
+
+	// console.log('input:',mainInput[0].value);
+	// console.log('input e:',e);
+	//check if null value send
+	if (mainInput[0].value == '') {
+	    // console.log('input value is null');
+	    autocomplete[0].textContent = '';
+	    return;
+	}
+	//check if space key press
+    if (e.keyCode == 32) {
+        // console.log('press space key to fatch data');
+        CallMLDataSetAPI(e);
+        scrolltobototm();
+        return;
+    }  
+    //check if Backspace key press
+    if (e.key == 'Backspace'){
+        autocomplete[0].textContent = '';
+        predicted = '';
+        apibusy = true;
+        return;
+    }
+    //check if ArrowRight or Tab key press
+    if(e.key != 'ArrowRight'){
+        // console.log('press random key');
+        if (autocomplete[0].textContent != '' && predicted){
+            var first_character = predicted.charAt(0);
+            if(e.key == first_character){
+                var s1 = predicted;
+                var s2 = s1.substr(1);
+                predicted = s2;
+                apibusy = true;
+            }else{
+                autocomplete[0].textContent = '';
+                apibusy= false;
+            }
+        }else{
+            autocomplete[0].textContent = '';
+            apibusy= false;
+        }
+        return;
+    }else{
+        console.log('press Arrow key');
+        if(predicted){
+            console.log('check predicted text present or not : Yes it is');
+            console.log('apibusy', apibusy);
+            if (apibusy == true){
+                apibusy= false;
+            }
+            if (apibusy== false){
+                mainInput[0].value = foundName;
+                autocomplete[0].textContent = '';
+            }
+
+        }else{
+            console.log('check predicted text present or not : No');
+            return;
+        }
+    }
+	function CallMLDataSetAPI(event) {
+        //call api and get response
+        var response = {
+	    	"predicted": example[randomobj(example)]
+        };
+        var texttosend = mainInput[0].value
+        texttosend = texttosend.slice(0, texttosend.length-1)
+        $.ajax({
+            url: "/predict",
+            type: "POST",
+            data: {text:texttosend}}).done(function(response) {
+                // var response = {
+                //     "predicted": example[randomobj(example)]
+                // };
+                if(response.predicted != ''){
+                    predicted = response.predicted.predicted
+                    console.log(predicted.slice(texttosend.length))
+                    var new_text = event.target.value + predicted.slice(texttosend.length+1);
+                    autocomplete[0].textContent =  new_text;
+                foundName = new_text} else{
+                    predicted = '';
+                    var new_text1 = event.target.value + predicted;
+                    autocomplete[0].textContent =  new_text1;
+                    foundName = new_text1
+                }
+            });
+	    
+
+        
+	};
+});
+
+$('#mainInput').keypress(function(e) {
+var sc = 0;
+$('#mainInput').each(function () {
+	this.setAttribute('style', 'height:' + (0) + 'px;overflow-y:hidden;');
+	this.setAttribute('style', 'height:' + (this.scrollHeight+3) + 'px;overflow-y:hidden;');
+	sc = this.scrollHeight;
+});
+$('#autocomplete').each(function () {
+	if (sc <=400){
+		this.setAttribute('style', 'height:' + (0) + 'px;overflow-y:hidden;');
+		this.setAttribute('style', 'height:' + (sc+2) + 'px;overflow-y:hidden;');
+	}
+}).on('input', function () {
+	this.style.height = 0;
+	this.style.height = (sc+2) + 'px';
+});
+});
+
+function scrolltobototm() {
+    var target = document.getElementById('autocomplete');
+    var target1 = document.getElementById('mainInput');
+    setInterval(function(){
+        target.scrollTop = target1.scrollHeight;
+    }, 1000);
+};
+
+$( "#mainInput" ).keydown(function(e) {
+if (e.keyCode === 9) {
+	e.preventDefault();
+		presstabkey();
+	}
+}); 
+
+function presstabkey() {
+	// console.log("press tab key ");
+	if(predicted){
+	    if (apibusy == true){
+	        apibusy= false;
+	    }
+	    if (apibusy== false){
+	        mainInput[0].value = foundName;
+	        autocomplete[0].textContent = '';
+	    }
+	}else{
+	    // console.log('check predicted text present or not : No');
+	    return;
+	}
+
+	};
+
+});
+</script>
+</body>
+</html>
