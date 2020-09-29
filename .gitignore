@@ -138,7 +138,6 @@ dmypy.json
 cython_debug/
 
 *.pdf
-data/*.csv
 data/paper/*.pdf
 models/*.pth
 models/*.pkl
