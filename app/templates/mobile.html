@@ -44,53 +44,73 @@
     </style>
     <!-- <link rel="stylesheet" href="./style.css"> -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- <script src="{{url_for('static', filename='data.json')}}"></script> -->
+
     <script>
         $(document).ready(function(){
             var mainInput = document.querySelectorAll("#mainInput");
-            $('#mainInput').keyup(function(e){
-                
-                // console.log('press space key to fatch data');
-                predictionAPI();
-                return;
-                 
-                
-                
-                
+            let input_length = 0;            
+
+            $('#mainInput').keyup(function(e){ 
+                if (e.keyCode == 32) {
+                    predictionAPI();
+                    return;
+                } else if(e.key == 'Backspace') {
+                    input_length = mainInput[0].value.length;
+                } else {
+                    autocompletionAPI();
+                    return;
+                }
             });
 
             $("#text1").click(function(){
                 var new_text = $("#text1").text();
-                mainInput[0].value +=  new_text;
+                mainInput[0].value = mainInput[0].value.slice(0, input_length) + new_text;
                 $('#mainInput').focus().val($('#mainInput').val() + " ");
                 predictionAPI();
             }); 
 
             $("#text2").click(function(){
                 var new_text = $("#text2").text();
-                mainInput[0].value += new_text;
+                mainInput[0].value = mainInput[0].value.slice(0, input_length) + new_text;
                 $('#mainInput').focus().val($('#mainInput').val() + " ");
                 predictionAPI();
             }); 
 
             $("#text3").click(function(){
                 var new_text = $("#text3").text();
-                mainInput[0].value +=  new_text;
+                mainInput[0].value = mainInput[0].value.slice(0, input_length) + new_text;
                 $('#mainInput').focus().val($('#mainInput').val() + " ");
-                predictionAPI(e);
+                predictionAPI();
             }); 
 
             function predictionAPI(event){
-                    var texttosend = mainInput[0].value
-                    texttosend = texttosend.slice(0, texttosend.length-1)
-                    $.ajax({
-                        url: "/predict",
-                        type: "POST",
-                        data: {text:texttosend}}).done(function(response){
-                            $("#text1").html("I");
-                            $("#text2").html(response.predicted.predicted);
-                            $("#text3").html("am");
-                        });
-                }
+                input_length = mainInput[0].value.length;
+                var texttosend = mainInput[0].value
+                texttosend = texttosend.slice(0, texttosend.length-1)
+                $.ajax({
+                    url: "/predict",
+                    type: "POST",
+                    data: {text:texttosend}}).done(function(response){
+                        $("#text1").html(response.predicted.word2);
+                        $("#text2").html(response.predicted.word1);
+                        $("#text3").html(response.predicted.word3);
+                    });
+            }
+
+            function autocompletionAPI(event){
+                var query = mainInput[0].value
+                let parts = query.split(' ');
+                const wordToComplete = parts.pop();
+                $.ajax({
+                    url: "/autocomplete",
+                    type: "POST",
+                    data: {text:wordToComplete}}).done(function(response){
+                        $("#text1").html(response.autocompleted.word2);
+                        $("#text2").html(response.autocompleted.word1);
+                        $("#text3").html(response.autocompleted.word3);
+                    });
+            }
         });
     </script>
 </head>

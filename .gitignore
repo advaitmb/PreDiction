@@ -151,3 +151,4 @@ models/*.pkl
 models/*/*.pkl
 models/*/*.pth
 nbs/cscw/*.pdf
+app/docs/*
