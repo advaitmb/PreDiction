@@ -46,68 +46,11 @@ body {
 
 </style>
 <div class="container">
-<h1><center>Smart compose text editor</center></h1>
-<p>
-	<center>
-		<span>Document version 1.0.0<span>
-			<br>
-		<span>Author : <a href="https://linkkaro.com">Golap Hazarika</a></span>
-	</center>
-</p>
-<h3>About custom suggestions</h3>
-<p>Smart Compose personalized suggestions are tailored to the way you normally write, to maintain your writing style. You see generic suggestions as you type.
-</p>
-<p>
-<strong>Example:</strong>	
-</p>
+
 
 <textarea id="autocomplete" type="text" class="vc_textarea" ></textarea>
 <textarea id="mainInput" type="text" name="comments" placeholder="Write some text" class="vc_textarea"></textarea>
-     
-<br> 
-
-<h3>Explanation:</h3>
-
-<p>
-	<strong>HTML:</strong>
-	<br>
-	<div class="code-back">
-		<code >&lt;textarea id="autocomplete" type="text" class="vc_textarea"&gt;&lt;/textarea&gt;</code>
-		<br>
-		<code>&lt;textarea id="mainInput" type="text" name="comments" placeholder="Write some text" class="vc_textarea"&gt;&lt;/textarea&gt;</code>
-	</div>
-</p>
-<p>
-	<strong>CSS:</strong>
-	<br>
-	<div class="code-back">
-		<code >&lt;style&gt;#autocomplete {
-    opacity: 0.6;
-    background: transparent;
-    position: absolute;
-    box-sizing: border-box;
-    cursor: text;
-    pointer-events: none;
-    color: black;
-    width: 400px;
-}
-.vc_textarea{
-      padding: 10px;
-      min-height: 100px;
-      resize: none;
-}
-#mainInput{
-  background: transparent;
-  color: black;
-  opacity: 1;
-  width: 400px;
-}
-#autocomplete{
-  opacity: 0.6;
-  background: transparent;
-}&lt;/style&gt;</code>
 </div>
-</p>
 <script>
 $(document).ready(function(){
 
@@ -215,10 +158,9 @@ $('#mainInput').keyup(function(e) {
                 // };
                 if(response.predicted != ''){
                     predicted = response.predicted.predicted
-                    console.log(predicted.slice(texttosend.length))
-                    var new_text = event.target.value + predicted.slice(texttosend.length+1);
-                    autocomplete[0].textContent =  new_text;
-                foundName = new_text} else{
+                    // var new_text = event.target.value + predicted.slice(texttosend.length+1);
+                    autocomplete[0].textContent =  predicted;
+                    foundName = predicted} else{
                     predicted = '';
                     var new_text1 = event.target.value + predicted;
                     autocomplete[0].textContent =  new_text1;
