@@ -100,18 +100,20 @@
     var foundName = '';
     var nextWord = '';
     var nextWordArr;
+    var rem_word = '';
     var predicted = '';
     var apibusy= false;
     var mlresponsebusy = false;
     var completing = false
-    
+    var matches = false;
+
     $('#mainInput').keyup(function(e) {
     //check if null value send
         if (mainInput[0].value == '') {
             autocomplete[0].textContent = '';
             return;
     }
-    //check if space key press
+    // check if space key press
         if (e.keyCode == 32) {
             phraseCompleteAPI(e);
             scrolltobototm();
@@ -128,7 +130,13 @@
             return;
         }
     //check if ArrowRight or Tab key press
-        if(e.key != 'ArrowRight' && e.key != 'Backspace' && e.keyCode !== 32 && e.keyCode !== 9){
+        if((e.keyCode>=48 && e.keyCode<=90) || (e.keyCode>=186 && e.keyCode<=222) || e.keyCode==16 || e.key=='-'){
+            wordCompleteAPI(e);
+            if (matches){
+                phraseCompleteAPI(e);
+                matches = false;
+            }
+            
             if (autocomplete[0].textContent != '' && predicted){
                 var first_character = predicted.charAt(0);
                 if(e.key == first_character){
@@ -164,8 +172,7 @@
             var response = {
             "predicted": example[randomobj(example)]
             };
-            textToSend = mainInput[0].value
-            console.log(textToSend)
+            textToSend = mainInput[0].value+rem_word;
             $.ajax({
                 url: "/predict",
                 type: "POST",
@@ -174,10 +181,10 @@
                         predicted = response.predicted.predicted;
    
                         console.log(predicted.startsWith("\s"))
-                        var new_text = event.target.value + response.predicted.predicted;
+                        var new_text = event.target.value + rem_word + response.predicted.predicted;
                         autocomplete[0].textContent = new_text;
                         nextWordArr = predicted.split(" ");
-                        foundName = event.target.value + nextWordArr.shift();
+                        foundName = event.target.value + rem_word + nextWordArr.shift();
                         // foundName = new_text
                         completing = true;
                     }else{
@@ -186,6 +193,7 @@
                         autocomplete[0].textContent = new_text1;
                         foundName = new_text1
                     }
+                    rem_word = '';
             }); 
  
         };
@@ -202,16 +210,11 @@
                 type: "POST",
                 data: {text:textToSend}}).done(function(response) {
                     if(response.predicted != ''){
-                        predicted = response.predicted.predicted;
-                        var new_text = event.target.value + response.predicted.predicted;
-                        autocomplete[0].textContent = new_text;
-                        foundName = new_text
-                        
-                    }else{
-                        predicted = '';
-                        var new_text1 = event.target.value + predicted;
-                        autocomplete[0].textContent = new_text1;
-                        foundName = new_text1
+                        rem_word = response.predicted.predicted;
+                        matches = true;
+                    }else {
+                        rem_word = '';
+                        matches = false;
                     }
             }); 
  
