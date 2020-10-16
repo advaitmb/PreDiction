@@ -1,0 +1,234 @@
+<html>
+<body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<style>
+body {
+  background: white;
+  padding: 20px;
+}
+#autocomplete {
+    position: absolute;
+    box-sizing: border-box;
+    cursor: text;
+    pointer-events: none;
+    color: grey;
+    width: 600px;
+  
+}
+.vc_textarea{
+      padding: 10px;
+      min-height: 100px;
+      resize: none;
+}
+#mainInput{
+  background: transparent;
+  color: black;
+  opacity: 1.0;
+  width: 600px
+}
+#autocomplete{
+  opacity: 0.6;
+  background: transparent;
+}
+
+
+.code-back {
+	    background: #000000;
+    color: white;
+    padding: 15px;
+        font-size: 14px;
+    letter-spacing: 1px;
+    border-radius: 2px;
+}
+
+
+</style>
+<div class="container">
+
+
+<textarea id="autocomplete" type="text" class="vc_textarea" ></textarea>
+<textarea id="mainInput" type="text" name="comments" placeholder="Write some text" class="vc_textarea"></textarea>
+</div>
+<script>
+    $(document).ready(function(){
+        //dummy random output. You can use api
+    
+    var example = {
+        1:"Lorem Ipsum is simply",
+        2:"Contrary to popular belief",
+        3:"comes from a line in",
+        4:"The Extremes of Good and Evil",
+        5:"dolor sit amet..",
+        6:"or non-characteristic",
+        7:"of a page",
+        8:"PageMaker including",
+        9:"I must explain",
+        10:"On the other hand,"
+    };
+    function randomobj(obj) {
+        var objkeys = Object.keys(obj)
+        return objkeys[Math.floor(Math.random() * objkeys.length)]
+    }
+    
+    var autocomplete = document.querySelectorAll("#autocomplete");
+    var mainInput = document.querySelectorAll("#mainInput");
+    var foundName = '';
+    var predicted = '';
+    var apibusy= false;
+    var mlresponsebusy = false;
+    
+    $('#mainInput').keyup(function(e) {
+    //check if null value send
+        if (mainInput[0].value == '') {
+            autocomplete[0].textContent = '';
+            return;
+    }
+    //check if space key press
+        if (e.keyCode == 32) {
+            phraseCompleteAPI(e);
+            scrolltobototm();
+            return;
+    }
+    //check if Backspace key press
+        if (e.key == 'Backspace'){
+            autocomplete[0].textContent = '';
+            predicted = '';
+            apibusy = true;
+            return;
+    }
+    //check if ArrowRight or Tab key press
+        if(e.key != 'ArrowRight' && e.key != 'Backspace' && e.keyCode !== 32){
+            // wordCompleteAPI(e)
+            // scrolltobototm();
+            // CallMLDataSetAPI(e)
+            if (autocomplete[0].textContent != '' && predicted){
+                var first_character = predicted.charAt(0);
+                if(e.key == first_character){
+                    var s1 = predicted;
+                    var s2 = s1.substr(1);
+                    predicted = s2;
+                    apibusy = true;
+                }else{
+                    autocomplete[0].textContent = '';
+                    apibusy= false;
+                }
+            }else{
+                autocomplete[0].textContent = '';
+                apibusy= false;
+            }
+            return;
+            }else{
+                if(predicted){
+                    if (apibusy == true){
+                        apibusy= false;
+                    }
+                    if (apibusy== false){
+                        mainInput[0].value = foundName;
+                        autocomplete[0].textContent = '';
+                    }
+                }else{
+                return;
+            }
+        }
+    
+        function phraseCompleteAPI(event) {
+            //call api and get response
+            var response = {
+            "predicted": example[randomobj(example)]
+            };
+            textToSend = mainInput[0].value
+            var punctuationless = textToSend.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+            var finalString = punctuationless.replace(/\s{2,}/g," ");
+
+            $.ajax({
+                url: "/predict",
+                type: "POST",
+                data: {text:finalString}}).done(function(response) {
+                    if(response.predicted != ''){
+                        predicted = response.predicted.predicted;
+                        var new_text = event.target.value + response.predicted.predicted;
+                        autocomplete[0].textContent = new_text;
+                        foundName = new_text
+                    }else{
+                        predicted = '';
+                        var new_text1 = event.target.value + predicted;
+                        autocomplete[0].textContent = new_text1;
+                        foundName = new_text1
+                    }
+            }); 
+ 
+        };
+
+        function wordCompleteAPI(event) {
+            //call api and get response
+            var response = {
+            "predicted": example[randomobj(example)]
+            };
+            textToSend = mainInput[0].value.split(" ").pop()
+
+            $.ajax({
+                url: "/autocomplete",
+                type: "POST",
+                data: {text:textToSend}}).done(function(response) {
+                    if(response.predicted != ''){
+                        predicted = response.predicted.predicted;
+                        var new_text = event.target.value + response.predicted.predicted;
+                        autocomplete[0].textContent = new_text;
+                        foundName = new_text
+                    }else{
+                        predicted = '';
+                        var new_text1 = event.target.value + predicted;
+                        autocomplete[0].textContent = new_text1;
+                        foundName = new_text1
+                    }
+            }); 
+ 
+        };
+    });
+    $('#mainInput').keypress(function(e) {
+        var sc = 0;
+        $('#mainInput').each(function () {
+            this.setAttribute('style', 'height:' + (0) + 'px;overflow-y:hidden;');
+            this.setAttribute('style', 'height:' + (this.scrollHeight+3) + 'px;overflow-y:hidden;');
+            sc = this.scrollHeight;
+        });
+        $('#autocomplete').each(function () {
+            if (sc <=400){
+                this.setAttribute('style', 'height:' + (0) + 'px;overflow-y:hidden;');
+                this.setAttribute('style', 'height:' + (sc+2) + 'px;overflow-y:hidden;');
+            }
+        }).on('input', function () {
+            this.style.height = 0;
+            this.style.height = (sc+2) + 'px';
+        });
+    });
+        function scrolltobototm() {
+            var target = document.getElementById('autocomplete');
+            var target1 = document.getElementById('mainInput');
+            setInterval(function(){
+                target.scrollTop = target1.scrollHeight;
+            }, 1000);
+        };
+        $( "#mainInput" ).keydown(function(e) {
+            if (e.keyCode === 9) {
+                e.preventDefault();
+                presstabkey();
+            }
+        });
+        function presstabkey() {
+            if(predicted){
+                if (apibusy == true){
+                    apibusy= false;
+                }
+                if (apibusy== false){
+                    mainInput[0].value = foundName;
+                    autocomplete[0].textContent = '';
+                }
+            }else{
+            return;
+            }
+        };
+    });
+    </script> 
+</body>
+</html>

@@ -83,18 +83,14 @@ function randomobj(obj) {
 
 $('#mainInput').keyup(function(e) {
 
-	// console.log('input:',mainInput[0].value);
-	// console.log('input e:',e);
-	//check if null value send
 	if (mainInput[0].value == '') {
-	    // console.log('input value is null');
 	    autocomplete[0].textContent = '';
 	    return;
 	}
 	//check if space key press
     if (e.keyCode == 32) {
         // console.log('press space key to fatch data');
-        CallMLDataSetAPI(e);
+        // CallMLDataSetAPI(e);
         scrolltobototm();
         return;
     }  
@@ -106,25 +102,8 @@ $('#mainInput').keyup(function(e) {
         return;
     }
     //check if ArrowRight or Tab key press
-    if(e.key != 'ArrowRight'){
-        // console.log('press random key');
-        if (autocomplete[0].textContent != '' && predicted){
-            var first_character = predicted.charAt(0);
-            if(e.key == first_character){
-                var s1 = predicted;
-                var s2 = s1.substr(1);
-                predicted = s2;
-                apibusy = true;
-            }else{
-                autocomplete[0].textContent = '';
-                apibusy= false;
-            }
-        }else{
-            autocomplete[0].textContent = '';
-            apibusy= false;
-        }
-        return;
-    }else{
+    
+    if(e.key == 'ArrowRight'){
         console.log('press Arrow key');
         if(predicted){
             console.log('check predicted text present or not : Yes it is');
@@ -141,21 +120,36 @@ $('#mainInput').keyup(function(e) {
             console.log('check predicted text present or not : No');
             return;
         }
+    }else{
+        CallMLDataSetAPI(e)
+        if (autocomplete[0].textContent != '' && predicted){
+            var first_character = predicted.charAt(0);
+            if(e.key == first_character){
+                var s1 = predicted;
+                var s2 = s1.substr(1);
+                predicted = s2;
+                apibusy = true;
+            }else{
+                autocomplete[0].textContent = '';
+                apibusy= false;
+            }
+        }else{
+            autocomplete[0].textContent = '';
+            apibusy= false;
+        }
+        return;
     }
 	function CallMLDataSetAPI(event) {
         //call api and get response
         var response = {
 	    	"predicted": example[randomobj(example)]
         };
-        var texttosend = mainInput[0].value
-        texttosend = texttosend.slice(0, texttosend.length-1)
+        var texttosend = mainInput[0].value;
         $.ajax({
             url: "/predict",
             type: "POST",
             data: {text:texttosend}}).done(function(response) {
-                // var response = {
-                //     "predicted": example[randomobj(example)]
-                // };
+ 
                 if(response.predicted != ''){
                     predicted = response.predicted.predicted
                     // var new_text = event.target.value + predicted.slice(texttosend.length+1);
@@ -166,11 +160,42 @@ $('#mainInput').keyup(function(e) {
                     autocomplete[0].textContent =  new_text1;
                     foundName = new_text1
                 }
-            });
-	    
-
-        
+            }); 
 	};
+
+    function autocompleteAPI(event){
+        var response = {
+	    	"predicted": example[randomobj(example)]
+        };
+        var inputArr = mainInput[0].value.split(" ");
+        
+        var incompleteWord = inputArr.pop()
+        var mainInputRem = inputArr.join(" ");
+        if (inputArr.length>1)
+        {
+            mainInputRem += " ";
+        }
+        
+        
+        $.ajax({
+            url: "/autocomplete",
+            type: "POST",
+            data: {text:incompleteWord}}).done(function(response) {
+                // var response = {
+                //     "predicted": example[randomobj(example)]
+                // };
+                if(response.predicted != ''){
+                    predicted = response.predicted.predicted
+                    // var new_text = event.target.value + predicted.slice(texttosend.length+1);
+                    autocomplete[0].textContent =  mainInput[0].value.slice(0,mainInput[0].value.length - incompleteWord.length) + predicted;
+                    foundName = autocomplete[0].textContent} else{
+                    predicted = '';
+                    var new_text1 = event.target.value + predicted;
+                    autocomplete[0].textContent =  new_text1;
+                    foundName = new_text1
+                }
+            }); 
+    }
 });
 
 $('#mainInput').keypress(function(e) {
@@ -221,7 +246,7 @@ function presstabkey() {
 	    return;
 	}
 
-	};
+};
 
 });
 </script>

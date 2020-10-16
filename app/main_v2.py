@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, jsonify
 from fastai.text.all import *
-from inference import get_next_word, beam_search
+from inference import get_next_word, beam_search, beam_search_modified
 from pathlib import Path
 import pandas as pd
 from random import choice
@@ -12,21 +12,39 @@ import sys
 app = Flask(__name__)
 
 #  Load learner object 
-learn = load_learner('../models/design/4epochslearner.pkl')
+learn = load_learner('../models/4epochslearner_without_punct.pkl')
+
+def subtract(a, b):                              
+    return "".join(a.rsplit(b))
 
 @app.route('/')
 def home():
-    return render_template('faded.html')
+    return render_template('compare.html')
 
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
-    # search = request.args.get('q')
     text = request.form['text']
-#    query = db_session.query(Movie.title).filter(Movie.title.like('%' + str(search) + '%'))
-#    results = [mv[0] for mv in query.all()]
-    prediction = beam_search(learn, text, n_words=2, temperature=1.2)
+    prediction = beam_search_modified(learn, text, confidence=0.1, temperature=1.)
+    
+    prediction = prediction[len(text):]
+    print(prediction, file=sys.stderr)
+    predicted = {
+        "predicted": prediction
+    }
+    return jsonify(predicted=predicted)
 
+@app.route('/autocomplete', methods=['GET', 'POST'])
+def autocomplete():
+    text = request.form['text']
+    matches = [s for s in learn.dls.vocab if s and s.startswith(text)]
+    if len(matches) == 0:
+        prediction = ""
+    else:
+        prediction = choice(matches)
+        prediction = prediction[len(text):]
+    print(prediction, file=sys.stderr)
+    
     predicted = {
         "predicted": prediction
     }
