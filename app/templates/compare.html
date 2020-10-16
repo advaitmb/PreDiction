@@ -2,53 +2,78 @@
 <body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <style>
-body {
-  background: white;
-  padding: 20px;
-}
-#autocomplete {
-    position: absolute;
-    box-sizing: border-box;
-    cursor: text;
-    pointer-events: none;
-    color: grey;
-    width: 600px;
-  
-}
-.vc_textarea{
-      padding: 10px;
-      min-height: 100px;
-      resize: none;
-}
-#mainInput{
-  background: transparent;
-  color: black;
-  opacity: 1.0;
-  width: 600px
-}
-#autocomplete{
-  opacity: 0.6;
-  background: transparent;
-}
+    body {
+        background: rgb(228, 236, 245);
+        padding: 20px;
+    }
+
+    article {
+        display: grid;
+        grid-template-columns: 1fr 0.5in [start] 1.23in 5in 1.25in [end] 0.5in 1fr;
+        grid-template-rows: 0.5in [boom] 1fr;
+        /* height: 100vh; */
+        padding: 0.5in 0;
+        
+      }
+
+      article * {
+        background: white;
+        grid-column: start / end;
+        grid-row: boom;
+        min-height: 8in;
+        padding: 4vw;
+        padding-top: 5vw;
+        resize: none;
+        border: none;
+        font-family: 'Merriweather', serif;
+        font-size: small; 
+      }
+
+      :focus{
+          outline: 0px;
+      }
+
+      @media (max-width: 8.5in) {
+        article {
+          grid-template-columns: 1fr 5% [start] 15% 60% 15% [end] 5% 1fr;
+        }
+
+        article * {
+            padding: 0.3in;
+            padding-top: 0.5in;
+        }
+    }
 
 
-.code-back {
-	    background: #000000;
-    color: white;
-    padding: 15px;
+    #autocomplete {
+        color:rgb(158, 188, 226);
+        cursor: text;
+        pointer-events: none;
+        box-shadow: 0px 2px 2px 0.2px rgba(192, 192, 192, 0.52);
+        
+    }
+
+    #mainInput {
+        color: black;
+        background: transparent;
+        opacity: 1;
+        z-index: 2;
+    }
+
+    .code-back {
+        background: #000000;
+        color: white;
+        padding: 15px;
         font-size: 14px;
-    letter-spacing: 1px;
-    border-radius: 2px;
-}
-
-
+        letter-spacing: 1px;
+        border-radius: 2px;
+    }
 </style>
-<div class="container">
 
-
-<textarea id="autocomplete" type="text" class="vc_textarea" ></textarea>
-<textarea id="mainInput" type="text" name="comments" placeholder="Write some text" class="vc_textarea"></textarea>
-</div>
+<article> 
+    <textarea id="autocomplete"></textarea>
+    <textarea id="mainInput" name="comments"></textarea>
+</article>
 <script>
     $(document).ready(function(){
         //dummy random output. You can use api
