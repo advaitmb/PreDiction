@@ -1,0 +1,87 @@
+body {
+  margin: 0px;
+}
+
+.navbar {
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 100%;
+  padding: 0px;
+  position: fixed;
+  background-color: #222222;
+  z-index: 1000;
+}
+
+.navbutton:hover, .navlogo:hover{
+  background-color: black;
+}
+
+/* .navmiddle {
+  display: block;
+  padding: 14px;
+}
+
+.navbutton {
+  align-content: space-between;
+  color: white;
+  display: block;
+  padding: 14px;
+  padding-top: 18px;
+  padding-bottom: 10px;
+  text-decoration: none;
+} */
+
+.navlogo {
+  align-content: space-between;
+  color: white;
+  display: block;
+  padding: 14px;
+  padding-top: 18px;
+  padding-bottom: 10px;
+  text-decoration: none;
+  float: left;
+}
+
+.buttonbox{
+  position: absolute;
+  display: flex;
+  right:0;
+}
+
+.navbutton {
+  align-content: space-between;
+  color: white;
+  display: block;
+  padding: 14px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  text-decoration: none;
+}
+
+.hero {
+  position: relative;
+  text-align: center;
+  color: white;
+  display: flex;
+  margin-top: 50px;
+  width: 100%;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.herotext {
+  position: absolute;
+  top: 40%;
+  left: 20%;
+}
+
+h1.herotext{
+  font-size: 50px;
+  transform: translate(-50%,-70%);
+}
+
+p.herotext{
+  font-size: 20px;
+  transform: translate(-8.3%,60%);
+  text-align: left;
+}
