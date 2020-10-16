@@ -94,6 +94,4 @@ def beam_search(learn, text:str, n_words:int, no_unk:bool=True, top_k:int=10, be
 if __name__ == '__main__':
     learn = load_learner('../models/design/4epochslearner.pkl')
     
-    vocab = learn.dls.vocab
-    with open('data.json', 'w') as fp:
-        json.dump(vocab, fp)
+    print(beam_search_modified(learn, 'people with chronic diseases such as malaria', 0.1))

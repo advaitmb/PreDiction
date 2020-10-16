@@ -25,10 +25,29 @@ def home():
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     text = request.form['text']
-    prediction = beam_search_modified(learn, text, confidence=0.1, temperature=1.)
+
+    text_arr = text.split(" ")
+
+
+    base_string_length = len(text)
+
+    # Add spaces before and after all of these punctuation marks 
+    text = re.sub('([.,\/#!$%\^&\*;:{}=\-_`~()])', r' \1 ', text)
+
+    # Replace any places with 2 spaces by one space 
+    text = re.sub('\s{2,}', ' ', text)
+    prediction = beam_search_modified(learn, text, confidence=0.008, temperature=1.)
     
-    prediction = prediction[len(text):]
-    print(prediction, file=sys.stderr)
+    prediction = re.sub('\s([.,#!$%\^&\*;:{}=_`~](?:\s|$))', r'\1', prediction)
+    prediction = prediction.replace(" - ", "-")
+    prediction = prediction.replace(" / ", "/")
+    prediction = prediction.replace(" ( ", " (")
+    prediction = prediction.replace(" ) ", ") ")
+    # prediction = prediction[base_string_length:]
+    
+    prediction_arr = prediction.split(" ")
+    prediction = " ".join(prediction_arr[len(text_arr):])
+    
     predicted = {
         "predicted": prediction
     }

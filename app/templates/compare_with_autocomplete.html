@@ -164,7 +164,7 @@
             var response = {
             "predicted": example[randomobj(example)]
             };
-            textToSend = mainInput[0].value.slice(0,-1);
+            textToSend = mainInput[0].value
             console.log(textToSend)
             $.ajax({
                 url: "/predict",
@@ -172,6 +172,8 @@
                 data: {text:textToSend}}).done(function(response) {
                     if(response.predicted != ''){
                         predicted = response.predicted.predicted;
+   
+                        console.log(predicted.startsWith("\s"))
                         var new_text = event.target.value + response.predicted.predicted;
                         autocomplete[0].textContent = new_text;
                         nextWordArr = predicted.split(" ");
