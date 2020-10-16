@@ -25,7 +25,10 @@ jobs:
       
     - name: Create Environment
       run: |
+        conda update -n base -c defaults conda
         conda create --name pudhe-chi python=3.8.2
+        conda init bash
+        exec bash
         conda activate pudhe-chi
       
     - name: Install Dependencies
