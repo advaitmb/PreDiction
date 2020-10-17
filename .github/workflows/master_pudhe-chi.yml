@@ -27,20 +27,17 @@ jobs:
       run: |
         conda update -n base -c defaults conda
         conda create --name pudhe-chi python=3.8.2
+
+    - name: Initialise Environment
+      run: |
         conda init bash
-        
-    - name: restart shell
-      run: exec bash
-        
+        conda activate pudhe-chi
+
     - name: Install Dependencies
       run: |
-        conda activate pudhe-chi
         conda install -c fastai -c pytorch -c anaconda fastai==2.0.8 spacy=2.3.1 gh anaconda
         conda install -c anaconda flask 
-        
-    - name: restart shell again
-      run: exec bash
-        
+
     - name: Start App
       run: |
         conda activate pudhe-chi
