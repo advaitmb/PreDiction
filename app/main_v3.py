@@ -13,7 +13,7 @@ import sys
 app = Flask(__name__)
 
 #  Load learner object 
-learn = load_learner('../models/design/4epochslearner.pkl')
+learn = load_learner('./models/design/4epochslearner.pkl')
 
 def subtract(a, b):                              
     return "".join(a.rsplit(b))
