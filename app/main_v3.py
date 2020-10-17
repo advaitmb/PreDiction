@@ -25,7 +25,7 @@ def home():
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     text = request.form['text']
-
+    print('input_text: '+text, file=sys.stderr)
     text_arr = text.split(" ")
     for i in range(len(text_arr)):
         if text_arr[i] not in learn.dls.vocab:
@@ -47,7 +47,7 @@ def predict():
     prediction = prediction.replace(" ( ", " (")
     prediction = prediction.replace(" ) ", ") ")
     prediction = prediction[base_string_length:]
-    
+    print('prediction: '+prediction, file=sys.stderr)
     predicted = {
         "predicted": prediction
     }
@@ -64,7 +64,7 @@ def autocomplete():
         prediction = prediction[len(text):]
     if prediction == UNK:
         prediction = ""
-    
+    print('autocomplete: ' + prediction, file=sys.stderr)
     predicted = {
         "predicted": prediction
     }
