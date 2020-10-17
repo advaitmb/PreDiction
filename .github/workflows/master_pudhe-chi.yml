@@ -39,7 +39,6 @@ jobs:
         
     - name: Start App
       run: |
-        conda activate pudhe-chi
         python app/main_v3.py
 
     - name: Build using AppService-Build
