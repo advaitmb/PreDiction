@@ -47,6 +47,7 @@ def predict():
     prediction = prediction.replace(" ( ", " (")
     prediction = prediction.replace(" ) ", ") ")
     prediction = prediction[base_string_length:]
+    prediction = prediction.rstrip()
     print('prediction: '+prediction, file=sys.stderr)
     predicted = {
         "predicted": prediction
@@ -56,12 +57,14 @@ def predict():
 @app.route('/autocomplete', methods=['GET', 'POST'])
 def autocomplete():
     text = request.form['text']
+    text=text.lower()
     matches = [s for s in learn.dls.vocab if s and s.startswith(text)]
     if len(matches) == 0:
         prediction = ""
     else:
         prediction = choice(matches)
         prediction = prediction[len(text):]
+        
     if prediction == UNK:
         prediction = ""
     print('autocomplete: ' + prediction, file=sys.stderr)

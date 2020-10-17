@@ -106,7 +106,7 @@
     var mlresponsebusy = false;
     var completing = false
     var matches = false;
-
+    var spaceFlag = false;
     $('#mainInput').keyup(function(e) {
     //check if null value send
         if (mainInput[0].value == '') {
@@ -115,7 +115,8 @@
     }
     // check if space key press
         if (e.keyCode == 32) {
-            phraseCompleteAPI(e);
+            spaceFlag = true;
+            // phraseCompleteAPI(e);
             scrolltobototm();
             return;
     }
@@ -180,6 +181,7 @@
                 type: "POST",
                 data: {text:textToSend}}).done(function(response) {
                     if(response.predicted.predicted != ''){
+                        spaceFlag = false;
                         predicted = response.predicted.predicted;
                         var new_text = event.target.value + rem_word + response.predicted.predicted;
                         autocomplete[0].textContent = new_text;
