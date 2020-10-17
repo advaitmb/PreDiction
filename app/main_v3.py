@@ -1,5 +1,5 @@
-from $CONDA/bin/flask import Flask, request, render_template, jsonify
-from $CONDA/bin/fastai.text.all import *
+from flask import Flask, request, render_template, jsonify
+from fastai.text.all import *
 from inference import get_next_word, beam_search, beam_search_modified
 from pathlib import Path
 import pandas as pd
