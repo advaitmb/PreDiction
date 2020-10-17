@@ -35,9 +35,11 @@ jobs:
       run: |
         conda install -c fastai -c pytorch -c anaconda fastai==2.0.8 spacy=2.3.1 gh anaconda
         conda install -c anaconda flask 
+        pip install flask
         
     - name: Start App
       run: |
+        conda activate pudhe-chi
         python app/main_v3.py
 
     - name: Build using AppService-Build
