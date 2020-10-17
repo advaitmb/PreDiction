@@ -36,7 +36,7 @@ jobs:
     - name: Start App
       run: |
         cd app
-        waitress-serve main_v3:app
+        python main_v3.py
         
     - name: Build using AppService-Build
       uses: azure/appservice-build@v2
