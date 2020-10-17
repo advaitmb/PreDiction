@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, jsonify
+from waitress import serve
 from fastai.text.all import *
 from inference import get_next_word, beam_search, beam_search_modified
 from pathlib import Path
@@ -76,4 +77,4 @@ def autocomplete():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    serve(app, host='0.0.0.0', port=8080, threads=1)
