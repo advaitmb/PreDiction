@@ -19,17 +19,6 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: '3.8'
-      
-    - name: Create Environment
-      run: |
-        conda update conda
-        conda create --name pudhe-chi python=3.8.2
-
-    - name: Initialise Environment
-      run: |
-        conda init bash
-        source ~/.bashrc
-        conda activate pudhe-chi
 
     - name: Install Dependencies
       run: |
