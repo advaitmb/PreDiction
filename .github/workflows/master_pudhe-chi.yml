@@ -20,6 +20,14 @@ jobs:
       with:
         python-version: '3.8'
 
+    - name: Install Dependencies
+      run: |
+        pip install fastai==2.0.8 spacy==2.3.1 flask==1.1.2
+        
+    - name: Start App
+      run: |
+        python app/main_v3.py
+        
     - name: Build using AppService-Build
       uses: azure/appservice-build@v2
       with:
