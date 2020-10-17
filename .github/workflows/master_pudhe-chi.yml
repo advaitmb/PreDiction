@@ -35,8 +35,7 @@ jobs:
         
     - name: Start App
       run: |
-        cd app
-        python main_v3.py
+        python app/main_v3.py
         
     - name: Build using AppService-Build
       uses: azure/appservice-build@v2
