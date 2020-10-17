@@ -21,8 +21,8 @@ jobs:
         python-version: '3.8'
 
     - name: Install Dependencies
+      shell: bash -l {0}
       run: |
-        shell: bash -l {0}
         $CONDA/bin/conda install -c fastai -c pytorch -c anaconda fastai==2.0.8 spacy=2.3.1 gh anaconda
         $CONDA/bin/conda install -c anaconda flask 
 
