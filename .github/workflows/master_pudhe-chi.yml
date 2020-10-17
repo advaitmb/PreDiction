@@ -22,7 +22,8 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        pip install fastai==2.0.8 spacy==2.3.1 flask==1.1.2
+        pip install fastai==2.0.8 spacy==2.3.1
+        pip install flask==1.1.2
         
     - name: Start App
       run: |
