@@ -22,10 +22,12 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        conda install -c fastai -c pytorch -c anaconda fastai==2.0.8 spacy=2.3.1 gh anaconda
-        conda install -c anaconda flask 
+        shell: bash -l {0}
+        $CONDA/bin/conda install -c fastai -c pytorch -c anaconda fastai==2.0.8 spacy=2.3.1 gh anaconda
+        $CONDA/bin/conda install -c anaconda flask 
 
     - name: Start App
+      shell: bash -l {0}
       run: |
         python app/main_v3.py
 
