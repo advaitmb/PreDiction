@@ -22,11 +22,11 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        $CONDA/bin/conda install -c fastai -c pytorch -c anaconda fastai==2.0.8 spacy=2.3.1 gh anaconda
-        $CONDA/bin/conda install -c anaconda flask 
+        $CONDA/bin/conda create -n base python=3.8.2 fastai pytorch fastai==2.0.8 spacy=2.3.1 anaconda flask
 
     - name: Start App
       run: |
+        $CONDA/bin/conda activate base
         python app/main_v3.py
 
     - name: Build using AppService-Build
