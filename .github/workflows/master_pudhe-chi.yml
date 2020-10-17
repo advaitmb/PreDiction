@@ -31,6 +31,7 @@ jobs:
       
     - name: Install Dependencies
       run: |
+        exec bash
         conda activate pudhe-chi
         conda install -c fastai -c pytorch -c anaconda fastai==2.0.8 spacy=2.3.1 gh anaconda
         conda install -c anaconda flask 
@@ -38,6 +39,7 @@ jobs:
         
     - name: Start App
       run: |
+        exec bash
         conda activate pudhe-chi
         python app/main_v3.py
 
