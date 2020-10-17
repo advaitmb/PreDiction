@@ -31,10 +31,12 @@ jobs:
       run: |
         pip install fastai==2.0.8 spacy==2.3.1
         pip install flask==1.1.2
+        pip install waitress
         
     - name: Start App
       run: |
-        python app/main_v3.py
+        cd app
+        waitress-serve --call 'flaskr:create_app'
         
     - name: Build using AppService-Build
       uses: azure/appservice-build@v2
