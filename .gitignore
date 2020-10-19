@@ -147,4 +147,4 @@ cython_debug/
 *.pdf
 data/paper/*.pdf
 nbs/cscw/*.pdf
-app/docs/*
+api/docs/*
