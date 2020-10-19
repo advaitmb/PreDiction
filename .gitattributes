@@ -2,3 +2,4 @@ models/design/4epochslearner.pkl filter=lfs diff=lfs merge=lfs -text
 app/4epochslearner.pkl filter=lfs diff=lfs merge=lfs -text
 api/models/design/*.pkl filter=lfs diff=lfs merge=lfs -text
 *.pkl filter=lfs diff=lfs merge=lfs -text
+api/*.pkl filter=lfs diff=lfs merge=lfs -text

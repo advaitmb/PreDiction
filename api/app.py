@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, jsonify
 from fastai.text.all import *
-from inference import get_next_word, beam_search, beam_search_modified
+from .inference import get_next_word, beam_search, beam_search_modified
 from pathlib import Path
 import pandas as pd
 from random import choice
@@ -12,7 +12,7 @@ import sys
 app = Flask(__name__)
 
 #  Load learner object 
-learn = load_learner('../models/design/4epochslearner.pkl')
+learn = load_learner('api/4epochslearner.pkl')
 
 def subtract(a, b):                              
     return "".join(a.rsplit(b))
