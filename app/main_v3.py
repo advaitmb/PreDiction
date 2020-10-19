@@ -1,18 +1,29 @@
 from flask import Flask, request, render_template, jsonify
+from waitress import serve
 from fastai.text.all import *
-from inference import get_next_word, beam_search, beam_search_modified
 from pathlib import Path
 import pandas as pd
 from random import choice
 import re
 import os
 import sys
+import json
+
+def beam_search_modified(learn, text:str, confidence:float, no_unk:bool=True, no_punct:bool=True, top_k:int=10, beam_sz:int=100, temperature:float=1.,
+                    sep:str=' ', decoder=decode_spec_tokens):
+    learn.model.reset()
+    learn.model.eval()
+    idx = learn.dls.test_dl([text]).items[0][None]
+    nodes = None
+    nodes = idx.clone()
+    scores = idx.new_zeros(1).float()
+    if no_unk: unk_idx = learn.dls.vocab.index(UNK)
 
 # Initializing the FLASK API
 app = Flask(__name__)
 
 #  Load learner object 
-learn = load_learner('../models/design/4epochslearner.pkl')
+learn = load_learner('./models/design/4epochslearner.pkl')
 
 def subtract(a, b):                              
     return "".join(a.rsplit(b))
@@ -76,4 +87,4 @@ def autocomplete():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
