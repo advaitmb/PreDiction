@@ -15,6 +15,7 @@
         }
 
         article {
+            
             display: grid;
             grid-template-columns: 1fr 0.5in [start] 1.23in [count] 5in [submitcol] 1.25in [end] 0.5in 1fr;
             grid-template-rows: [boom] 1fr 0.1in [submit] 0in [boomend];
@@ -47,44 +48,50 @@
             padding: 0.1in;
             z-index: 2;
             align-self: end;
-            border-top: 0.5px solid rgba(20, 63, 112, 0.3);
+            border-top: 0.1px solid rgba(20, 63, 112, 0.1);
+            background-color: rgba(238, 243, 245, 0.281);
             text-align: right;
             margin: 0%;
         }
 
         div button {
             grid-column: c / d;
-            padding: 9px 6px 9px 6px;
+            padding: 6px 0px 6px 0px;
+            margin: 2px;
+            margin-left: 26px;
+            margin-right: 6px;
             font-family: 'Inter', sans-serif;
             color: rgba(20, 63, 112, 0.9);
             font-weight: bold;
-            min-width: 88px;
             border-radius: 3px;
-            font-size: 11px;
+            font-size: 8.5px;
             text-align: center;
             text-transform: uppercase;
             text-decoration: none;
             background-color: rgb(199, 233, 255);
+            border: 0.01px solid rgba(20, 63, 112, 0.05);
+        }
+        div button:hover {
+            color: rgba(20, 63, 112, 0.9);
+            background-color: rgb(192, 226, 250);
         }
 
         div p {
             grid-column: a / b;
-            padding: 0;
-            color: rgba(155, 155, 155, 0.9);
+            padding: 0px;
+            color: rgba(13, 47, 83, 0.5);
             font-family: 'Inter', sans-serif;
-            font-weight: bold;
-            font-size: 11px;
+            font-weight:bolder;
+            font-size: 9px;
             text-align: left;
+            background-color: rgba(155, 155, 155, 0.0);
         }
 
         div p span {
             padding: 0px;
             padding-left: 2px;
-            color: rgba(155, 155, 155, 0.9);
             font-family: 'Inter', sans-serif;
-            font-weight: bold;
-            font-size: 11px;
-            text-align: left;
+            font-size: 9px;
         }
 
         @media (max-width: 8.5in) {
@@ -107,12 +114,7 @@
                 z-index: 2;
                 align-self: end;
             }
-
-            form * {
-                align-items: ;
-                padding: 0vw;
-
-            }
+ 
         }
 
         #autocomplete {
@@ -121,7 +123,7 @@
             cursor: text;
             pointer-events: none;
             box-shadow: 0px 2px 2px 0.2px rgba(192, 192, 192, 0.52);
-
+            border-radius: 2px;
         }
 
         #mainInput {
@@ -130,6 +132,7 @@
             background: transparent;
             opacity: 1;
             z-index: 2;
+            border-radius: 2px;
         }
 
         .code-back {
@@ -191,10 +194,10 @@
             var completing = false
 
             $("#submitBtn").click(function () {
-                submit = mainInput[0].value.slice(0, -1);
+                submit = mainInput[0].value;
                 console.log(submit);
                 $.ajax({
-                    url: "/s",
+                    url: "/submit",
                     type: "POST",
                     data: {
                         text: submit

@@ -4,9 +4,11 @@ from inference import get_next_word, beam_search, beam_search_modified
 from pathlib import Path
 import pandas as pd
 from random import choice
+import csv
 import re
 import os
 import sys
+import datetime
 
 # Initializing the FLASK API
 app = Flask(__name__)
@@ -71,10 +73,17 @@ def autocomplete():
     # predicted = {str(key): value for key, value in result.items()}
     return jsonify(predicted=predicted)
 
-@app.route('/s', methods=['GET', 'POST'])
+@app.route('/submit', methods=['GET', 'POST'])
 def thanks():
     submitted_text = request.form['text']
     print(submitted_text)
+
+    with open(r'reviews.csv', 'a', newline='') as csvfile:
+        fieldnames = ['Session','Review']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writerow({'Session': datetime.datetime.now(), 'Review': '"' + submitted_text + '"' })
+    return '',204
 
 
 if __name__ == "__main__":
