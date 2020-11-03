@@ -34,10 +34,6 @@ def beam_search_modified(learn, text:str, confidence:float, no_unk:bool=True, no
             out = F.log_softmax(learn.model(idx)[0][:,-1], dim=-1)
             
             if no_unk: out[:, unk_idx] = -float('Inf')
-            # if no_punct:
-            #     out[: learn.dls.vocab.index(',')] = 0.00001
-            #     out[: learn.dls.vocab.index('.')] = 0.00001
-            #     out[: learn.dls.vocab.index('-')] = 0.00001
 
             values, indices = out.topk(top_k, dim=-1)
             
@@ -92,6 +88,6 @@ def beam_search(learn, text:str, n_words:int, no_unk:bool=True, top_k:int=10, be
         return sep.join(decoder(tokens))
 
 if __name__ == '__main__':
-    learn = load_learner('../models/design/4epochslearner.pkl')
+    learn = load_learner('./movie_reviews_pos_5epochs.pkl')
     
-    print(beam_search_modified(learn, 'people with chronic diseases such as malaria', 0.1))
+    print(beam_search_modified(learn, 'In this movie', 0.0001))
