@@ -130,7 +130,7 @@
         <textarea id="mainInput" id="textarea" name="comments"></textarea>
         <div>
             <button id="submitBtn">SUBMIT</button>
-            <p>Word Count:<span id="display_count">0</span></p>
+            <p>Thanks!</p>
         </div>
 
     </article>
@@ -163,13 +163,11 @@
                 $.ajax({
                     url: "/submit",
                     type: "POST",
-                    async: false,
                     data: {
                         text: submit,
                         bias: bias
                     }
                 })
-                window.location = '/thanks';
             });
 
             function scrolltobototm() {

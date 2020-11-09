@@ -179,11 +179,13 @@
                 $.ajax({
                     url: "/submit",
                     type: "POST",
+                    async: false,
                     data: {
                         text: submit,
                         bias: bias
                     }
                 })
+                window.location = '/thanks';
             });
 
             $('#mainInput').keyup(function (e) {

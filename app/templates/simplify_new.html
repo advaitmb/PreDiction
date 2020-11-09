@@ -104,6 +104,18 @@
                 padding: 0.3in;
                 padding-top: 0.5in;
             }
+
+            form {
+                grid-row: boom;
+                grid-column: submitcol / end;
+                width: 0.001in;
+                height: 0.01in;
+                padding: 0%;
+                padding-bottom: 2vw;
+                z-index: 2;
+                align-self: end;
+            }
+
         }
 
         #autocomplete {
@@ -123,6 +135,16 @@
             z-index: 2;
             border-radius: 2px;
         }
+
+        .code-back {
+            background: #000000;
+            min-height: 5in;
+            color: white;
+            padding: 15px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            border-radius: 2px;
+        }
     </style>
 
     <article>
@@ -139,54 +161,22 @@
         $(document).ready(function () {
             //dummy random output. You can use api
 
-            var example = {
-                1: "Lorem Ipsum is simply",
-                2: "Contrary to popular belief",
-                3: "comes from a line in",
-                4: "The Extremes of Good and Evil",
-                5: "dolor sit amet..",
-                6: "or non-characteristic",
-                7: "of a page",
-                8: "PageMaker including",
-                9: "I must explain",
-                10: "On the other hand,"
-            };
-
             $("#word_count").on('keyup', function () {
                 var words = this.value.match(/\S+/g).length;
                 $('#display_count').text(words);
             });
 
-            function randomobj(obj) {
-                var objkeys = Object.keys(obj)
-                return objkeys[Math.floor(Math.random() * objkeys.length)]
-            }
-
             var autocomplete = document.querySelectorAll("#autocomplete");
             var mainInput = document.querySelectorAll("#mainInput");
-            var foundName = '';
+            var tabSent = '';
             var nextWord = '';
             var nextWordArr;
             var predicted = '';
             var apibusy = false;
+            var matches = false;
             var mlresponsebusy = false;
-            var completing = false
-            var bias = 'Positive';
+            var completing = false;
 
-            $("#submitBtn").click(function () {
-                submit = mainInput[0].value;
-                console.log(submit);
-                $.ajax({
-                    url: "/submit",
-                    type: "POST",
-                    async: false,
-                    data: {
-                        text: submit,
-                        bias: bias
-                    }
-                })
-                window.location = '/thanks';
-            });
 
             $('#mainInput').keyup(function (e) {
 
@@ -198,25 +188,23 @@
                     autocomplete[0].textContent = '';
                     return;
                 }
-                //check if space key press
-                if (e.keyCode == 32) {
-                    phraseCompleteAPI(e);
-                    scrolltobototm();
-                    return;
-                }
+
                 //check if Backspace key press
                 if (e.key == 'Backspace') {
                     autocomplete[0].textContent = '';
                     predicted = '';
-                    apibusy = true;
                     return;
                 }
+
                 if (e.keyCode == 9) {
                     return;
                 }
-                //check if ArrowRight or Tab key press
-                if (e.key != 'ArrowRight' && e.key != 'Backspace' && e.keyCode !== 32 && e.keyCode !==
-                    9) {
+
+                if ((e.keyCode >= 48 && e.keyCode <= 90) || (e.keyCode >= 186 && e.keyCode <= 222) || e
+                    .keyCode == 16 || e.keyCode == 32) {
+                    API(e);
+
+
                     if (autocomplete[0].textContent != '' && predicted) {
                         var first_character = predicted.charAt(0);
                         if (e.key == first_character) {
@@ -239,7 +227,7 @@
                             apibusy = false;
                         }
                         if (apibusy == false) {
-                            mainInput[0].value = foundName;
+                            mainInput[0].value = tabSent;
                             autocomplete[0].textContent = '';
                         }
                     } else {
@@ -247,15 +235,15 @@
                     }
                 }
 
-                function phraseCompleteAPI(event) {
+                function API(event) {
                     //call api and get response
-                    var response = {
-                        "predicted": example[randomobj(example)]
-                    };
-                    textToSend = mainInput[0].value.slice(0, -1);
-                    console.log(textToSend)
+                    var response;
+                    console.log(mainInput[0].value)
+                    textToSend = mainInput[0].value;
+                    //console.log("sent text:" + textToSend);
+
                     $.ajax({
-                        url: "/b/predict",
+                        url: "/predict",
                         type: "POST",
                         data: {
                             text: textToSend
@@ -263,22 +251,25 @@
                     }).done(function (response) {
                         if (response.predicted != '') {
                             predicted = response.predicted.predicted;
-                            var new_text = event.target.value + response.predicted.predicted;
+                            var new_text = event.target.value + predicted;
                             autocomplete[0].textContent = new_text;
+                            // this gives grey text to autocompltee ^^
+                            //console.log("recieved text:" + predicted);
                             nextWordArr = predicted.split(" ");
-                            foundName = event.target.value + nextWordArr.shift();
-                            // foundName = new_text
+                            console.log(nextWordArr)
+                            tabSent = event.target.value;
+                            console.log(tabSent);
                             completing = true;
+
                         } else {
                             predicted = '';
                             var new_text1 = event.target.value + predicted;
                             autocomplete[0].textContent = new_text1;
-                            foundName = new_text1
+                            tabSent = new_text1
                         }
                     });
-
+                    matches = false;
                 };
-
             });
 
             $('#mainInput').keypress(function (e) {
@@ -291,7 +282,8 @@
                 });
                 $('#autocomplete').each(function () {
                     if (sc <= 400) {
-                        this.setAttribute('style', 'height:' + (0) + 'px;overflow-y:hidden;');
+                        this.setAttribute('style', 'height:' + (0) +
+                            'px;overflow-y:hidden;');
                         this.setAttribute('style', 'height:' + (sc + 2) +
                             'px;overflow-y:hidden;');
                     }
@@ -308,27 +300,36 @@
                     target.scrollTop = target1.scrollHeight;
                 }, 1000);
             };
+
             $("#mainInput").keydown(function (e) {
                 if (e.keyCode === 9) {
                     e.preventDefault();
-                    presstabkey();
+                    presstabkey(e);
                 }
             });
 
-            function presstabkey() {
+            function presstabkey(event) {
                 if (predicted) {
                     if (apibusy == true) {
                         apibusy = false;
                     }
                     if (apibusy == false) {
-                        mainInput[0].value = foundName;
-                        if (nextWordArr.length > 0) {
-                            foundName += " "
-                            foundName += nextWordArr.shift()
-                            completing = true;
 
+                        if (nextWordArr.length > 1) {
+
+                            tabSent += nextWordArr.shift();
+                            tabSent += " "
+                            completing = true;
+                            mainInput[0].value = tabSent;
+
+                        }
+                        console.log(nextWordArr);
+                        if (nextWordArr.length == 1) {
+
+                            tabSent += nextWordArr.shift();
+                            completing = true;
+                            mainInput[0].value = tabSent;
                         } else {
-                            autocomplete[0].textContent = '';
                             completing = false;
                         }
                     }

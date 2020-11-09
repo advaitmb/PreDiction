@@ -15,8 +15,8 @@ app = Flask(__name__)
 
 #  Load learner object 
 learn = load_learner('../models/design/4epochslearner.pkl')
-learn_neg = load_learner('../models/movies/negative.pkl')
-learn_pos = load_learner('../models/movies/positive.pkl')
+learn_neg = load_learner('../models/design/4epochslearner.pkl')
+learn_pos = load_learner('../models/design/4epochslearner.pkl')
 
 
 def subtract(a, b):                              
@@ -37,6 +37,10 @@ def b():
 @app.route('/c')
 def c():
     return render_template('none.html')
+
+@app.route('/thanks')
+def thanks():
+    return render_template('thanks.html')
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
