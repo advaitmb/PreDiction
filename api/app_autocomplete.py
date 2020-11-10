@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, jsonify
 from fastai.text.all import *
-from .inference import get_next_word, beam_search, beam_search_modified, beam_search_modified_with_clf
+from .inference import get_next_word, beam_search, beam_search_modified
 from pathlib import Path
 import pandas as pd
 from random import choice
@@ -18,8 +18,8 @@ app = Flask(__name__)
 
 #  Load learner object 
 # learn = load_learner('../models/design/4epochslearner.pkl')
-learn_lm = load_learner('api/5epochs_imdb_lm.pkl')
-clf = load_learner('api/imdb_sentiment_classifier.pkl')
+learn_neg = load_learner('api/movie_reviews_neg_5epochs.pkl')
+learn_pos = load_learner('api/movie_reviews_pos_5epochs.pkl')
 
 def subtract(a, b):                              
     return "".join(a.rsplit(b))
@@ -40,6 +40,21 @@ def b():
 def c():
     return render_template('none.html')
 
+def autocomplete(text):
+    text=text.lower()
+    matches = [s for s in learn.dls.vocab if s and s.startswith(text)]
+    if len(matches) == 0:
+        prediction = ""
+    else:
+        prediction = choice(matches)
+        prediction = prediction[len(text):]
+        
+    if prediction == UNK:
+        prediction = ""
+    
+    if prediction == "":
+        return prediction
+    return prediction[len(text):]
 
 @app.route('/a/predict', methods=['GET', 'POST'])
 def a_predict():
@@ -55,20 +70,29 @@ def a_predict():
     text_arr = word_tokenize(text)
     # text_arr_considered = text_arr[-20:]
     # text = " ".join(text_arr_considered)
-    prediction = beam_search_modified_with_clf(learn=learn_lm, clf=clf, bias='pos', text=text, confidence=0.01, temperature=0.7)
+
+    if (text[-1] == '/s') or (text[-1] in string.punctuation):
+        prediction = ""
+        
+    rem_word = autocomplete(text_arr[-1])
+    if rem_word == "":
+        prediction = ""
+    else:
+        text = text + rem_word
+        prediction = beam_search_modified(learn_pos, text, confidence=0.01, temperature=0.4)
+        
+        
+        # prediction = prediction[base_string_length:]
     
-    
-    # prediction = prediction[base_string_length:]
-   
-    prediction_arr = word_tokenize(prediction)
-    print(prediction_arr, sys.stderr)
-    print(text_arr, sys.stderr)
-    prediction = " ".join(prediction_arr[len(text_arr):])
-    prediction = re.sub('\s([.,#!$%\^&\*;:{}=_`~](?:\s|$))', r'\1', prediction)
-    prediction = prediction.replace(" - ", "-")
-    prediction = prediction.replace(" / ", "/")
-    prediction = prediction.replace(" ( ", " (")
-    prediction = prediction.replace(" ) ", ") ")
+        prediction_arr = word_tokenize(prediction)
+        print(prediction_arr, sys.stderr)
+        print(text_arr, sys.stderr)
+        prediction = " ".join(prediction_arr[len(text_arr):])
+        prediction = re.sub('\s([.,#!$%\^&\*;:{}=_`~](?:\s|$))', r'\1', prediction)
+        prediction = prediction.replace(" - ", "-")
+        prediction = prediction.replace(" / ", "/")
+        prediction = prediction.replace(" ( ", " (")
+        prediction = prediction.replace(" ) ", ") ")
     
     predicted = {
         "predicted": prediction
@@ -89,20 +113,29 @@ def b_predict():
     text_arr = word_tokenize(text)
     # text_arr_considered = text_arr[-20:]
     # text = " ".join(text_arr_considered)
-    prediction = beam_search_modified_with_clf(learn=learn_lm, clf=clf, bias='neg', text=text, confidence=0.01, temperature=0.7)
+
+    if (text[-1] == '/s') or (text[-1] in string.punctuation):
+        prediction = ""
+        
+    rem_word = autocomplete(text_arr[-1])
+    if rem_word == "":
+        prediction = ""
+    else:
+        text = text + rem_word
+        prediction = beam_search_modified(learn_neg, text, confidence=0.01, temperature=0.4)
+        
+        
+        # prediction = prediction[base_string_length:]
     
-    
-    # prediction = prediction[base_string_length:]
-   
-    prediction_arr = word_tokenize(prediction)
-    print(prediction_arr, sys.stderr)
-    print(text_arr, sys.stderr)
-    prediction = " ".join(prediction_arr[len(text_arr):])
-    prediction = re.sub('\s([.,#!$%\^&\*;:{}=_`~](?:\s|$))', r'\1', prediction)
-    prediction = prediction.replace(" - ", "-")
-    prediction = prediction.replace(" / ", "/")
-    prediction = prediction.replace(" ( ", " (")
-    prediction = prediction.replace(" ) ", ") ")
+        prediction_arr = word_tokenize(prediction)
+        print(prediction_arr, sys.stderr)
+        print(text_arr, sys.stderr)
+        prediction = " ".join(prediction_arr[len(text_arr):])
+        prediction = re.sub('\s([.,#!$%\^&\*;:{}=_`~](?:\s|$))', r'\1', prediction)
+        prediction = prediction.replace(" - ", "-")
+        prediction = prediction.replace(" / ", "/")
+        prediction = prediction.replace(" ( ", " (")
+        prediction = prediction.replace(" ) ", ") ")
     
     predicted = {
         "predicted": prediction
