@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, jsonify
 from fastai.text.all import *
-from .inference import get_next_word, beam_search, beam_search_modified, beam_search_modified_with_clf
+from inference import get_next_word, beam_search, beam_search_modified, beam_search_modified_with_clf
 from pathlib import Path
 import pandas as pd
 from random import choice
@@ -18,8 +18,8 @@ app = Flask(__name__)
 
 #  Load learner object 
 # learn = load_learner('../models/design/4epochslearner.pkl')
-learn_lm = load_learner('api/5epochs_imdb_lm.pkl')
-clf = load_learner('api/imdb_sentiment_classifier.pkl')
+learn_lm = load_learner('5epochs_imdb_lm.pkl')
+clf = load_learner('imdb_sentiment_classifier.pkl')
 
 def subtract(a, b):                              
     return "".join(a.rsplit(b))
@@ -125,4 +125,4 @@ def submit():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
