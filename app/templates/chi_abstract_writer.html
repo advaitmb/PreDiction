@@ -1,0 +1,475 @@
+<html>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <style>
+        body {
+            background: rgb(228, 236, 245);
+            padding: 20px;
+        }
+
+        boady * {
+            color: hsla(210, 100%, 100%, 0.88) !important;
+            background: hsla(210, 100%, 50%, 0.33) !important;
+            outline: 0.25rem solid hsla(210, 100%, 100%, 0.50) !important;
+        }
+
+        article {
+
+            display: grid;
+            grid-template-columns: 1fr 0.5in [start] 1.23in [count] 5in [submitcol] 1.25in [end] 0.5in 1fr;
+            grid-template-rows: [boom] 1fr 0.1in [submit] 0in [boomend];
+            /* height: 100vh; */
+            padding: 0.5in 0;
+
+        }
+
+        article * {
+            background: white;
+            grid-column: start / end;
+            grid-row: boom / boomend;
+            padding: 4vw;
+            padding-top: 5vw;
+            padding-bottom: 5vw;
+            resize: none;
+            border: none;
+            font-family: 'Merriweather',
+                serif;
+            font-size: small;
+        }
+
+        :focus {
+            outline: 0px;
+        }
+
+        div {
+            display: grid;
+            grid-template-columns: 2.2vw [a] 1fr [b] 5in [c] 1fr [d] 0vw;
+            padding: 0.1in;
+            z-index: 2;
+            align-self: end;
+            border-top: 0.1px solid rgba(20, 63, 112, 0.1);
+            background-color: rgba(238, 243, 245, 0.281);
+            text-align: right;
+            margin: 0%;
+        }
+
+        div button {
+            grid-column: c / d;
+            padding: 6px 0px 6px 0px;
+            margin: 2px;
+            margin-left: 26px;
+            margin-right: 6px;
+            font-family: 'Inter', sans-serif;
+            color: rgba(20, 63, 112, 0.9);
+            font-weight: bold;
+            border-radius: 3px;
+            font-size: 8.5px;
+            text-align: center;
+            text-transform: uppercase;
+            text-decoration: none;
+            background-color: rgb(199, 233, 255);
+            border: 0.01px solid rgba(20, 63, 112, 0.05);
+        }
+
+        div button:hover {
+            color: rgba(20, 63, 112, 0.9);
+            background-color: rgb(192, 226, 250);
+        }
+
+        div p {
+            grid-column: a / b;
+            padding: 0px;
+            color: rgba(13, 47, 83, 0.5);
+            font-family: 'Inter', sans-serif;
+            font-weight: bolder;
+            font-size: 9px;
+            text-align: left;
+            background-color: rgba(155, 155, 155, 0.0);
+        }
+
+        div p span {
+            padding: 0px;
+            padding-left: 2px;
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+        }
+
+        @media (max-width: 8.5in) {
+            article {
+                grid-template-columns: 1fr 5% [start] 15% 60% [submitcol] 15% [end] 5% 1fr;
+            }
+
+            article * {
+                padding: 0.3in;
+                padding-top: 0.5in;
+            }
+
+            form {
+                grid-row: boom;
+                grid-column: submitcol / end;
+                width: 0.001in;
+                height: 0.01in;
+                padding: 0%;
+                padding-bottom: 2vw;
+                z-index: 2;
+                align-self: end;
+            }
+
+        }
+
+        #autocomplete {
+            color: rgb(158, 188, 226);
+            min-height: 5in;
+            cursor: text;
+            pointer-events: none;
+            box-shadow: 0px 2px 2px 0.2px rgba(192, 192, 192, 0.52);
+            border-radius: 2px;
+            hyphens: auto;
+        }
+
+        #mainInput {
+            color: black;
+            min-height: 5in;
+            background: transparent;
+            opacity: 1;
+            z-index: 2;
+            border-radius: 2px;
+            hyphens: auto;
+        }
+
+        .code-back {
+            background: #000000;
+            min-height: 5in;
+            color: white;
+            padding: 15px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            border-radius: 2px;
+        }
+    </style>
+
+    <article>
+        <textarea id="autocomplete"></textarea>
+        <textarea id="mainInput" id="textarea" name="comments"></textarea>
+        <div>
+            <button id="submitBtn">SUBMIT</button>
+            <p>Word Count:<span id="display_count">0</span></p>
+        </div>
+
+    </article>
+
+    <script>
+
+        /*
+         * jQuery throttle / debounce - v1.1 - 3/7/2010
+         * http://benalman.com/projects/jquery-throttle-debounce-plugin/
+         * 
+         * Copyright (c) 2010 "Cowboy" Ben Alman
+         * Dual licensed under the MIT and GPL licenses.
+         * http://benalman.com/about/license/
+         */
+
+        (function (b, c) {
+            var $ = b.jQuery || b.Cowboy || (b.Cowboy = {}),
+                a;
+            $.throttle = a = function (e, f, j, i) {
+                var h, d = 0;
+                if (typeof f !== "boolean") {
+                    i = j;
+                    j = f;
+                    f = c
+                }
+
+                function g() {
+                    var o = this,
+                        m = +new Date() - d,
+                        n = arguments;
+
+                    function l() {
+                        d = +new Date();
+                        j.apply(o, n)
+                    }
+
+                    function k() {
+                        h = c
+                    }
+                    if (i && !h) {
+                        l()
+                    }
+                    h && clearTimeout(h);
+                    if (i === c && m > e) {
+                        l()
+                    } else {
+                        if (f !== true) {
+                            h = setTimeout(i ? k : l, i === c ? e - m : e)
+                        }
+                    }
+                }
+                if ($.guid) {
+                    g.guid = j.guid = j.guid || $.guid++
+                }
+                return g
+            };
+
+            $.debounce = function (d, e, f) {
+                return f === c ? a(d, e, false) : a(d, f, e !== false)
+            }
+        })(this);
+
+
+
+        $(document).ready(function () {
+            //dummy random output. You can use api
+            console.log('ready');
+
+            $("#word_count").on('keyup', function () {
+                var words = this.value.match(/\S+/g).length;
+                $('#display_count').text(words);
+            });
+
+            var autocomplete = document.querySelectorAll("#autocomplete");
+            var mainInput = document.querySelectorAll("#mainInput");
+            var tabSent = '';
+            var nextWord = '';
+            var nextWordArr;
+            var predicted = '';
+            var apibusy = false;
+            var matches = false;
+            var mlresponsebusy = false;
+            let ajx = [];
+            let last_text = [""];
+            let new_text = [""];
+            var lastInput;
+            var bias_mapping = {
+                'a': 'Positive',
+                'b': 'Negative',
+                'c': 'Neutral'
+            }
+            const bias_code = window.location.pathname[1]
+            const bias = bias_mapping[bias_code];
+            let z = 0;
+            let a = 0;
+            let sendAPI = true;
+            let emptyFirst = false;
+
+            // Submit the written text to a csv file
+            $("#submitBtn").click(function () {
+                submit = mainInput[0].value;
+                console.log(submit);
+                $.ajax({
+                    url: "/submit",
+                    type: "POST",
+                    async: false,
+                    data: {
+                        text: submit,
+                        bias: bias
+                    }
+                })
+                window.location = '/thanks';
+            });
+
+
+            // when a key is pressed and released do the following
+            $('#mainInput').keyup($.debounce(150, function (e) {
+                // Display word count                   
+                var words = e.target.value.match(/\S+/g).length;
+                $('#display_count').text(words);
+                //If value of mainInput is '' make autocomplete '' as well
+                if (mainInput[0].value == '') {
+                    autocomplete[0].value = '';
+                    return;
+                }
+
+                //check if Backspace key press, if it is remove all autocomplete suggestions
+                else if (e.key == 'Backspace') {
+                    autocomplete[0].value = '';
+                    predicted = '';
+                    return;
+                } else if (e.keyCode == 9 || e.keyCode === 39) {
+                    // Handling tab, right arrow and other such keys
+                    return;
+                } else if ((e.keyCode >= 48 && e.keyCode <= 90) || (e.keyCode >= 186 && e.keyCode <=
+                    222) || e.keyCode == 16 || e.keyCode == 32) {
+                    // Handling alphanumeric characters as well as space and shift
+                    if (sendAPI) {
+                        API(e);
+                    }
+
+                    return;
+
+                } else {
+                    if (predicted) {
+                        if (apibusy == true) {
+                            apibusy = false;
+                        } else if (apibusy == false) {
+                            mainInput[0].value = tabSent;
+                            autocomplete[0].value = '';
+                        }
+                    } else {
+                        return;
+                    }
+                }
+            }));
+
+            $('#mainInput').on('keyup click', function (e) {
+
+                if ((e.keyCode >= 48 && e.keyCode <= 90) || (e.keyCode >= 186 && e.keyCode <=
+                    222) || e.keyCode == 16) {
+                    // Handling alphanumeric characters as well as space and shift
+                    if (e.key == predicted.charAt(a)) {
+                        // Make sure a new API request is not fired if character types matches the current autocomplete candidate
+                        a++;
+                        sendAPI = false;
+                    } else {
+                        autocomplete[0].value = '';
+                        a = 0;
+                        sendAPI = true;
+                    }
+                }
+                else {
+                    if (e.keyCode == 32) {
+                        if (e.key == predicted.charAt(a)) {
+                            // Make sure a new API request is not fired if character types matches the current autocomplete candidate
+                            a++;
+                            sendAPI = false;
+                        } else {
+                            autocomplete[0].value = '';
+                            a = 0;
+                            sendAPI = true;
+                        }
+                    }
+                    last_text = new_text;
+                    new_text = mainInput[0].value.split(' ');
+                    console.log(new_text);
+                    console.log("clicked!");
+                    if ((new_text.length == last_text.length) && (new_text != last_text)) {
+                        edited_from = last_text.filter(x => !new_text.includes(x));
+                        edited_to = tabbed = new_text.filter(x => !last_text.includes(x));
+
+
+                    }
+
+                    if (e.keyCode === 9 || e.keyCode === 39) {
+
+                        tabbed = new_text.filter(x => !last_text.includes(x));
+                    } else {
+                        typed = new_text.filter(x => !last_text.includes(x));
+                        deleted = last_text.filter(x => !new_text.includes(x));
+                    }
+                }
+            });
+
+
+
+            function API(event) {
+                //call api and get response
+                var response;
+                var currentRequest = null;
+                textToSend = mainInput[0].value;
+                //console.log("sent text:" + textToSend);
+                url = "/" + bias_code + "/predict"
+                let new_ajx = $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {
+                        text: textToSend
+                    }
+                }).done(function (response) {
+                    if (response.predicted != '') {
+                        console.log(textToSend)
+                        predicted = response.predicted.predicted;
+                        console.log('predicted: ', predicted)
+                        var new_text = textToSend + predicted;
+                        // var new_text = event.target.value + predicted;
+                        autocomplete[0].value = new_text;
+                        console.log("autocomplete:" + autocomplete[0].value)
+                        // this gives grey text to autocompltee ^^
+                        //console.log("recieved text:" + predicted);
+                        nextWordArr = predicted.split(" ");
+                        console.log(nextWordArr);
+                        if (nextWordArr[0] == "") {
+                            /* let endArray = nextWordArr.splice(1, (nextWordArr.length - 1)).filter(String)
+                            console.log(endArray);
+                            for (let l = 0; l < endArray.length; l++) {
+                                nextWordArr.push(endArray[l])
+                            }
+                            */
+                            emptyFirst = true;
+                            nextWordArr = nextWordArr.filter(String);
+                        } else {
+                            emptyFirst = false;
+                            nextWordArr = nextWordArr.filter(String);
+                        }
+                        console.log(nextWordArr);
+                        z = nextWordArr.length;
+
+                        tabSent = event.target.value;
+
+                        completing = true;
+
+                    } else {
+                        predicted = '';
+                        var new_text1 = event.target.value + predicted;
+                        autocomplete[0].value = new_text1;
+                        tabSent = new_text1
+                    }
+                });
+                matches = false;
+                ajx.push(new_ajx);
+
+            };
+
+            function scrolltobototm() {
+                var target = document.getElementById('autocomplete');
+                var target1 = document.getElementById('mainInput');
+                setInterval(function () {
+                    target.scrollTop = target1.scrollHeight;
+                }, 1000);
+            };
+
+            $("#mainInput").keydown(function (e) {
+
+                if (e.keyCode === 9 || e.keyCode === 39) {
+                    e.preventDefault();
+                    presstabkey(e);
+                }
+
+            });
+
+            function presstabkey(event) {
+
+                if (predicted) {
+                    if (apibusy == true) {
+                        apibusy = false;
+                    }
+                    if (apibusy == false) {
+                        if (nextWordArr.length === z) {
+                            if (emptyFirst) {
+                                tabSent += " "
+                                tabSent += nextWordArr.shift();
+                            }
+                            else {
+                                tabSent += nextWordArr.shift();
+                            }
+                            completing = true;
+                            mainInput[0].value = tabSent;
+                        }
+                        else if (nextWordArr.length < z && nextWordArr.length > 0) {
+                            tabSent += " "
+                            tabSent += nextWordArr.shift();
+                            completing = true;
+                            mainInput[0].value = tabSent;
+                        } else {
+                            completing = false;
+                        }
+                    }
+                } else {
+                    return;
+                }
+            };
+        });
+    </script>
+</body>
+
+</html>

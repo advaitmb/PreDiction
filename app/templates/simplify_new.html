@@ -8,7 +8,7 @@
             padding: 20px;
         }
 
-        baody * {
+        boady * {
             color: hsla(210, 100%, 100%, 0.88) !important;
             background: hsla(210, 100%, 50%, 0.33) !important;
             outline: 0.25rem solid hsla(210, 100%, 100%, 0.50) !important;
@@ -125,6 +125,7 @@
             pointer-events: none;
             box-shadow: 0px 2px 2px 0.2px rgba(192, 192, 192, 0.52);
             border-radius: 2px;
+            hyphens: auto;
         }
 
         #mainInput {
@@ -134,6 +135,7 @@
             opacity: 1;
             z-index: 2;
             border-radius: 2px;
+            hyphens: auto;
         }
 
         .code-back {
@@ -176,7 +178,23 @@
             var matches = false;
             var mlresponsebusy = false;
             var completing = false;
+            const bias = 'Positive';
+            let n = 0;
 
+            $("#submitBtn").click(function () {
+                submit = mainInput[0].value;
+                console.log(submit);
+                $.ajax({
+                    url: "/submit",
+                    type: "POST",
+                    async: false,
+                    data: {
+                        text: submit,
+                        bias: bias
+                    }
+                })
+                window.location = '/thanks';
+            });
 
             $('#mainInput').keyup(function (e) {
 
@@ -185,40 +203,30 @@
 
                 //check if null value send
                 if (mainInput[0].value == '') {
-                    autocomplete[0].textContent = '';
+                    autocomplete[0].value = '';
                     return;
                 }
 
                 //check if Backspace key press
                 if (e.key == 'Backspace') {
-                    autocomplete[0].textContent = '';
+                    autocomplete[0].value = '';
                     predicted = '';
                     return;
                 }
 
-                if (e.keyCode == 9) {
+                if (e.keyCode == 9 || e.keyCode === 39) {
                     return;
                 }
 
                 if ((e.keyCode >= 48 && e.keyCode <= 90) || (e.keyCode >= 186 && e.keyCode <= 222) || e
                     .keyCode == 16 || e.keyCode == 32) {
-                    API(e);
-
-
-                    if (autocomplete[0].textContent != '' && predicted) {
-                        var first_character = predicted.charAt(0);
-                        if (e.key == first_character) {
-                            var s1 = predicted;
-                            var s2 = s1.substr(1);
-                            predicted = s2;
-                            apibusy = true;
-                        } else {
-                            autocomplete[0].textContent = '';
-                            apibusy = false;
-                        }
+                    if (e.key == predicted.charAt(n)) {
+                        console.log(predicted.charAt(n))
+                        n++;
                     } else {
-                        autocomplete[0].textContent = '';
-                        apibusy = false;
+                        console.log(predicted.charAt(n))
+                        API(e);
+                        n = 0;
                     }
                     return;
                 } else {
@@ -228,7 +236,7 @@
                         }
                         if (apibusy == false) {
                             mainInput[0].value = tabSent;
-                            autocomplete[0].textContent = '';
+                            autocomplete[0].value = '';
                         }
                     } else {
                         return;
@@ -238,7 +246,7 @@
                 function API(event) {
                     //call api and get response
                     var response;
-                    console.log(mainInput[0].value)
+
                     textToSend = mainInput[0].value;
                     //console.log("sent text:" + textToSend);
 
@@ -251,46 +259,27 @@
                     }).done(function (response) {
                         if (response.predicted != '') {
                             predicted = response.predicted.predicted;
-                            var new_text = event.target.value + predicted;
-                            autocomplete[0].textContent = new_text;
+                            var new_text = mainInput[0].value + predicted;
+                            // var new_text = event.target.value + predicted;
+                            autocomplete[0].value = new_text;
+                            console.log(autocomplete[0].value)
                             // this gives grey text to autocompltee ^^
                             //console.log("recieved text:" + predicted);
                             nextWordArr = predicted.split(" ");
-                            console.log(nextWordArr)
+
                             tabSent = event.target.value;
-                            console.log(tabSent);
+
                             completing = true;
 
                         } else {
                             predicted = '';
                             var new_text1 = event.target.value + predicted;
-                            autocomplete[0].textContent = new_text1;
+                            autocomplete[0].value = new_text1;
                             tabSent = new_text1
                         }
                     });
                     matches = false;
                 };
-            });
-
-            $('#mainInput').keypress(function (e) {
-                var sc = 0;
-                $('#mainInput').each(function () {
-                    this.setAttribute('style', 'height:' + (0) + 'px;overflow-y:hidden;');
-                    this.setAttribute('style', 'height:' + (this.scrollHeight + 3) +
-                        'px;overflow-y:hidden;');
-                    sc = this.scrollHeight;
-                });
-                $('#autocomplete').each(function () {
-                    if (sc <= 400) {
-                        this.setAttribute('style', 'height:' + (0) +
-                            'px;overflow-y:hidden;');
-                        this.setAttribute('style', 'height:' + (sc + 2) +
-                            'px;overflow-y:hidden;');
-                    }
-                }).on('input', function () {
-                    this.style.height = 0;
-                    this.style.height = (sc + 2) + 'px';
-                });
             });
 
             function scrolltobototm() {
@@ -302,7 +291,7 @@
             };
 
             $("#mainInput").keydown(function (e) {
-                if (e.keyCode === 9) {
+                if (e.keyCode === 9 || e.keyCode === 39) {
                     e.preventDefault();
                     presstabkey(e);
                 }
@@ -315,6 +304,12 @@
                     }
                     if (apibusy == false) {
 
+                        if (nextWordArr.length === 1) {
+
+                            tabSent += nextWordArr.shift();
+                            completing = true;
+                            mainInput[0].value = tabSent;
+                        }
                         if (nextWordArr.length > 1) {
 
                             tabSent += nextWordArr.shift();
@@ -322,13 +317,6 @@
                             completing = true;
                             mainInput[0].value = tabSent;
 
-                        }
-                        console.log(nextWordArr);
-                        if (nextWordArr.length == 1) {
-
-                            tabSent += nextWordArr.shift();
-                            completing = true;
-                            mainInput[0].value = tabSent;
                         } else {
                             completing = false;
                         }

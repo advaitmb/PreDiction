@@ -1,0 +1,65 @@
+{
+    "text": {
+        "content": ,
+        "movie": ,
+        "imdb_rating": ,
+        "user_intent": ,
+        "machine_intent": ,
+        "time_stamp": ,
+        "time_taken": ,
+        "deleted_sentences": {
+            "no": ,
+            "content": []
+        },
+        "sentences": [{
+            "content": ,
+            "time_taken": ,
+            "typed_words": {
+                "no": ,
+                "content": []
+            },
+            "tabbed_words": {
+                "no": ,
+                "content": []
+            },
+            "deleted_words": {
+                "no": ,
+                "content": []
+            },
+
+
+            "words": [{
+                "content": ,
+                "alt_word": ,
+                "input_method": typed / tabbed / partial,
+                "deleted_after_tab": TRUE / FALSE,
+                "typed_letters": {
+                    "no": ,
+                    "content": []
+                },
+                "deleted_letters": {
+                    "no": ,
+                    "content": []
+                },
+                "typed_after_tabbed": {
+                    "no": ,
+                    "content": []
+                },
+                "deleted_after_tabbed": {
+                    "no": ,
+                    "content": []
+                },
+                "typed_after_deleted_after_tabbed": {
+                    "no": ,
+                    "content": []
+                },
+
+
+
+                "letters": [{
+
+                }]
+            }]
+        }]
+    }
+}

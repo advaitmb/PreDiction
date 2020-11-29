@@ -1,5 +1,4 @@
 import datetime
-from os import remove
 import sys
 import os
 import re
@@ -7,7 +6,7 @@ import csv
 from nltk.tokenize import word_tokenize, TweetTokenizer
 from flask import Flask, request, render_template, jsonify
 from fastai.text.all import *
-from inference import get_next_word, beam_search, beam_search_modified
+from inference import get_next_word, beam_search, beam_search_modified, beam_search_modified_with_clf
 from pathlib import Path
 import pandas as pd
 from random import choice
@@ -18,7 +17,15 @@ nltk.download('punkt')
 app = Flask(__name__)
 
 #  Load learner object
-learn = load_learner('../models/design/4epochslearner.pkl')
+learn_lm = load_learner('5epochs_imdb_lm.pkl')
+clf = load_learner('imdb_sentiment_classifier.pkl')
+
+bias_mapping = {
+    'a': 'pos',
+    'b': 'neg',
+    'c': 'neu'
+}
+priority_list = []
 
 
 def subtract(a, b):
@@ -27,17 +34,28 @@ def subtract(a, b):
 
 @app.route('/')
 def home():
-    return render_template('simplify_new.html')
+    return render_template('compare.html')
 
 
-@app.route('/predict', methods=['GET', 'POST'])
-def predict():
+@app.route('/<string:bias_id>/')
+def a(bias_id):
+    return render_template('index.html')
+
+
+@app.route('/d')
+def d():
+    return render_template('none.html')
+
+
+@app.route('/<string:bias_id>/predict', methods=['GET', 'POST'])
+@app.route('/<string:bias_id>/predict', methods=['GET', 'POST'])
+@app.route('/<string:bias_id>/predict', methods=['GET', 'POST'])
+def predict(bias_id):
     text = request.form['text']
     text_later = text
     text = text.replace("-", " - ")
 
     text_arr = word_tokenize(text)
-    print("old text: " + text, sys.stderr)
 
     if (text[-1] == " "):
         rem_word = ""
@@ -45,11 +63,14 @@ def predict():
         rem_word = autocomplete(text_arr[-1])
 
     text = text + rem_word
-    print("old text + autocomplete: " + text, sys.stderr)
-
+    print("bias_id: ", bias_id, sys.stderr)
     try:
-        prediction = beam_search_modified(
-            learn, text, confidence=0.01, temperature=1)
+        if bias_mapping[bias_id] == 'neu':
+            prediction = beam_search_modified(
+                learn_lm, text, confidence=0.05, temperature=1., priority_list=priority_list)
+        else:
+            prediction = beam_search_modified_with_clf(
+                learn_lm, clf, bias_mapping[bias_id], text=text, confidence=0.0005)
 
         prediction_arr = word_tokenize(prediction)
 
@@ -81,57 +102,29 @@ def predict():
     return jsonify(predicted=predicted)
 
 
-# @app.route('/b/predict', methods=['GET', 'POST'])
-# def predict():
-#     text = request.form['text']
-#     text_later = text
-#     text = text.replace("-", " - ")
+@app.route('/submit', methods=['GET', 'POST'])
+def submit():
+    submitted_text = request.form['text']
+    bias = request.form['bias']
+    print(submitted_text)
 
-#     text_arr = word_tokenize(text)
-#     print("old text: " + text, sys.stderr)
+    with open(r'reviews.csv', 'a', newline='') as csvfile:
+        fieldnames = ['Session', 'Bias', 'Review']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-#     if (text[-1] == " "):
-#         rem_word = ""
-#     else:
-#         rem_word = autocomplete(text_arr[-1])
+        writer.writerow({'Session': datetime.datetime.now(),
+                         'Bias': bias, 'Review': '"' + submitted_text + '"'})
+    return '', 204
 
-#     text = text + rem_word
-#     print("old text + autocomplete: " + text, sys.stderr)
 
-#     try:
-#         prediction = beam_search_modified(
-#             learn, text, confidence=0.01, temperature=1)
-
-#         prediction_arr = word_tokenize(prediction)
-
-#         prediction = " ".join(prediction_arr[len(text_arr):])
-#         prediction = re.sub(
-#             '\s([.,#!$%\^&\*;:{}=_`~](?:\s|$))', r'\1', prediction)
-#         prediction = prediction.replace(" - ", "-")
-#         prediction = prediction.replace(" / ", "/")
-#         prediction = prediction.replace(" ( ", " (")
-#         prediction = prediction.replace(" ) ", ") ")
-#         prediction = prediction.replace(" .", ".")
-#         prediction = prediction.replace(" ' ", "'")
-#         prediction = prediction.replace(' " ', '"')
-
-#         prediction = rem_word + " " + prediction
-
-#         if (text_later[-1] == " "):
-#             prediction = prediction[1:]
-#     except:
-#         prediction = ""
-
-#     predicted = {
-#         "predicted": prediction
-#     }
-
-#     return jsonify(predicted=predicted)
+@app.route('/thanks')
+def thanks():
+    return render_template('thanks.html')
 
 
 def autocomplete(text):
     text = text.lower()
-    matches = [s for s in learn.dls.vocab if s and s.startswith(text)]
+    matches = [s for s in learn_lm.dls.vocab if s and s.startswith(text)]
     if len(matches) == 0:
         prediction = ""
     else:
@@ -150,4 +143,4 @@ def autocomplete(text):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
