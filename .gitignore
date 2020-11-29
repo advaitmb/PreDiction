@@ -145,6 +145,23 @@ cython_debug/
 
 # Repo specific
 *.pdf
+api/*.pkl
+api/models/*
 data/paper/*.pdf
 nbs/cscw/*.pdf
 api/docs/*
+data/a/
+data/imdb.tar.gz
+data/pos/
+data/pos_tok/
+data/neg
+data/neg_tok
+data/tmp/
+jupyterhub-proxy.pid
+jupyterhub.sqlite
+jupyterhub_cookie_secret
+api/Dockerfile_notworking
+api/reviews.csv
+nbs/amazon_reviews_enc.pth
+nbs/models/
+nbs/test.pth

@@ -1,10 +1,10 @@
 version: '3'
 
 services:
-
   api:
     container_name: flask_api
     restart: always
+    image: predictioncontainer.azurecr.io/predictionflask
     build: ./api
     volumes: ['./api:/api']
     networks:
@@ -17,6 +17,7 @@ services:
   nginx:
     container_name: nginx
     restart: always
+    image: predictioncontainer.azurecr.io/predictionnginx
     build: ./nginx
     networks:
       - apinetwork

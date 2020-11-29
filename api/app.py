@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, jsonify
 from fastai.text.all import *
-from inference import get_next_word, beam_search, beam_search_modified
+from inference import get_next_word, beam_search, beam_search_modified, beam_search_modified_with_clf
 from pathlib import Path
 import pandas as pd
 from random import choice
@@ -18,12 +18,8 @@ app = Flask(__name__)
 
 #  Load learner object 
 # learn = load_learner('../models/design/4epochslearner.pkl')
-# learn_neg = load_learner('api/movie_reviews_neg_5epochs.pkl')
-# learn_pos = load_learner('api/movie_reviews_pos_5epochs.pkl')
-
-learn_neg = load_learner('./4epochslearner.pkl')
-learn_pos = load_learner('./4epochslearner.pkl')
-
+learn_lm = load_learner('5epochs_imdb_lm.pkl')
+clf = load_learner('imdb_sentiment_classifier.pkl')
 
 def subtract(a, b):                              
     return "".join(a.rsplit(b))
@@ -34,11 +30,11 @@ def home():
 
 @app.route('/a')
 def a():
-    return render_template('neg.html')  
+    return render_template('pos.html')  
 
 @app.route('/b')
 def b():
-    return render_template('pos.html')
+    return render_template('neg.html')
 
 @app.route('/c')
 def c():
@@ -59,15 +55,11 @@ def a_predict():
     text_arr = word_tokenize(text)
     # text_arr_considered = text_arr[-20:]
     # text = " ".join(text_arr_considered)
-    prediction = beam_search_modified(learn_pos, text, confidence=0.01, temperature=0.7)
+    prediction = beam_search_modified_with_clf(learn=learn_lm, clf=clf, bias='pos', text=text, confidence=0.01, temperature=0.7)
     
     
     # prediction = prediction[base_string_length:]
-   
-    prediction_arr = word_tokenize(prediction)
-    print(prediction_arr, sys.stderr)
     print(text_arr, sys.stderr)
-    prediction = " ".join(prediction_arr[len(text_arr):])
     prediction = re.sub('\s([.,#!$%\^&\*;:{}=_`~](?:\s|$))', r'\1', prediction)
     prediction = prediction.replace(" - ", "-")
     prediction = prediction.replace(" / ", "/")
@@ -93,7 +85,7 @@ def b_predict():
     text_arr = word_tokenize(text)
     # text_arr_considered = text_arr[-20:]
     # text = " ".join(text_arr_considered)
-    prediction = beam_search_modified(learn_neg, text, confidence=0.01, temperature=0.7)
+    prediction = beam_search_modified_with_clf(learn=learn_lm, clf=clf, bias='neg', text=text, confidence=0.01, temperature=0.7)
     
     
     # prediction = prediction[base_string_length:]
@@ -120,13 +112,9 @@ def submit():
     bias = request.form['bias']
     print(submitted_text)
 
-    with open(r'reviews.csv', 'a', newline='') as csvfile:
-        fieldnames = ['Session','Bias','Review']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-        writer.writerow({'Session': datetime.datetime.now(),'Bias': bias, 'Review': '"' + submitted_text + '"' })
+    with open(r'api/reviews.csv', 'a', newline='') as csvfile:
     return '',204
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
