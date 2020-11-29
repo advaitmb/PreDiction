@@ -178,27 +178,8 @@
             var matches = false;
             var mlresponsebusy = false;
             var completing = false;
-            var bias_mapping = {
-                'a': 'Positive',
-                'b': 'Negative',
-                'c': 'Neutral'
-            }
-            const bias_code = window.location.pathname[1]
-            const bias = bias_mapping[bias_code];
+            const bias = 'Positive';
             let n = 0;
-
-            function debounce(func, wait) {
-                let timeout;
-                return function (...args) {
-                    const context = this;
-                    const executor = function () {
-                        timeout = null;
-                        func.apply(context, args);
-                    };
-                    clearTimeout(timeout);
-                    timeout = setTimeout(executor, wait);
-                };
-            }
 
             $("#submitBtn").click(function () {
                 submit = mainInput[0].value;
@@ -244,7 +225,7 @@
                         n++;
                     } else {
                         console.log(predicted.charAt(n))
-                        debounce(API(e), 400);
+                        API(e);
                         n = 0;
                     }
                     return;
@@ -265,12 +246,12 @@
                 function API(event) {
                     //call api and get response
                     var response;
-                    url = "/" + bias_code + "/predict"
+
                     textToSend = mainInput[0].value;
                     //console.log("sent text:" + textToSend);
 
                     $.ajax({
-                        url: url,
+                        url: "/predict",
                         type: "POST",
                         data: {
                             text: textToSend

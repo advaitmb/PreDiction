@@ -177,7 +177,6 @@
             var apibusy = false;
             var matches = false;
             var mlresponsebusy = false;
-            var completing = false;
             var bias_mapping = {
                 'a': 'Positive',
                 'b': 'Negative',
@@ -239,15 +238,17 @@
 
                 if ((e.keyCode >= 48 && e.keyCode <= 90) || (e.keyCode >= 186 && e.keyCode <= 222) || e
                     .keyCode == 16 || e.keyCode == 32) {
+
+
+
                     if (e.key == predicted.charAt(n)) {
-                        console.log(predicted.charAt(n))
                         n++;
                     } else {
-                        console.log(predicted.charAt(n))
-                        debounce(API(e), 400);
+                        API(e);
                         n = 0;
                     }
                     return;
+
                 } else {
                     if (predicted) {
                         if (apibusy == true) {
@@ -278,10 +279,10 @@
                     }).done(function (response) {
                         if (response.predicted != '') {
                             predicted = response.predicted.predicted;
-                            var new_text = mainInput[0].value + predicted;
+                            var new_text = textToSend + predicted;
                             // var new_text = event.target.value + predicted;
                             autocomplete[0].value = new_text;
-                            console.log(autocomplete[0].value)
+                            console.log("autocomplete:" + autocomplete[0].value)
                             // this gives grey text to autocompltee ^^
                             //console.log("recieved text:" + predicted);
                             nextWordArr = predicted.split(" ");
