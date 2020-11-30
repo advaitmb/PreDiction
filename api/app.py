@@ -1,5 +1,5 @@
 from pathlib import Path
-from random import choice
+import random
 import datetime
 import string
 import sys
@@ -38,7 +38,7 @@ def home():
 
 @app.route('/<string:bias_id>/')
 def render(bias_id):
-    return render_template('chi_abstract_writer.html')
+    return render_template('index.html')
 
 @app.route('/<string:bias_id>/word_complete_api', methods=['GET', 'POST'])
 def word_complete_api(bias_id):
@@ -48,8 +48,9 @@ def word_complete_api(bias_id):
 def phrase_complete_api(bias_id):
 
     # Get the json query
-    query_text = request.get_json()['text']
-
+    query_text = request.form['text']
+    
+    
     # Extract last 50 words from query text
     text = " ".join(query_text.split(" ")[-50:])
   
@@ -66,6 +67,7 @@ def phrase_complete_api(bias_id):
         last_word = ""
 
     word_completed_text = text + last_word
+    print(last_word)
     # Pass the text and the completed last word through the language model for phrase completion
     try:
         # Pass through a neutral beam search engine 
@@ -77,9 +79,11 @@ def phrase_complete_api(bias_id):
             phrase = beam_search_modified_with_clf(
                 language_model, classifier, bias_mapping[bias_id], text=word_completed_text, confidence=0.05)
     except:
-        prediction = text
+        print("Failed to get an output from beam search")
+        phrase = text
         pass
     # Replace full stops, commas, hyphens, slashes, inverted commas
+    print(phrase)
     phrase = phrase.replace(" .", ".")
     phrase = phrase.replace(" ,", ",")
     phrase = phrase.replace(" /", "/")
@@ -94,8 +98,14 @@ def phrase_complete_api(bias_id):
     else:
         prediction = phrase
 
+    # When the user finishes typing the whole word, add a space before the output
+    if text[-1] != " ":
+        if last_word == "":
+            prediction = " " + prediction
     return prediction
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+    app.run(debug=True, use_reloader=False)

@@ -10,25 +10,24 @@ def complete_word(language_model, text, final_word, no_unk=True, decoder=decode_
     language_model.model.reset()
     language_model.model.eval()
     numericalize = language_model.dls.train_ds.numericalize
-    idx = language_model.dls.test_dl([text]).items[0][None]
-    nodes = None
-    nodes = idx.clone()
-    scores = idx.new_zeros(1).float()
+    idxs = idxs_all = language_model.dls.test_dl([text]).items[0].to(language_model.dls.device)
     if no_unk: unk_idx = language_model.dls.vocab.index(UNK)
         
     with torch.no_grad():
-        preds = F.softmax(language_model.model(idx)[0][:,-1], dim=-1)
-        sorted_indices = torch.argsort(preds, descending=True)
-        sorted_tokens = [numericalize.vocab[i] for i in sorted_indices[0] if numericalize.vocab[i] not in ['xxbos', 'xxpad', 'xxunk', 'xxmaj']]
+        with language_model.no_bar(): preds,_ = language_model.get_preds(dl=[(idxs[None],)])
+        res = preds[0][-1]
+        sorted_indices = torch.argsort(res, descending=True)
+        sorted_tokens = [numericalize.vocab[i] for i in sorted_indices if numericalize.vocab[i] not in ['xxbos', 'xxpad', 'xxunk', 'xxmaj']]
         candidate_tokens = [token for token in sorted_tokens if token.lower().startswith(final_word)]
+        if (len(candidate_tokens) <= 0):
+            return ""
         candidate_indices = [numericalize([token]).item() for token in candidate_tokens]
-        print(candidate_indices)
-        candidate_scores = preds[0][candidate_indices]
+        candidate_scores = res[candidate_indices]
         if temperature != 1.: candidate_scores.div_(temperature)
         selected_index = torch.multinomial(candidate_scores, 1).item()
          
-    return candidate_tokens[selected_index][len(final_word):]
-
+    return candidate_tokens[selected_index][len(final_word): ]
+    
 def get_next_word(learn, text, next_word_starts_with, no_unk=True, temperature=1., decoder=decode_spec_tokens):
     learn.model.reset()
     idxs = idxs_all = learn.dls.test_dl([text]).items[0]
@@ -53,7 +52,7 @@ def beam_search_modified_with_clf(learn, clf, bias, text: str, confidence: float
     learn.model.eval()
 
     idx = learn.dls.test_dl([text]).items[0][None]
-    input_idx_length = len(idx[0])
+    input_idx_length = idx.size()[1]
     nodes = None
     nodes = idx.clone()
     scores = idx.new_zeros(1).float()
@@ -62,7 +61,9 @@ def beam_search_modified_with_clf(learn, clf, bias, text: str, confidence: float
 
     with torch.no_grad():
         while(torch.exp(-scores[0]) > confidence):
-            out = F.log_softmax(learn.model(idx)[0][:, -1], dim=-1)
+            with learn.no_bar(): preds,_ = learn.get_preds(dl=[(idx,)])
+
+            out = torch.log(preds[0][-1].unsqueeze(0))
 
             if no_unk:
                 out[:, unk_idx] = -float('Inf')
@@ -111,50 +112,44 @@ def beam_search_modified_with_clf(learn, clf, bias, text: str, confidence: float
     return ""
 
 
-def beam_search_modified(learn, text: str, confidence: float, no_unk: bool = True, no_punct: bool = True, top_k: int = 10, beam_sz: int = 100, temperature: float = 1.,
-                         sep: str = ' ', decoder=decode_spec_tokens):
+def beam_search_modified(learn, text:str, confidence:float, no_unk:bool=True, no_punct:bool=True, top_k:int=10, beam_sz:int=100, temperature:float=1.,
+                    sep:str=' ', decoder=decode_spec_tokens):
     learn.model.reset()
     learn.model.eval()
     idx = learn.dls.test_dl([text]).items[0][None]
-    input_idx_length = len(idx[0])
+    input_idx_length = idx.size()[1]
     nodes = None
     nodes = idx.clone()
     scores = idx.new_zeros(1).float()
-    if no_unk:
-        unk_idx = learn.dls.vocab.index(UNK)
+    if no_unk: unk_idx = learn.dls.vocab.index(UNK)
+    
 
     with torch.no_grad():
-        while(torch.exp(-scores[0]) > confidence):
-            out = F.log_softmax(learn.model(idx)[0][:, -1], dim=-1)
-
-            if no_unk:
-                out[:, unk_idx] = -float('Inf')
-
+        while(torch.exp(-scores[0])>confidence):
+            with learn.no_bar(): preds,_ = learn.get_preds(dl=[(idx,)])
+            
+            out = torch.log(preds[0][-1].unsqueeze(0))
+            if no_unk: out[:, unk_idx] = -float('Inf')
             values, indices = out.topk(top_k, dim=-1)
 
-            scores = (-values + scores[:, None]).view(-1)
-            indices_idx = torch.arange(0, nodes.size(0))[:, None].expand(
-                nodes.size(0), top_k).contiguous().view(-1)
+            scores = (-values + scores[:,None]).view(-1)
+            indices_idx = torch.arange(0,nodes.size(0))[:,None].expand(nodes.size(0), top_k).contiguous().view(-1)
             sort_idx = scores.argsort()[:beam_sz]
             scores = scores[sort_idx]
+            nodes = torch.cat([nodes[:,None].expand(nodes.size(0),top_k,nodes.size(1)),
+                                    indices[:,:,None].expand(nodes.size(0),top_k,1),], dim=2)
+            nodes = nodes.view(-1, nodes.size(2))[sort_idx]            
+            learn.hidden = [(h[0][:,indices_idx[sort_idx],:],h[1][:,indices_idx[sort_idx],:]) for h in learn.model[0].hidden]
+            idx = nodes[:,-1][:,None]
 
-            nodes = torch.cat([nodes[:, None].expand(nodes.size(0), top_k, nodes.size(1)),
-                               indices[:, :, None].expand(nodes.size(0), top_k, 1), ], dim=2)
-            nodes = nodes.view(-1, nodes.size(2))[sort_idx]
-            learn.hidden = [(h[0][:, indices_idx[sort_idx], :], h[1]
-                             [:, indices_idx[sort_idx], :]) for h in learn.model[0].hidden]
-            idx = nodes[:, -1][:, None]
 
-        if temperature != 1.:
-            scores.div_(temperature)
+
+        if temperature != 1.: scores.div_(temperature)
         node_idx = torch.multinomial(torch.exp(-scores), 1).item()
-
         num = learn.dls.train_ds.numericalize
-        tokens = [num.vocab[i]
-                  for i in nodes[node_idx][input_idx_length:] if num.vocab[i] not in [BOS, PAD]]
+        tokens = [num.vocab[i] for i in nodes[node_idx][input_idx_length:] if num.vocab[i] not in [BOS, PAD]]
         sep = learn.dls.train_ds.tokenizer.sep
         return sep.join(decoder(tokens))
-
 
 def beam_search(learn, text: str, n_words: int, no_unk: bool = True, top_k: int = 10, beam_sz: int = 100, temperature: float = 1.,
                 sep: str = ' ', decoder=decode_spec_tokens):

@@ -1,0 +1,19 @@
+<html>
+
+<body>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
+    <script src="{{url_for('static', filename='script.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <article>
+
+        <textarea id="autocomplete"></textarea>
+        <textarea id="mainInput" id="textarea" name="comments"></textarea>
+        <div>
+            <button id="submitBtn">SUBMIT</button>
+            <p>Word Count:<span id="display_count">0</span></p>
+        </div>
+
+    </article>
+</body>
+
+</html>
