@@ -67,41 +67,41 @@ def predict(bias_id):
     text = text + rem_word
     print("old text + autocomplete: " + text, sys.stderr)
 
-    # try:
-    #     if bias_mapping[bias_id] == 'neu':
-    #         prediction = beam_search_modified(
-    #             learn_lm, text, confidence=0.05, temperature=1.)
-    #     else:
-    #         prediction = beam_search_modified_with_clf(
-    #             learn_lm, clf, bias_mapping[bias_id], text=text, confidence=0.0005)
-    #     print(bias_id)
+    try:
+        if bias_mapping[bias_id] == 'neu':
+            prediction = beam_search_modified(
+                learn_lm, text, confidence=0.05, temperature=1.)
+        else:
+            prediction = beam_search_modified_with_clf(
+                learn_lm, clf, bias_mapping[bias_id], text=text, confidence=0.0005)
+        print(bias_id)
 
-    # prediction_arr = word_tokenize(prediction)
-    # print(prediction_arr, sys.stderr)
-    # # for item in prediction_arr:
-    # #     if item in string.punctuation:
-    # #         prediction_arr.remove(item)
-    # print(prediction_arr, sys.stderr)
+    prediction_arr = word_tokenize(prediction)
+    print(prediction_arr, sys.stderr)
+    # for item in prediction_arr:
+    #     if item in string.punctuation:
+    #         prediction_arr.remove(item)
+    print(prediction_arr, sys.stderr)
 
-    # prediction = " ".join(prediction_arr[len(text_arr):])
-    # print(prediction, sys.stderr)
+    prediction = " ".join(prediction_arr[len(text_arr):])
+    print(prediction, sys.stderr)
 
-#         if rem_word == "":
-#             prediction = " " + prediction
-#         else:
-#             prediction = rem_word + " " + prediction
-#         prediction = prediction.replace("`", "")
+        if rem_word == "":
+            prediction = " " + prediction
+        else:
+            prediction = rem_word + " " + prediction
+        prediction = prediction.replace("`", "")
 
-#         for ele in prediction:
-#             if ele in string.punctuation:
-#                 prediction = prediction.replace(ele, "")
-# #         prediction = re.sub("\s\s+" , " ", prediction)
-# #         prediction = ' '.join(word_tokenize(prediction))
-#         prediction = prediction.replace("  ", " ")
-#         if (text_later[-1] == " "):
-#             prediction = prediction[1:]
-#     except:
-#         prediction = ""
+        for ele in prediction:
+            if ele in string.punctuation:
+                prediction = prediction.replace(ele, "")
+#         prediction = re.sub("\s\s+" , " ", prediction)
+#         prediction = ' '.join(word_tokenize(prediction))
+        prediction = prediction.replace("  ", " ")
+        if (text_later[-1] == " "):
+            prediction = prediction[1:]
+    except:
+        prediction = ""
 
     predicted = {
         "predicted": rem_word

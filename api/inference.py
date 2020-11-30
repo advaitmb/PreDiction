@@ -5,8 +5,31 @@ from random import choice
 import re
 import json
 
+def complete_word(language_model, text, final_word, no_unk=True, decoder=decode_spec_tokens, temperature=1.):
+    
+    language_model.model.reset()
+    language_model.model.eval()
+    numericalize = language_model.dls.train_ds.numericalize
+    idx = language_model.dls.test_dl([text]).items[0][None]
+    nodes = None
+    nodes = idx.clone()
+    scores = idx.new_zeros(1).float()
+    if no_unk: unk_idx = language_model.dls.vocab.index(UNK)
+        
+    with torch.no_grad():
+        preds = F.softmax(language_model.model(idx)[0][:,-1], dim=-1)
+        sorted_indices = torch.argsort(preds, descending=True)
+        sorted_tokens = [numericalize.vocab[i] for i in sorted_indices[0] if numericalize.vocab[i] not in ['xxbos', 'xxpad', 'xxunk', 'xxmaj']]
+        candidate_tokens = [token for token in sorted_tokens if token.lower().startswith(final_word)]
+        candidate_indices = [numericalize([token]).item() for token in candidate_tokens]
+        print(candidate_indices)
+        candidate_scores = preds[0][candidate_indices]
+        if temperature != 1.: candidate_scores.div_(temperature)
+        selected_index = torch.multinomial(candidate_scores, 1).item()
+         
+    return candidate_tokens[selected_index][len(final_word):]
 
-def get_next_word(learn, text, no_unk=True, temperature=1., decoder=decode_spec_tokens):
+def get_next_word(learn, text, next_word_starts_with, no_unk=True, temperature=1., decoder=decode_spec_tokens):
     learn.model.reset()
     idxs = idxs_all = learn.dls.test_dl([text]).items[0]
     if no_unk:
@@ -30,15 +53,16 @@ def beam_search_modified_with_clf(learn, clf, bias, text: str, confidence: float
     learn.model.eval()
 
     idx = learn.dls.test_dl([text]).items[0][None]
+    input_idx_length = len(idx[0])
     nodes = None
     nodes = idx.clone()
     scores = idx.new_zeros(1).float()
-<<<<<<< HEAD
-    if no_unk: unk_idx = learn.dls.vocab.index(UNK)
-    
+    if no_unk:
+        unk_idx = learn.dls.vocab.index(UNK)
 
     with torch.no_grad():
-        while(torch.exp(-scores[0])>confidence):
+        while(torch.exp(-scores[0]) > confidence):
+            out = F.log_softmax(learn.model(idx)[0][:, -1], dim=-1)
 
             if no_unk:
                 out[:, unk_idx] = -float('Inf')
@@ -81,7 +105,7 @@ def beam_search_modified_with_clf(learn, clf, bias, text: str, confidence: float
         for i in range(len(inp)):
             if bias_map[dec_preds[i].item()] == bias:
                 tokens = [num.vocab[i]
-                          for i in inp[i][1:] if num.vocab[i] not in [BOS, PAD]]
+                          for i in inp[i][input_idx_length:] if num.vocab[i] not in [BOS, PAD]]
                 return sep.join(decoder(tokens))
 
     return ""
@@ -89,12 +113,13 @@ def beam_search_modified_with_clf(learn, clf, bias, text: str, confidence: float
 
 def beam_search_modified(learn, text: str, confidence: float, no_unk: bool = True, no_punct: bool = True, top_k: int = 10, beam_sz: int = 100, temperature: float = 1.,
                          sep: str = ' ', decoder=decode_spec_tokens):
->>>>>>> create
     learn.model.reset()
     learn.model.eval()
     idx = learn.dls.test_dl([text]).items[0][None]
+    input_idx_length = len(idx[0])
     nodes = None
     nodes = idx.clone()
+    scores = idx.new_zeros(1).float()
     if no_unk:
         unk_idx = learn.dls.vocab.index(UNK)
 
@@ -123,9 +148,10 @@ def beam_search_modified(learn, text: str, confidence: float, no_unk: bool = Tru
         if temperature != 1.:
             scores.div_(temperature)
         node_idx = torch.multinomial(torch.exp(-scores), 1).item()
+
         num = learn.dls.train_ds.numericalize
         tokens = [num.vocab[i]
-                  for i in nodes[node_idx][1:] if num.vocab[i] not in [BOS, PAD]]
+                  for i in nodes[node_idx][input_idx_length:] if num.vocab[i] not in [BOS, PAD]]
         sep = learn.dls.train_ds.tokenizer.sep
         return sep.join(decoder(tokens))
 

@@ -1,120 +1,101 @@
-from flask import Flask, request, render_template, jsonify
-from fastai.text.all import *
-from inference import get_next_word, beam_search, beam_search_modified, beam_search_modified_with_clf
 from pathlib import Path
-import pandas as pd
 from random import choice
-import nltk
-nltk.download('punkt')
-from nltk.tokenize import word_tokenize, TweetTokenizer
-import csv
-import re
-import os
-import sys
 import datetime
+import string
+import sys
+import os
+import re
+import csv
+
+import nltk
+from nltk.tokenize import word_tokenize, TweetTokenizer
+
+import pandas as pd
+
+from flask import Flask, request, render_template, jsonify
+
+from fastai.text.all import *
+from inference import beam_search_modified, beam_search_modified_with_clf, complete_word
 
 # Initializing the FLASK API
 app = Flask(__name__)
 
-#  Load learner object 
-# learn = load_learner('../models/design/4epochslearner.pkl')
-learn_lm = load_learner('5epochs_imdb_lm.pkl')
-clf = load_learner('imdb_sentiment_classifier.pkl')
+#  Load learner object
+language_model = load_learner('/Users/Saaket/Documents/Machine Learning/PreDiction/api/5epochs_imdb_lm.pkl')
+classifier = load_learner('/Users/Saaket/Documents/Machine Learning/PreDiction/api/imdb_sentiment_classifier.pkl')
 
-def subtract(a, b):                              
-    return "".join(a.rsplit(b))
+# Hidden bias mapping
+bias_mapping = {
+    'a': 'pos',
+    'b': 'neg',
+    'c': 'neu'
+}
 
+# Home Page
 @app.route('/')
 def home():
-    return render_template('movie_reviews.html')
+    return render_template('home.html')
 
-@app.route('/a')
-def a():
-    return render_template('pos.html')  
+@app.route('/<string:bias_id>/')
+def render(bias_id):
+    return render_template('chi_abstract_writer.html')
 
-@app.route('/b')
-def b():
-    return render_template('neg.html')
+@app.route('/<string:bias_id>/word_complete_api', methods=['GET', 'POST'])
+def word_complete_api(bias_id):
+    return ""
 
-@app.route('/c')
-def c():
-    return render_template('none.html')
+@app.route('/<string:bias_id>/phrase_complete_api', methods=['GET', 'POST'])
+def phrase_complete_api(bias_id):
 
+    # Get the json query
+    query_text = request.get_json()['text']
 
-@app.route('/a/predict', methods=['GET', 'POST'])
-def a_predict():
-    text = request.form['text']
+    # Extract last 50 words from query text
+    text = " ".join(query_text.split(" ")[-50:])
+  
+    # Replace hyphens as they are not handled by word_tokenize
     text = text.replace("-", " - ")
-    base_string_length = len(text)
+  
+    # Tokenize text 
+    tokenized_text = word_tokenize(text)
 
-    # Add spaces before and after all of these punctuation marks 
-    # text = re.sub('([.,\/#!$%\^&\*;:{}=\-_`~()])', r' \1 ', text)
+    # Complete the last word, if the last word is a space the user has finishe writing the word so do not try to autocomplete
+    if text[-1] != " ":
+        last_word = complete_word(language_model=language_model, text = " ".join(tokenized_text[:-1]), final_word=tokenized_text[-1])
+    else:
+        last_word = ""
 
-    # Replace any places with 2 spaces by one space 
-    # text = re.sub('\s{2,}', ' ', text)
-    text_arr = word_tokenize(text)
-    # text_arr_considered = text_arr[-20:]
-    # text = " ".join(text_arr_considered)
-    prediction = beam_search_modified_with_clf(learn=learn_lm, clf=clf, bias='pos', text=text, confidence=0.01, temperature=0.7)
+    word_completed_text = text + last_word
+    # Pass the text and the completed last word through the language model for phrase completion
+    try:
+        # Pass through a neutral beam search engine 
+        if bias_mapping[bias_id] == 'neu':
+            phrase = beam_search_modified(
+                language_model, word_completed_text, confidence=0.05, temperature=1.)
+        # Pass through a postive or negative beam_search engine
+        else:
+            phrase = beam_search_modified_with_clf(
+                language_model, classifier, bias_mapping[bias_id], text=word_completed_text, confidence=0.05)
+    except:
+        prediction = text
+        pass
+    # Replace full stops, commas, hyphens, slashes, inverted commas
+    phrase = phrase.replace(" .", ".")
+    phrase = phrase.replace(" ,", ",")
+    phrase = phrase.replace(" /", "/")
+    phrase = phrase.replace(" '", "'")
+    phrase = phrase.replace(" - ", "-")
+    phrase = phrase.replace(" n't", "n't")
+    phrase = phrase.replace(" ?", "?")
     
-    
-    # prediction = prediction[base_string_length:]
-    print(text_arr, sys.stderr)
-    prediction = re.sub('\s([.,#!$%\^&\*;:{}=_`~](?:\s|$))', r'\1', prediction)
-    prediction = prediction.replace(" - ", "-")
-    prediction = prediction.replace(" / ", "/")
-    prediction = prediction.replace(" ( ", " (")
-    prediction = prediction.replace(" ) ", ") ")
-    
-    predicted = {
-        "predicted": prediction
-    }
-    return jsonify(predicted=predicted)
+    prediction = "empty"
+    if last_word != "":
+        prediction =  last_word + " " + phrase
+    else:
+        prediction = phrase
 
-@app.route('/b/predict', methods=['GET', 'POST'])
-def b_predict():
-    text = request.form['text']
-    text = text.replace("-", " - ")
-    base_string_length = len(text)
-
-    # Add spaces before and after all of these punctuation marks 
-    # text = re.sub('([.,\/#!$%\^&\*;:{}=\-_`~()])', r' \1 ', text)
-
-    # Replace any places with 2 spaces by one space 
-    # text = re.sub('\s{2,}', ' ', text)
-    text_arr = word_tokenize(text)
-    # text_arr_considered = text_arr[-20:]
-    # text = " ".join(text_arr_considered)
-    prediction = beam_search_modified_with_clf(learn=learn_lm, clf=clf, bias='neg', text=text, confidence=0.01, temperature=0.7)
-    
-    
-    # prediction = prediction[base_string_length:]
-   
-    prediction_arr = word_tokenize(prediction)
-    print(prediction_arr, sys.stderr)
-    print(text_arr, sys.stderr)
-    prediction = " ".join(prediction_arr[len(text_arr):])
-    prediction = re.sub('\s([.,#!$%\^&\*;:{}=_`~](?:\s|$))', r'\1', prediction)
-    prediction = prediction.replace(" - ", "-")
-    prediction = prediction.replace(" / ", "/")
-    prediction = prediction.replace(" ( ", " (")
-    prediction = prediction.replace(" ) ", ") ")
-    
-    predicted = {
-        "predicted": prediction
-    }
-    return jsonify(predicted=predicted)
-
-
-@app.route('/submit', methods=['GET', 'POST'])
-def submit():
-    submitted_text = request.form['text']
-    bias = request.form['bias']
-    print(submitted_text)
-
-    with open(r'api/reviews.csv', 'a', newline='') as csvfile:
-    return '',204
+    return prediction
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(debug=True)
