@@ -22,7 +22,9 @@
             }
         const bias_code = window.location.pathname[1]
         const bias = bias_mapping[bias_code];
-        const url = "/" + bias_code + "/phrase_complete_api"
+        const urlPhraseComplete = "/" + bias_code + "/phrase_complete_api"
+        const urlWordComplete = "/" + bias_code + "/word_complete_api"
+
         const ALPHA_NUMERIC_KEY_CODE_LOWER = 48
         const ALPHA_NUMERIC_KEY_CODE_UPPER = 90
         const SPACE_BAR_KEY_CODE = 32
@@ -30,9 +32,11 @@
         const BACK_SPACE_KEY_CODE = 8
         const TAB_KEY_CODE = 9
         const RIGHT_ARROW_KEY_CODE = 39
-        const DEBOUNCE_TIME = 200
+        const DEBOUNCE_TIME = 1
+        const AT_BEGIN_FLAG = true
         
-        let ajx;
+        let ajxPhraseComplete;
+        let ajxWordComplete;
         let suggestionTextSelector = document.querySelectorAll("#suggestionText");
         let userTextSelector = document.querySelectorAll("#userText");
         let differentKeyTyped = true
@@ -53,7 +57,7 @@
         }
 
         function acceptOneSuggestion(){
-            let suggestedText = suggestionTextSelector[0].value;
+            let suggestedText = suggestionTextSelector[0].value.strip();
             let userText = userTextSelector[0].value
             let update = suggestedText.replace(userText, '');
             let updateList = update.split(" ");
@@ -76,11 +80,11 @@
             return resp;
         }
 
-        function updateSuggestion(text){
-
-            ajx = $.ajax({
+        function updatePhraseSuggestion(text){
+            console.log(text)
+            ajxPhraseComplete = $.ajax({
                 type: 'POST',
-                url: url,
+                url: urlPhraseComplete,
                 data: {
                     text: text,
                     bias: bias
@@ -96,18 +100,50 @@
 
         }
 
+        function updateWordSuggestion(text){
+
+            ajxWordComplete = $.ajax({
+                type: 'POST',
+                url: urlWordComplete,
+                data: {
+                    text: text,
+                    bias: bias
+                },
+                success: function(response){
+                    suggestedText = text + response;
+                    displaySuggestion(suggestedText)
+                },
+                error: function(){
+                    console.log("Error getting response from word complete API")
+                }
+            })
+
+        }
+
+
         // Try to make an API call and update suggestion 
-        $(userTextSelector).keyup($.debounce(DEBOUNCE_TIME, at_begin=true, function(event){
+        $(userTextSelector).keyup($.debounce(DEBOUNCE_TIME, at_begin=AT_BEGIN_FLAG, function(event){
             if (event.keyCode >= ALPHA_NUMERIC_KEY_CODE_LOWER && event.keyCode <= ALPHA_NUMERIC_KEY_CODE_UPPER){
 
                 if (differentKeyTyped){
-                    updateSuggestion(event.target.value);
+                    updateWordSuggestion(event.target.value);
+                    console.log("word suggestion goes here");
+                    updatedPhraseSuggestion = false;
                 }
 
 
             } else if(event.keyCode == SPACE_BAR_KEY_CODE || event.keyCode == SHIFT_KEY_CODE){
                 
-                updateSuggestion(event.target.value)
+                updatePhraseSuggestion(event.target.value)
+                updatedPhraseSuggestion = true;
+
+            } else if(event.keyCode == RIGHT_ARROW_KEY_CODE || event.keyCode == TAB_KEY_CODE){
+
+                console.log(updatedPhraseSuggestion)
+                event.preventDefault();
+                if(!updatedPhraseSuggestion){
+                    updatePhraseSuggestion(event.target.value);
+                }
 
             }
         }))
@@ -122,6 +158,9 @@
                 }else {
                     differentKeyTyped = false;
                 }
+
+                ajxPhraseComplete.abort();
+                ajxWordComplete.abort();
             
             } else if(event.keyCode == BACK_SPACE_KEY_CODE){
 
@@ -131,10 +170,14 @@
 
                 event.preventDefault();
                 acceptOneSuggestion();
+                if(!updatedWordSuggestion){
+                    console.log(updatedWordSuggestion)
+                    updatePhraseSuggestion(event.target.value);
+                }
 
             }
 
-            ajx.abort();
+            
         })
 
 
