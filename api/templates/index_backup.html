@@ -48,7 +48,6 @@
     let keyLogDump = [];
     let last_text = [];
     let new_text = [];
-    let currentText;
 
     function displaySuggestion(suggestedText) {
       //suggestionTextSelector[0].value = suggestedText;
@@ -81,22 +80,19 @@
       console.log(suggestedText);
       console.log(userText);
       console.log(updateList);
-
       if (isNotTypingTheSameKey(lastKey)) {
         userTextSelector[0].value += updateList[0];
       } else {
         if (!wordCompleted) {
           if (userText[userText.length - 1] == " ") {
-            console.log("1");
+            console.log("ping");
             userTextSelector[0].value += updateList[0];
           } else {
             userTextSelector[0].value += " ";
             userTextSelector[0].value += updateList[0];
-            console.log("2");
           }
         } else {
           userTextSelector[0].value += updateList[0];
-          console.log("3");
         }
       }
 
@@ -105,11 +101,11 @@
       }
       console.log(updateList);
     }
-
     function isNotTypingTheSameKey(char) {
       let suggestedText = suggestionTextSelector[0].value;
       let userText = userTextSelector[0].value;
       let update = suggestedText.replace(userText, "");
+      console.log(update);
       let resp = false;
       if (update.charAt(0) != char) {
         resp = true;
@@ -120,91 +116,58 @@
     }
 
     function updatePhraseSuggestion(text) {
-
-      if (ajxWordComplete && ajxWordComplete.readyState != 4) {
-        ajxWordComplete.abort();
-      }
-
-      if (ajxPhraseComplete && ajxPhraseComplete.readyState != 4) {
-        ajxPhraseComplete.abort();
-      }
-      currentText = text.trim();
       ajxPhraseComplete = $.ajax({
         type: "POST",
         url: urlPhraseComplete,
         data: {
-          text: currentText,
+          text: text,
           bias: bias,
         },
         success: function (response) {
-          response = response.trim();
-          currentText += " " + response;
-          displaySuggestion(currentText);
+          console.log("Reply from phraseAPI:" + response);
+          suggestedText = text + " " + response;
+          displaySuggestion(suggestedText);
           wordCompleted = false;
+          console.log("call complete");
         },
         error: function () {
-          if (ajxPhraseComplete.readyState != 1) {
-            console.log("Error getting response from phrase complete API");
-          }
+          console.log("Error getting response from phrase complete API");
         },
       });
     }
 
     function updateWordSuggestion(text) {
-      currentText = text.trim();
       // ajxWordComplete.abort();
       if (ajxWordComplete && ajxWordComplete.readyState != 4) {
+        console.log(ajxWordComplete.readyState);
         ajxWordComplete.abort();
       }
       ajxWordComplete = $.ajax({
         type: "POST",
         url: urlWordComplete,
         data: {
-          text: currentText,
+          text: text,
           bias: bias,
         },
         success: function (response) {
-
-          currentText += response;
-          displaySuggestion(currentText);
-          /*
-                    if (ajxPhraseComplete && ajxPhraseComplete.readyState != 4) {
-                      console.log(ajxPhraseComplete.readyState);
-                      ajxPhraseComplete.abort();
-                    }
-          
-                    ajxPhraseComplete = $.ajax({
-                      type: "POST",
-                      url: urlPhraseComplete,
-                      data: {
-                        text: currentText,
-                        bias: bias,
-                      },
-          
-                      success: function (response) {
-                        currentText += " " + response;
-                        displaySuggestion(currentText);
-                      },
-          
-                      error: function () {
-                       if (ajxPhraseComplete.readyState != 1) {
-            console.log("Error getting response from phrase complete API");
-          }
-                      },
-                    });*/
+          console.log("Reply from wordAPI:" + response);
+          updatePhraseSuggestion(suggestedText);
+          suggestedText = text + response;
+          displaySuggestion(suggestedText);
+          updatePhraseSuggestion(suggestedText);
         },
-
         error: function () {
-          if (ajxWordComplete.readyState != 1) {
-            console.log("Error getting response from word complete API");
-            wordCompleted = false;
-          }
+          console.log("Error getting response from word complete API");
+          wordCompleted = false;
         },
       });
     }
 
     // Try to make an API call and update suggestion
     $(userTextSelector).keyup(
+      // $.debounce(
+      //  DEBOUNCE_LITTLE_TIME,
+      // (at_begin = AT_BEGIN_FLAG),
       function (event) {
         if (
           event.keyCode >= ALPHA_NUMERIC_KEY_CODE_LOWER &&
@@ -213,19 +176,41 @@
           if (differentKeyTyped) {
             updateWordSuggestion(event.target.value);
           }
-        } else if (event.keyCode == BACK_SPACE_KEY_CODE) {
-          clearSuggestion();
-        }
-        else if (event.keyCode = SPACE_BAR_KEY_CODE) {
-          if (differentKeyTyped) {
-            updatePhraseSuggestion(event.target.value);
-          }
         }
       }
+      //)
     );
+
+    //mo'vie'
+    /* $(userTextSelector).keyup(
+      $.debounce(DEBOUNCE_TIME, (at_begin = false),
+        function (event) {
+          if (
+            event.keyCode >= ALPHA_NUMERIC_KEY_CODE_LOWER &&
+            event.keyCode <= ALPHA_NUMERIC_KEY_CODE_UPPER
+          ) {
+            if (differentKeyTyped) {
+              if (wordCompleted) {
+                updatePhraseSuggestion(suggestedText);
+              }
+            }
+          } else if (
+            event.keyCode == SPACE_BAR_KEY_CODE ||
+            event.keyCode == SHIFT_KEY_CODE
+          ) {
+            if (differentKeyTyped) {
+              console.log("before call");
+              clearSuggestion();
+              updatePhraseSuggestion(event.target.value);
+            }
+          }
+        }
+      )
+    ); */
 
     // If immediately new key is typed, clear any previous suggestion, also check if the key typed by used is same as the one suggested by API
     $(userTextSelector).keydown(function (event) {
+      //console.log("abort");
       lastKey = event.key;
       if (
         event.keyCode >= ALPHA_NUMERIC_KEY_CODE_LOWER &&
