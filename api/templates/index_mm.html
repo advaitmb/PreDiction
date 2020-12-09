@@ -114,6 +114,151 @@
       return resp;
     }
 
+    function tagWords() {
+
+      let wordJSON = {
+        word: '',
+        index: 0,
+        tabbed: false,
+        typed: false,
+        partial: false,
+        deleted: false,
+        edited: false,
+        edited_from: '',
+        alt_word: '',
+        tabbed_characters: [],
+        typed_characters: [],
+        deleted_characters: [],
+      }
+
+      let wordJSON = {
+        word: '',
+        index: 0,
+        typed: false,
+        partial: false,
+        deleted: false,
+        edited: false,
+        edited_from: '',
+        alt_word: '',
+        tabbed_characters: [],
+        typed_characters: [],
+        deleted_characters: [],
+      }
+
+      function containsTabbed(letterlog) {
+        if (letterlog.includes("Tab")) {
+          return true;
+        } else { return false }
+      }
+
+      function containsTyped() {
+      }
+
+      function fullTabbed(letterlog) {
+        if (letterlog.includes("Tab") && letterlog.length == 1) {
+          return true;
+        } else { return false }
+      }
+
+      function onlySuffixTabbed(letterlog) {
+        if (letterlog.includes("Tab") && letterlog[1] != "Tab" && letterlog[letterlog.length - 1] == "Tab") {
+          return true;
+        } else { return false }
+      }
+
+      function onlyPrefixTabbed(letterlog) {
+        if (letterlog.includes("Tab") && letterlog[1] == "Tab" && letterlog[letterlog.length - 1] != "Tab") {
+          return true;
+        } else { return false }
+      }
+
+      function notPrefixAndSuffixTabbed(letterlog) {
+        if (letterlog.includes("Tab") && letterlog[1] != "Tab" && letterlog[letterlog.length - 1] != "Tab") {
+          return true;
+        } else { return false }
+      }
+
+      function PrefixAndSuffixTabbed(letterlog) {
+        if (letterlog.includes("Tab") && letterlog[1] == "Tab" && letterlog[letterlog.length - 1] == "Tab") {
+          return true;
+        } else { return false }
+      }
+
+      function 
+
+
+
+      function isDeleted() { }
+      function isEdited() { }
+      function isEditedFrom() { }
+      function altWord() { }
+      function previousWordsDeleted() { }
+      function previousWordEdited() { }
+
+      function giveTabbedCharacters() {
+        'new - old when tabbed'
+      }
+      function giveTypedCharacters() {
+
+      }
+      function giveDeletedCharacters() {
+        if (event.keyCode == BACK_SPACE_KEY_CODE) {
+          deletedKeyLog.push(last_text.filter(x => !new_text.includes(x)))
+        }
+      }
+
+      if deleted:
+        log deleted characters in an array, flip the array, trim the array,
+          count number of spaces, update each word status as deleted,
+            check if first word is equal to corresponding word, 
+          if not update the first word with new name and put the original name in edited_from
+
+
+      $(userTextSelector).keyup(function (event) {
+        last_text = new_text;
+        new_text = userTextSelector[0].value.split(' ');
+
+        console.log(new_text);
+        //console.log("clicked!");
+        if (
+          event.keyCode >= ALPHA_NUMERIC_KEY_CODE_LOWER &&
+          event.keyCode <= ALPHA_NUMERIC_KEY_CODE_UPPER || event.keyCode == TAB_KEY_CODE
+        ) {
+          keyLogWord.push(event.key);
+          keyLogDump.push(event.key);
+        }
+        else if (event.keyCode == SPACE_BAR_KEY_CODE) {
+          keyLogWord.join('').trim()
+          wordList.push(wordJSON);
+          keyLogWord = [];
+
+        }
+
+
+        if ((new_text.length == last_text.length) && (new_text != last_text)) {
+
+          edited_from = last_text.filter(x => !new_text.includes(x));
+          edited_to = tabbed = new_text.filter(x => !last_text.includes(x));
+
+        }
+
+        if (e.keyCode === 9 || e.keyCode === 39) {
+
+          tabbed = new_text.filter(x => !last_text.includes(x));
+
+        } else {
+
+          typed = new_text.filter(x => !last_text.includes(x));
+          deleted = last_text.filter(x => !new_text.includes(x));
+
+        }
+
+
+      });
+    }
+
+
+
     function updatePhraseSuggestion(text) {
       ajxPhraseComplete = $.ajax({
         type: "POST",

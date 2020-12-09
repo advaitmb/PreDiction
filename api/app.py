@@ -6,12 +6,13 @@ import sys
 import os
 import re
 import csv
+import asyncio
 
 import nltk
 from nltk.tokenize import word_tokenize, TweetTokenizer
 
 import pandas as pd
-
+import time
 from flask import Flask, request, render_template, jsonify
 
 from fastai.text.all import *
@@ -28,7 +29,8 @@ positive_model.to('cuda')
 negative_model.to('cuda')
 
 lstm_model = load_learner('5epochs_imdb_lm.pkl')
-
+vocab = lstm_model.dls.vocab
+# lstm_model.model.to('cuda')
 # Initializing the FLASK API
 app = Flask(__name__)
 
@@ -40,9 +42,17 @@ bias_mapping = {
 }
 
 # Home Page
-@app.route('/')
+@app.route('/x')
 def home():
-    return render_template('home.html')
+    return render_template('index_baseline_mm.html')
+
+@app.route('/thanks')
+def thanks():
+    return render_template('thanks.html')
+
+@app.route('/')
+def login():
+    return render_template('email.html')
 
 @app.route('/<string:bias_id>/')
 def render(bias_id):
@@ -56,23 +66,22 @@ def clean_html(raw_html):
 def clean_newlines(raw_text):
     return raw_text.replace('\n', '')
 
-def complete_word_transformer(language_model, tokenizer, text, final_word):
+def complete_word_transformer(language_model, tokenizer, vocab, text, final_word):
     if len(text) == 0:
         return ''
     ids = tokenizer.encode(text)
     t = torch.LongTensor(ids)[None].to('cuda')
-    logits = language_model.forward(t).logits[0][-1]
+    logits = language_model.forward(t)[0][-1][-1]
     sorted_indices = torch.argsort(logits, descending=True)
-    
     for tk_idx in sorted_indices:
-        word = tokenizer.decode(tk_idx.cpu().numpy())
+        word = tokenizer.decode([tk_idx.cpu()])
         if word.lower().startswith(final_word):
-            if word.lower() != final_word:
+            if word.lower() != final_word and word.lower() in vocab:
                 return word[len(final_word):]
     return ""
 
 def complete_word(language_model, text, final_word, no_unk=True, decoder=decode_spec_tokens, temperature=1.):
-    
+    print("inside complete word loop", sys.stdout)
     language_model.model.reset()
     language_model.model.eval()
     numericalize = language_model.dls.train_ds.numericalize
@@ -80,19 +89,31 @@ def complete_word(language_model, text, final_word, no_unk=True, decoder=decode_
     if no_unk: unk_idx = language_model.dls.vocab.index(UNK)
         
     with torch.no_grad():
-        with language_model.no_bar(): preds,_ = language_model.get_preds(dl=[(idxs[None],)])
+        try:
+            with language_model.no_bar(): preds,_ = language_model.get_preds(dl=[(idxs[None],)])
+        except:
+            print("exiting complete word loop with error", sys.stdout)
+            return ""
+            
         res = preds[0][-1]
         sorted_indices = torch.argsort(res, descending=True)
-        sorted_tokens = [numericalize.vocab[i] for i in sorted_indices if numericalize.vocab[i] not in ['xxbos', 'xxpad', 'xxunk', 'xxmaj']]
-        candidate_tokens = [token for token in sorted_tokens if token.lower().startswith(final_word)]
-        if (len(candidate_tokens) <= 0):
-            return ""
-        candidate_indices = [numericalize([token]).item() for token in candidate_tokens]
-        candidate_scores = res[candidate_indices]
-        if temperature != 1.: candidate_scores.div_(temperature)
-        selected_index = torch.multinomial(candidate_scores, 1).item()
+        for idx in sorted_indices:
+            if idx not in ['xxbos', 'xxpad', 'xxunk', 'xxmaj']:
+                if numericalize.vocab[idx].lower().startswith(final_word):
+                    print("exiting complete word loop without error", sys.stdout)
+                    return numericalize.vocab[idx][len(final_word):]
+        print("exiting complete word loop without error without string", sys.stdout)
+        return ""
+#         sorted_tokens = [numericalize.vocab[i] for i in sorted_indices if numericalize.vocab[i] not in ['xxbos', 'xxpad', 'xxunk', 'xxmaj']]
+#         candidate_tokens = [token for token in sorted_tokens if token.lower().startswith(final_word)]
+#         if (len(candidate_tokens) <= 0):
+#             return ""
+#         candidate_indices = [numericalize([token]).item() for token in candidate_tokens]
+#         candidate_scores = res[candidate_indices]
+#         if temperature != 1.: candidate_scores.div_(temperature)
+#         selected_index = torch.multinomial(candidate_scores, 1).item()
          
-    return candidate_tokens[selected_index][len(final_word): ]
+#     return candidate_tokens[selected_index][len(final_word): ]
 
 def generate_text_transformer(language_model, tokenizer, text, n_words_max):
     text = text.strip()
@@ -111,9 +132,9 @@ def word_complete_api(bias_id):
 
     tokenized_text = word_tokenize(text)
 
-    word = complete_word(lstm_model, " ".join(text.split(" ")[:-1]), tokenized_text[-1])
-    # word = complete_word_transformer(transformer_model, tokenizer, " ".join(tokenized_text[:-1]), tokenized_text[-1])
-    print("word: ", word, sys.stdout)
+#     word = complete_word(lstm_model, " ".join(text.split(" ")[:-1]), tokenized_text[-1])
+#     print(word, sys.stdout)
+    word = complete_word_transformer(neutral_model, tokenizer, vocab, " ".join(tokenized_text[:-1]), tokenized_text[-1])
 
     return word 
 
@@ -130,7 +151,6 @@ def phrase_complete_api(bias_id):
 
     # Replace hyphens as they are not handled by word_tokenize
     text = text.replace("-", " - ")
-    print("printing in the main loop:", text)
     phrase = generate_text_transformer(language_model=negative_model, tokenizer=tokenizer, text=text, n_words_max=5)
 
     # Replace full stops, commas, hyphens, slashes, inverted commas
@@ -144,10 +164,53 @@ def phrase_complete_api(bias_id):
     phrase = phrase.replace(" !", "!")
     phrase = phrase.replace("!", "")
     phrase = phrase.replace("?", "")
-    print("phrase: ", phrase, sys.stdout)
     prediction = phrase
 
     return prediction
+
+def write_json(data, filename):
+    with open(filename, 'w') as f:
+        json.dump(data, f, indent=4)
+
+logDump = []
+
+@app.route('/log', methods=['GET', 'POST'])
+def log():
+    logInstance = request.get_json()
+    
+    
+    logDump.append(logInstance)
+   
+    logFile = maily + ".json"
+    
+    write_json(logDump, logFile)
+ 
+    return '', 204
+
+
+maily = ''
+@app.route('/email', methods=['GET', 'POST'])
+def email():
+    maily = request.form['mail']
+    print(maily)
+
+
+    return '', 204
+
+@app.route('/submit', methods=['GET', 'POST'])
+def submit():
+
+    submitted_text = request.form['text']
+
+    with open(r'reviews.csv', 'a', newline='') as csvfile:
+        fieldnames = ['text', 'endTimeLog']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writerow({'text': '"' + submitted_text + '"', 'endTimeLog': datetime.now()})
+    logDump = []
+    return '', 204
+
+
 
 if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
