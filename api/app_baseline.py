@@ -52,10 +52,11 @@ def write_json(data, filename):
 
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
-    logDump = request.get_json()    
+    logDump = request.get_json()
+    print(logDump, sys.stdout)
     global maily
     logFile = maily + ".json"
-    print("logDump", sys.stdout)
+    print(logFile, sys.stdout)
     write_json(logDump, logFile)
     logDump = ['']
     return '', 204

@@ -28,6 +28,8 @@ neutral_model.to('cuda')
 positive_model.to('cuda')
 negative_model.to('cuda')
 
+lstm_model = load_learner('5epochs_imdb_lm.pkl')
+vocab = lstm_model.dls.vocab
 logDump = []
 maily = ''
 
@@ -36,9 +38,9 @@ app = Flask(__name__)
 
 # Hidden bias mapping
 bias_mapping = {
-    'a': positive_model,
-    'b': negative_model,
-    'c': neutral_model
+    'a': 'pos',
+    'b': 'neg',
+    'c': 'neu'
 }
 
 # Home Page
@@ -61,20 +63,33 @@ def render(bias_id):
 @app.route('/<string:bias_id>/word_complete_api', methods=['GET', 'POST'])
 def word_complete_api(bias_id):
     query_text = request.form['text']
+    # query_text = request.get_json()['text']
+
     text = " ".join(query_text.split(" ")[-50:])
+
     tokenized_text = word_tokenize(text)
-    word = complete_word_transformer(bias_mapping[bias_id], tokenizer, " ".join(tokenized_text[:-1]), tokenized_text[-1])
+
+#     word = complete_word(lstm_model, " ".join(text.split(" ")[:-1]), tokenized_text[-1])
+#     print(word, sys.stdout)
+    word = complete_word_transformer(negative_model, tokenizer, vocab, " ".join(tokenized_text[:-1]), tokenized_text[-1])
+
     return word 
 
 @app.route('/<string:bias_id>/phrase_complete_api', methods=['GET', 'POST'])
 def phrase_complete_api(bias_id):
+    # Get the json query
     query_text = request.form['text']
-    text = " ".join(query_text.split(" ")[-25:])
+    # query_text = request.get_json()['text']
+    
+    # Extract last 50 words from query text
+    text = " ".join(query_text.split(" ")[-50:])
+  
+    # Tokenize text 
     tokenized_text = word_tokenize(text)
 
     # Replace hyphens as they are not handled by word_tokenize
     text = text.replace("-", " - ")
-    phrase = generate_text_transformer(language_model=bias_mapping[bias_id], tokenizer=tokenizer, text=text, n_words_max=5)
+    phrase = generate_text_transformer(language_model=negative_model, tokenizer=tokenizer, text=text, n_words_max=5)
 
     # Replace full stops, commas, hyphens, slashes, inverted commas
     phrase = phrase.replace(" .", ".")
@@ -98,15 +113,25 @@ def email():
     print(maily)
     return '', 204
 
+
+
+@app.route('/log', methods=['GET', 'POST'])
+def log():
+    logInstance = request.get_json()
+    logDump.append(logInstance)
+    logFile = maily + ".json"
+    write_json(logDump, logFile)
+    return '', 204
+
+
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
     logDump = request.get_json()
-    print(logDump, sys.stdout)
+
     global maily
     logFile = maily + ".json"
-    print(logFile, sys.stdout)
     write_json(logDump, logFile)
-    logDump = ['']
+    logDump.clear()
     return '', 204
 
 # ------------------ Functions & Inference --------------------- #
@@ -123,7 +148,7 @@ def clean_html(raw_html):
 def clean_newlines(raw_text):
     return raw_text.replace('\n', '')
 
-def complete_word_transformer(language_model, tokenizer, text, final_word):
+def complete_word_transformer(language_model, tokenizer, vocab, text, final_word):
     if len(text) == 0:
         return ''
     ids = tokenizer.encode(text)
@@ -135,6 +160,7 @@ def complete_word_transformer(language_model, tokenizer, text, final_word):
         if word.lower().startswith(final_word):
             print(final_word,sys.stderr)
             if len(word.lower()) > len(final_word):
+            # and word.lower() in vocab:
                 return word[len(final_word):]
     return ""
 

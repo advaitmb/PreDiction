@@ -1,0 +1,313 @@
+<html>
+
+<body>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="{{url_for('static', filename='debounce.js')}}"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}" />
+  <article>
+    <textarea id="suggestionText"></textarea>
+    <textarea id="userText" id="textarea" name="comments"></textarea>
+    <div>
+      <button id="submitBtn">SUBMIT</button>
+      <p>Word Count:<span id="display_count">0</span></p>
+    </div>
+  </article>
+  <script type="text/javascript">
+    const bias_mapping = {
+      a: "Positive",
+      b: "Negative",
+      c: "Neutral",
+    };
+    const bias_code = window.location.pathname[1];
+    const bias = bias_mapping[bias_code];
+    const urlPhraseComplete = "/" + bias_code + "/phrase_complete_api";
+    const urlWordComplete = "/" + bias_code + "/word_complete_api";
+
+    const ALPHA_NUMERIC_KEY_CODE_LOWER = 48;
+    const ALPHA_NUMERIC_KEY_CODE_UPPER = 90;
+    const SPACE_BAR_KEY_CODE = 32;
+    const SHIFT_KEY_CODE = 16;
+    const BACK_SPACE_KEY_CODE = 8;
+    const TAB_KEY_CODE = 9;
+    const RIGHT_ARROW_KEY_CODE = 39;
+    const DEBOUNCE_TIME = 250;
+    const DEBOUNCE_LITTLE_TIME = 150;
+    const AT_BEGIN_FLAG = false;
+
+    let ajxPhraseComplete;
+    let ajxWordComplete;
+    let suggestionTextSelector = document.querySelectorAll("#suggestionText");
+    let userTextSelector = document.querySelectorAll("#userText");
+    let differentKeyTyped = true;
+    let wordCompleted = false; //change to true later true
+    let phraseCompleted = true;
+    let suggestedText = "";
+    let tabCounter = 0;
+    let lastKey;
+    let keyLogWord = [];
+    let keyLogDump = [];
+    let new_text = "";
+
+    let backspace = false;
+    let partially_deleted_var = 0;
+    let deleted_var = 0;
+    let typed_var = 0;
+    let edited_var = 0;
+    let a = 0;
+    let b = 0;
+    let caretStart = 0;
+    let caretEnd = 0;
+    let savedBackeup = '';
+    let dot_background = '';
+    let str1 = '';
+    let str2 = '';
+    let str3 = '';
+    let replacement = '';
+    let text_log = userTextSelector[0].value;
+    let last_key;
+    let cusror_start;
+    let cursor_end;
+    let log;
+
+
+    /* function tagWords() {
+ 
+       let wordJSON = {
+         word: '',
+         index: 0,
+         tabbed: false,
+         typed: false,
+         partial: false,
+         deleted: false,
+         edited: false,
+         edited_from: '',
+         alt_word: '',
+         tabbed_characters: [],
+         typed_characters: [],
+         deleted_characters: [],
+       }
+ 
+       let wordJSON = {
+         word: '',
+         index: 0,
+         typed: false,
+         partial: false,
+         deleted: false,
+         edited: false,
+         edited_from: '',
+         alt_word: '',
+         tabbed_characters: [],
+         typed_characters: [],
+         deleted_characters: [],
+       } */
+
+    /* function containsTabbed(letterlog) {
+       if (letterlog.includes("Tab")) {
+         return true;
+       } else { return false }
+     }
+ 
+     function containsTyped() {
+     }
+ 
+     function fullTabbed(letterlog) {
+       if (letterlog.includes("Tab") && letterlog.length == 1) {
+         return true;
+       } else { return false }
+     }
+ 
+     function onlySuffixTabbed(letterlog) {
+       if (letterlog.includes("Tab") && letterlog[1] != "Tab" && letterlog[letterlog.length - 1] == "Tab") {
+         return true;
+       } else { return false }
+     }
+ 
+     function onlyPrefixTabbed(letterlog) {
+       if (letterlog.includes("Tab") && letterlog[1] == "Tab" && letterlog[letterlog.length - 1] != "Tab") {
+         return true;
+       } else { return false }
+     }
+ 
+     function notPrefixAndSuffixTabbed(letterlog) {
+       if (letterlog.includes("Tab") && letterlog[1] != "Tab" && letterlog[letterlog.length - 1] != "Tab") {
+         return true;
+       } else { return false }
+     }
+ 
+     function PrefixAndSuffixTabbed(letterlog) {
+       if (letterlog.includes("Tab") && letterlog[1] == "Tab" && letterlog[letterlog.length - 1] == "Tab") {
+         return true;
+       } else { return false }
+     }
+ 
+     function deletedWords() {
+       if 
+ 
+
+
+       if (event.which === 8 && caretStart != caretEnd) {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+        }
+     } */
+
+
+    function logger() {
+      text_log = userTextSelector[0].value;
+      last_key = event.which;
+      cusror_start = userTextSelector[0].selectionStart;
+      cursor_end = userTextSelector[0].selectionEnd;
+      suggestion = ;
+
+      return JSON.stringify({
+        "text": text_log,
+        "last key": last_key,
+        "selection start": cusror_start,
+        "selection end": cursor_end,
+        "deletes": deleted_var,
+        "typed": typed_var,
+        "partially deleted": partially_deleted_var
+      });
+
+
+    }
+
+    $(userTextSelector).bind("cut copy paste", function (event) {
+      event.preventDefault();
+
+    });
+
+    $(userTextSelector).on('keyup click', function (event) {
+
+      //----------Log last character data in log array--------------//
+      log.push(JSON.stringify({
+        "text": text_log,
+        "last key": last_key,
+        "selection start": cusror_start,
+        "selection end": cursor_end,
+        "deletes": deleted_var,
+        "typed": typed_var,
+        "partially deleted": partially_deleted_var,
+        "visible suggestion": last_suggestion
+      }))
+      //----------Log last character data in log array--------------//
+
+      //--------------Update variables-----------------//
+      text_log = userTextSelector[0].value;
+      last_key = event.which;
+      cusror_start = userTextSelector[0].selectionStart;
+      cursor_end = userTextSelector[0].selectionEnd;
+      //--------------Update variables-----------------//
+
+      caretStart = a;
+      caretEnd = b;
+      new_text = userTextSelector[0].value;
+
+      giveWords();
+
+      a = userTextSelector[0].selectionStart;
+      b = userTextSelector[0].selectionEnd;
+
+    });
+
+
+    $("#submitBtn").click(function () {
+      submit = mainInput[0].value;
+      console.log(submit);
+      $.ajax({
+        url: "/submit",
+        type: "POST",
+        contentType: "application/json",
+        async: false,
+        data: {
+          'text': submit,
+          'bias': bias,
+          'log': log
+        }
+      })
+      window.location = '/thanks';
+    });
+
+
+    function replaceAt(string, index1, index2) {
+      str1 = string.substr(0, index1 - 1);
+      //console.log(str1)
+      str2 = string.substr(index2);
+      //console.log(str2)
+      str3 = string.substr(index1, index2 - 2);
+      //console.log(str3)
+      if (index1 == index2) { replacement = "●"; }
+      else {
+        let i;
+        for (i = index1; i < index2 - 1; i++) {
+          if (string[i] != ' ') {
+            string = string.substr(0, i - 1) + "●" + string.substr(i + 1);
+          } else { }
+        }
+      }
+      return str1 + replacement + str2;
+    }
+
+
+    function giveWords() {
+
+      if (event.keyCode == BACK_SPACE_KEY_CODE) {
+
+        console.log(backspace);
+
+        if (backspace == false) {
+          console.log("getout")
+          savedBackup = new_text;
+          dot_background = new_text;
+        }
+        console.log("is it space or not: " + dot_background[caretStart - 1]);
+        if (dot_background[caretStart - 1] != ' ' && dot_background[caretStart - 1] != undefined) {
+          dot_background = replaceAt(dot_background, caretStart, caretEnd);
+          //console.log(caretStart);
+          //console.log(caretEnd);         
+          console.log(dot_background);
+          console.log(savedBackup);
+        }
+
+        backspace = true;
+
+      } else {
+
+        if (backspace == true) {
+
+          dot_background = dot_background.split(' ').filter(String);
+          delete_new_text = savedBackup.split(' ').filter(String);
+
+          let p;
+          for (p = 0; p < dot_background.length; p++) {
+            var match = dot_background[p].match(/[A-Za-z0-9~!@#$%^&*()_+{}|:"<>?=\;\[\]\\'-,./`-]*/g).filter(String);
+            // console.log(match);
+            if (match != '') {
+              if (dot_background[p] != delete_new_text[p]) {
+                partially_deleted_var += 1;
+                console.log("partially deleted: " + partially_deleted_var);
+                match = [''];
+              }
+            } else {
+              deleted_var += 1;
+              console.log("deleted: " + deleted_var);
+
+            }
+
+          }
+          backspace = false;
+        } else {
+
+          if (event.keyCode == SPACE_BAR_KEY_CODE && new_text[userTextSelector[0].selectionStart - 2] != " ") {
+            typed_var += 1;
+            console.log("typed: " + typed_var);
+          }
+
+        }
+      }
+    }
+
+  </script>
+</body>
+
+</html>

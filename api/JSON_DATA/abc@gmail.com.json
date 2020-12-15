@@ -1,0 +1,1731 @@
+[
+    "",
+    {
+        "text": "",
+        "last key": 1,
+        "selection start": 0,
+        "selection end": 0,
+        "deletes": 0,
+        "typed": 0,
+        "partially deleted": 0
+    },
+    {
+        "text": "a",
+        "last key": 65,
+        "selection start": 1,
+        "selection end": 1,
+        "deletes": 0,
+        "typed": 0,
+        "partially deleted": 0
+    },
+    {
+        "text": "as",
+        "last key": 83,
+        "selection start": 2,
+        "selection end": 2,
+        "deletes": 0,
+        "typed": 0,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd",
+        "last key": 68,
+        "selection start": 3,
+        "selection end": 3,
+        "deletes": 0,
+        "typed": 0,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd ",
+        "last key": 32,
+        "selection start": 4,
+        "selection end": 4,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd d",
+        "last key": 68,
+        "selection start": 5,
+        "selection end": 5,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfc",
+        "last key": 67,
+        "selection start": 7,
+        "selection end": 7,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc",
+        "last key": 70,
+        "selection start": 8,
+        "selection end": 8,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc",
+        "last key": 67,
+        "selection start": 8,
+        "selection end": 8,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc ",
+        "last key": 32,
+        "selection start": 9,
+        "selection end": 9,
+        "deletes": 0,
+        "typed": 2,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc h",
+        "last key": 72,
+        "selection start": 10,
+        "selection end": 10,
+        "deletes": 0,
+        "typed": 2,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv",
+        "last key": 72,
+        "selection start": 12,
+        "selection end": 12,
+        "deletes": 0,
+        "typed": 2,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv",
+        "last key": 86,
+        "selection start": 12,
+        "selection end": 12,
+        "deletes": 0,
+        "typed": 2,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv ",
+        "last key": 32,
+        "selection start": 13,
+        "selection end": 13,
+        "deletes": 0,
+        "typed": 3,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv j",
+        "last key": 74,
+        "selection start": 14,
+        "selection end": 14,
+        "deletes": 0,
+        "typed": 3,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbn",
+        "last key": 66,
+        "selection start": 16,
+        "selection end": 16,
+        "deletes": 0,
+        "typed": 3,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbn",
+        "last key": 78,
+        "selection start": 16,
+        "selection end": 16,
+        "deletes": 0,
+        "typed": 3,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj",
+        "last key": 74,
+        "selection start": 17,
+        "selection end": 17,
+        "deletes": 0,
+        "typed": 3,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj ",
+        "last key": 32,
+        "selection start": 18,
+        "selection end": 18,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj j",
+        "last key": 74,
+        "selection start": 19,
+        "selection end": 19,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jn",
+        "last key": 78,
+        "selection start": 20,
+        "selection end": 20,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnj",
+        "last key": 74,
+        "selection start": 21,
+        "selection end": 21,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj",
+        "last key": 78,
+        "selection start": 23,
+        "selection end": 23,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj",
+        "last key": 74,
+        "selection start": 23,
+        "selection end": 23,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj ",
+        "last key": 32,
+        "selection start": 24,
+        "selection end": 24,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj n",
+        "last key": 78,
+        "selection start": 25,
+        "selection end": 25,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj nj",
+        "last key": 74,
+        "selection start": 26,
+        "selection end": 26,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnj",
+        "last key": 78,
+        "selection start": 28,
+        "selection end": 28,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn",
+        "last key": 74,
+        "selection start": 29,
+        "selection end": 29,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn",
+        "last key": 78,
+        "selection start": 29,
+        "selection end": 29,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn ",
+        "last key": 32,
+        "selection start": 30,
+        "selection end": 30,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn j",
+        "last key": 74,
+        "selection start": 31,
+        "selection end": 31,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jn",
+        "last key": 78,
+        "selection start": 32,
+        "selection end": 32,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjn",
+        "last key": 74,
+        "selection start": 34,
+        "selection end": 34,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjn",
+        "last key": 78,
+        "selection start": 34,
+        "selection end": 34,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn",
+        "last key": 74,
+        "selection start": 36,
+        "selection end": 36,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn",
+        "last key": 78,
+        "selection start": 36,
+        "selection end": 36,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn ",
+        "last key": 32,
+        "selection start": 37,
+        "selection end": 37,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jn",
+        "last key": 74,
+        "selection start": 39,
+        "selection end": 39,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jn",
+        "last key": 78,
+        "selection start": 39,
+        "selection end": 39,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjn",
+        "last key": 74,
+        "selection start": 41,
+        "selection end": 41,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj",
+        "last key": 78,
+        "selection start": 42,
+        "selection end": 42,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj",
+        "last key": 74,
+        "selection start": 42,
+        "selection end": 42,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj ",
+        "last key": 32,
+        "selection start": 43,
+        "selection end": 43,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj n",
+        "last key": 78,
+        "selection start": 44,
+        "selection end": 44,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njn",
+        "last key": 74,
+        "selection start": 46,
+        "selection end": 46,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njn",
+        "last key": 78,
+        "selection start": 46,
+        "selection end": 46,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn",
+        "last key": 74,
+        "selection start": 48,
+        "selection end": 48,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn",
+        "last key": 78,
+        "selection start": 48,
+        "selection end": 48,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn ",
+        "last key": 32,
+        "selection start": 49,
+        "selection end": 49,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jn",
+        "last key": 74,
+        "selection start": 51,
+        "selection end": 51,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jn",
+        "last key": 78,
+        "selection start": 51,
+        "selection end": 51,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnj",
+        "last key": 74,
+        "selection start": 52,
+        "selection end": 52,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj",
+        "last key": 78,
+        "selection start": 54,
+        "selection end": 54,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj",
+        "last key": 74,
+        "selection start": 54,
+        "selection end": 54,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj ",
+        "last key": 32,
+        "selection start": 55,
+        "selection end": 55,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj j",
+        "last key": 74,
+        "selection start": 56,
+        "selection end": 56,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jn",
+        "last key": 78,
+        "selection start": 57,
+        "selection end": 57,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnj",
+        "last key": 74,
+        "selection start": 58,
+        "selection end": 58,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj",
+        "last key": 78,
+        "selection start": 60,
+        "selection end": 60,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj",
+        "last key": 74,
+        "selection start": 60,
+        "selection end": 60,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj ",
+        "last key": 32,
+        "selection start": 61,
+        "selection end": 61,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jn",
+        "last key": 74,
+        "selection start": 63,
+        "selection end": 63,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jn",
+        "last key": 78,
+        "selection start": 63,
+        "selection end": 63,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnj",
+        "last key": 74,
+        "selection start": 64,
+        "selection end": 64,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn",
+        "last key": 78,
+        "selection start": 65,
+        "selection end": 65,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn ",
+        "last key": 32,
+        "selection start": 66,
+        "selection end": 66,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jn",
+        "last key": 74,
+        "selection start": 68,
+        "selection end": 68,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jn",
+        "last key": 78,
+        "selection start": 68,
+        "selection end": 68,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj",
+        "last key": 74,
+        "selection start": 69,
+        "selection end": 69,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj ",
+        "last key": 32,
+        "selection start": 70,
+        "selection end": 70,
+        "deletes": 0,
+        "typed": 13,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jn",
+        "last key": 74,
+        "selection start": 72,
+        "selection end": 72,
+        "deletes": 0,
+        "typed": 13,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jn",
+        "last key": 78,
+        "selection start": 72,
+        "selection end": 72,
+        "deletes": 0,
+        "typed": 13,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jnj",
+        "last key": 74,
+        "selection start": 73,
+        "selection end": 73,
+        "deletes": 0,
+        "typed": 13,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jnjn",
+        "last key": 78,
+        "selection start": 74,
+        "selection end": 74,
+        "deletes": 0,
+        "typed": 13,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jnjn ",
+        "last key": 32,
+        "selection start": 75,
+        "selection end": 75,
+        "deletes": 0,
+        "typed": 14,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jnjn j",
+        "last key": 74,
+        "selection start": 76,
+        "selection end": 76,
+        "deletes": 0,
+        "typed": 14,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jnjn jn",
+        "last key": 78,
+        "selection start": 77,
+        "selection end": 77,
+        "deletes": 0,
+        "typed": 14,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jnjn jnj",
+        "last key": 74,
+        "selection start": 78,
+        "selection end": 78,
+        "deletes": 0,
+        "typed": 14,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jnjn jnj ",
+        "last key": 32,
+        "selection start": 79,
+        "selection end": 79,
+        "deletes": 0,
+        "typed": 15,
+        "partially deleted": 0
+    },
+    {
+        "text": "",
+        "last key": 1,
+        "selection start": 0,
+        "selection end": 0,
+        "deletes": 0,
+        "typed": 0,
+        "partially deleted": 0
+    },
+    {
+        "text": "T",
+        "last key": 84,
+        "selection start": 1,
+        "selection end": 1,
+        "deletes": 0,
+        "typed": 0,
+        "partially deleted": 0
+    },
+    {
+        "text": "T",
+        "last key": 16,
+        "selection start": 1,
+        "selection end": 1,
+        "deletes": 0,
+        "typed": 0,
+        "partially deleted": 0
+    },
+    {
+        "text": "Thi",
+        "last key": 72,
+        "selection start": 3,
+        "selection end": 3,
+        "deletes": 0,
+        "typed": 0,
+        "partially deleted": 0
+    },
+    {
+        "text": "This",
+        "last key": 73,
+        "selection start": 4,
+        "selection end": 4,
+        "deletes": 0,
+        "typed": 0,
+        "partially deleted": 0
+    },
+    {
+        "text": "This ",
+        "last key": 83,
+        "selection start": 5,
+        "selection end": 5,
+        "deletes": 0,
+        "typed": 0,
+        "partially deleted": 0
+    },
+    {
+        "text": "This ",
+        "last key": 32,
+        "selection start": 5,
+        "selection end": 5,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "This mo",
+        "last key": 77,
+        "selection start": 7,
+        "selection end": 7,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "This mo",
+        "last key": 79,
+        "selection start": 7,
+        "selection end": 7,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movi",
+        "last key": 86,
+        "selection start": 9,
+        "selection end": 9,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie",
+        "last key": 73,
+        "selection start": 10,
+        "selection end": 10,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie",
+        "last key": 69,
+        "selection start": 10,
+        "selection end": 10,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie w",
+        "last key": 32,
+        "selection start": 12,
+        "selection end": 12,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie wa",
+        "last key": 87,
+        "selection start": 13,
+        "selection end": 13,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was",
+        "last key": 65,
+        "selection start": 14,
+        "selection end": 14,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was ",
+        "last key": 83,
+        "selection start": 15,
+        "selection end": 15,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was ",
+        "last key": 32,
+        "selection start": 15,
+        "selection end": 15,
+        "deletes": 0,
+        "typed": 2,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was b",
+        "last key": 66,
+        "selection start": 16,
+        "selection end": 16,
+        "deletes": 0,
+        "typed": 2,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad",
+        "last key": 65,
+        "selection start": 18,
+        "selection end": 18,
+        "deletes": 0,
+        "typed": 2,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad",
+        "last key": 68,
+        "selection start": 18,
+        "selection end": 18,
+        "deletes": 0,
+        "typed": 2,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad.",
+        "last key": 190,
+        "selection start": 19,
+        "selection end": 19,
+        "deletes": 0,
+        "typed": 2,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. ",
+        "last key": 32,
+        "selection start": 20,
+        "selection end": 20,
+        "deletes": 0,
+        "typed": 3,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I",
+        "last key": 73,
+        "selection start": 21,
+        "selection end": 21,
+        "deletes": 0,
+        "typed": 3,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I th",
+        "last key": 32,
+        "selection start": 24,
+        "selection end": 24,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I th",
+        "last key": 84,
+        "selection start": 24,
+        "selection end": 24,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I thi",
+        "last key": 72,
+        "selection start": 25,
+        "selection end": 25,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I thi",
+        "last key": 73,
+        "selection start": 25,
+        "selection end": 25,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think",
+        "last key": 78,
+        "selection start": 27,
+        "selection end": 27,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think",
+        "last key": 75,
+        "selection start": 27,
+        "selection end": 27,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think ",
+        "last key": 32,
+        "selection start": 28,
+        "selection end": 28,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it",
+        "last key": 73,
+        "selection start": 30,
+        "selection end": 30,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it ",
+        "last key": 84,
+        "selection start": 31,
+        "selection end": 31,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it ",
+        "last key": 32,
+        "selection start": 31,
+        "selection end": 31,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I",
+        "last key": 16,
+        "selection start": 21,
+        "selection end": 21,
+        "deletes": 0,
+        "typed": 3,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it s",
+        "last key": 83,
+        "selection start": 32,
+        "selection end": 32,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it su",
+        "last key": 85,
+        "selection start": 33,
+        "selection end": 33,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it suk",
+        "last key": 75,
+        "selection start": 34,
+        "selection end": 34,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it su",
+        "last key": 8,
+        "selection start": 33,
+        "selection end": 33,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it suck",
+        "last key": 67,
+        "selection start": 35,
+        "selection end": 35,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks",
+        "last key": 75,
+        "selection start": 36,
+        "selection end": 36,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks",
+        "last key": 83,
+        "selection start": 36,
+        "selection end": 36,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, ",
+        "last key": 188,
+        "selection start": 38,
+        "selection end": 38,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, ",
+        "last key": 32,
+        "selection start": 38,
+        "selection end": 38,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I",
+        "last key": 73,
+        "selection start": 39,
+        "selection end": 39,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I h",
+        "last key": 32,
+        "selection start": 41,
+        "selection end": 41,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I h",
+        "last key": 72,
+        "selection start": 41,
+        "selection end": 41,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I ha",
+        "last key": 65,
+        "selection start": 42,
+        "selection end": 42,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have",
+        "last key": 86,
+        "selection start": 44,
+        "selection end": 44,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have",
+        "last key": 69,
+        "selection start": 44,
+        "selection end": 44,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have s",
+        "last key": 32,
+        "selection start": 46,
+        "selection end": 46,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have se",
+        "last key": 83,
+        "selection start": 47,
+        "selection end": 47,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I",
+        "last key": 16,
+        "selection start": 39,
+        "selection end": 39,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have se",
+        "last key": 69,
+        "selection start": 47,
+        "selection end": 47,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have see",
+        "last key": 69,
+        "selection start": 48,
+        "selection end": 48,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen ",
+        "last key": 78,
+        "selection start": 50,
+        "selection end": 50,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen ",
+        "last key": 32,
+        "selection start": 50,
+        "selection end": 50,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen m",
+        "last key": 77,
+        "selection start": 51,
+        "selection end": 51,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen mu",
+        "last key": 85,
+        "selection start": 52,
+        "selection end": 52,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen muc",
+        "last key": 67,
+        "selection start": 53,
+        "selection end": 53,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much",
+        "last key": 72,
+        "selection start": 54,
+        "selection end": 54,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much ",
+        "last key": 32,
+        "selection start": 55,
+        "selection end": 55,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much b",
+        "last key": 66,
+        "selection start": 56,
+        "selection end": 56,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much bt",
+        "last key": 84,
+        "selection start": 57,
+        "selection end": 57,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much b",
+        "last key": 8,
+        "selection start": 56,
+        "selection end": 56,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much be",
+        "last key": 69,
+        "selection start": 57,
+        "selection end": 57,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much bet",
+        "last key": 84,
+        "selection start": 58,
+        "selection end": 58,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much bette",
+        "last key": 84,
+        "selection start": 60,
+        "selection end": 60,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better",
+        "last key": 69,
+        "selection start": 61,
+        "selection end": 61,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better ",
+        "last key": 82,
+        "selection start": 62,
+        "selection end": 62,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better m",
+        "last key": 32,
+        "selection start": 63,
+        "selection end": 63,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better mo",
+        "last key": 77,
+        "selection start": 64,
+        "selection end": 64,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better mo",
+        "last key": 79,
+        "selection start": 64,
+        "selection end": 64,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movu",
+        "last key": 86,
+        "selection start": 66,
+        "selection end": 66,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movue",
+        "last key": 85,
+        "selection start": 67,
+        "selection end": 67,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movue",
+        "last key": 69,
+        "selection start": 67,
+        "selection end": 67,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movu",
+        "last key": 8,
+        "selection start": 66,
+        "selection end": 66,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better mov",
+        "last key": 8,
+        "selection start": 65,
+        "selection end": 65,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie",
+        "last key": 73,
+        "selection start": 67,
+        "selection end": 67,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 1
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie",
+        "last key": 69,
+        "selection start": 67,
+        "selection end": 67,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 1
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, ",
+        "last key": 188,
+        "selection start": 69,
+        "selection end": 69,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 1
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, ",
+        "last key": 32,
+        "selection start": 69,
+        "selection end": 69,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 1
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, W",
+        "last key": 87,
+        "selection start": 70,
+        "selection end": 70,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 1
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, Wh",
+        "last key": 72,
+        "selection start": 71,
+        "selection end": 71,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 1
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, Wha",
+        "last key": 65,
+        "selection start": 72,
+        "selection end": 72,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 1
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, Whar",
+        "last key": 82,
+        "selection start": 73,
+        "selection end": 73,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 1
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, W",
+        "last key": 16,
+        "selection start": 70,
+        "selection end": 70,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 1
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, Whar ",
+        "last key": 32,
+        "selection start": 74,
+        "selection end": 74,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 1
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, Whar",
+        "last key": 8,
+        "selection start": 73,
+        "selection end": 73,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 1
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What",
+        "last key": 8,
+        "selection start": 73,
+        "selection end": 73,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 1
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What",
+        "last key": 84,
+        "selection start": 73,
+        "selection end": 73,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 2
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, Whata ",
+        "last key": 65,
+        "selection start": 75,
+        "selection end": 75,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 2
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, Whata ",
+        "last key": 32,
+        "selection start": 75,
+        "selection end": 75,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 2
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, Whata",
+        "last key": 8,
+        "selection start": 74,
+        "selection end": 74,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 2
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a",
+        "last key": 8,
+        "selection start": 75,
+        "selection end": 75,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 2
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a",
+        "last key": 32,
+        "selection start": 75,
+        "selection end": 75,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a ",
+        "last key": 65,
+        "selection start": 76,
+        "selection end": 76,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a w",
+        "last key": 32,
+        "selection start": 77,
+        "selection end": 77,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a w",
+        "last key": 87,
+        "selection start": 77,
+        "selection end": 77,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a was",
+        "last key": 65,
+        "selection start": 79,
+        "selection end": 79,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a was",
+        "last key": 83,
+        "selection start": 79,
+        "selection end": 79,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a wast",
+        "last key": 84,
+        "selection start": 80,
+        "selection end": 80,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a waste ",
+        "last key": 69,
+        "selection start": 82,
+        "selection end": 82,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a waste o",
+        "last key": 32,
+        "selection start": 83,
+        "selection end": 83,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a waste o",
+        "last key": 79,
+        "selection start": 83,
+        "selection end": 83,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a waste of ",
+        "last key": 70,
+        "selection start": 85,
+        "selection end": 85,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a waste of m",
+        "last key": 32,
+        "selection start": 86,
+        "selection end": 86,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a waste of m",
+        "last key": 77,
+        "selection start": 86,
+        "selection end": 86,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a waste of mon",
+        "last key": 79,
+        "selection start": 88,
+        "selection end": 88,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a waste of mon",
+        "last key": 78,
+        "selection start": 88,
+        "selection end": 88,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a waste of money",
+        "last key": 69,
+        "selection start": 90,
+        "selection end": 90,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a waste of money",
+        "last key": 89,
+        "selection start": 90,
+        "selection end": 90,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    },
+    {
+        "text": "This movie was bad. I think it sucks, I have seen much better movie, What a waste of money.",
+        "last key": 190,
+        "selection start": 91,
+        "selection end": 91,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 3
+    }
+]

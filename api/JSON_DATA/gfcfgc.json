@@ -1,0 +1,723 @@
+[
+    "",
+    {
+        "text": "",
+        "last key": 1,
+        "selection start": 0,
+        "selection end": 0,
+        "deletes": 0,
+        "typed": 0,
+        "partially deleted": 0
+    },
+    {
+        "text": "a",
+        "last key": 65,
+        "selection start": 1,
+        "selection end": 1,
+        "deletes": 0,
+        "typed": 0,
+        "partially deleted": 0
+    },
+    {
+        "text": "as",
+        "last key": 83,
+        "selection start": 2,
+        "selection end": 2,
+        "deletes": 0,
+        "typed": 0,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd",
+        "last key": 68,
+        "selection start": 3,
+        "selection end": 3,
+        "deletes": 0,
+        "typed": 0,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd ",
+        "last key": 32,
+        "selection start": 4,
+        "selection end": 4,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd d",
+        "last key": 68,
+        "selection start": 5,
+        "selection end": 5,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfc",
+        "last key": 67,
+        "selection start": 7,
+        "selection end": 7,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc",
+        "last key": 70,
+        "selection start": 8,
+        "selection end": 8,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc",
+        "last key": 67,
+        "selection start": 8,
+        "selection end": 8,
+        "deletes": 0,
+        "typed": 1,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc ",
+        "last key": 32,
+        "selection start": 9,
+        "selection end": 9,
+        "deletes": 0,
+        "typed": 2,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc h",
+        "last key": 72,
+        "selection start": 10,
+        "selection end": 10,
+        "deletes": 0,
+        "typed": 2,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv",
+        "last key": 72,
+        "selection start": 12,
+        "selection end": 12,
+        "deletes": 0,
+        "typed": 2,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv",
+        "last key": 86,
+        "selection start": 12,
+        "selection end": 12,
+        "deletes": 0,
+        "typed": 2,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv ",
+        "last key": 32,
+        "selection start": 13,
+        "selection end": 13,
+        "deletes": 0,
+        "typed": 3,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv j",
+        "last key": 74,
+        "selection start": 14,
+        "selection end": 14,
+        "deletes": 0,
+        "typed": 3,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbn",
+        "last key": 66,
+        "selection start": 16,
+        "selection end": 16,
+        "deletes": 0,
+        "typed": 3,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbn",
+        "last key": 78,
+        "selection start": 16,
+        "selection end": 16,
+        "deletes": 0,
+        "typed": 3,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj",
+        "last key": 74,
+        "selection start": 17,
+        "selection end": 17,
+        "deletes": 0,
+        "typed": 3,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj ",
+        "last key": 32,
+        "selection start": 18,
+        "selection end": 18,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj j",
+        "last key": 74,
+        "selection start": 19,
+        "selection end": 19,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jn",
+        "last key": 78,
+        "selection start": 20,
+        "selection end": 20,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnj",
+        "last key": 74,
+        "selection start": 21,
+        "selection end": 21,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj",
+        "last key": 78,
+        "selection start": 23,
+        "selection end": 23,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj",
+        "last key": 74,
+        "selection start": 23,
+        "selection end": 23,
+        "deletes": 0,
+        "typed": 4,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj ",
+        "last key": 32,
+        "selection start": 24,
+        "selection end": 24,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj n",
+        "last key": 78,
+        "selection start": 25,
+        "selection end": 25,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj nj",
+        "last key": 74,
+        "selection start": 26,
+        "selection end": 26,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnj",
+        "last key": 78,
+        "selection start": 28,
+        "selection end": 28,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn",
+        "last key": 74,
+        "selection start": 29,
+        "selection end": 29,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn",
+        "last key": 78,
+        "selection start": 29,
+        "selection end": 29,
+        "deletes": 0,
+        "typed": 5,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn ",
+        "last key": 32,
+        "selection start": 30,
+        "selection end": 30,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn j",
+        "last key": 74,
+        "selection start": 31,
+        "selection end": 31,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jn",
+        "last key": 78,
+        "selection start": 32,
+        "selection end": 32,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjn",
+        "last key": 74,
+        "selection start": 34,
+        "selection end": 34,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjn",
+        "last key": 78,
+        "selection start": 34,
+        "selection end": 34,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn",
+        "last key": 74,
+        "selection start": 36,
+        "selection end": 36,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn",
+        "last key": 78,
+        "selection start": 36,
+        "selection end": 36,
+        "deletes": 0,
+        "typed": 6,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn ",
+        "last key": 32,
+        "selection start": 37,
+        "selection end": 37,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jn",
+        "last key": 74,
+        "selection start": 39,
+        "selection end": 39,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jn",
+        "last key": 78,
+        "selection start": 39,
+        "selection end": 39,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjn",
+        "last key": 74,
+        "selection start": 41,
+        "selection end": 41,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj",
+        "last key": 78,
+        "selection start": 42,
+        "selection end": 42,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj",
+        "last key": 74,
+        "selection start": 42,
+        "selection end": 42,
+        "deletes": 0,
+        "typed": 7,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj ",
+        "last key": 32,
+        "selection start": 43,
+        "selection end": 43,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj n",
+        "last key": 78,
+        "selection start": 44,
+        "selection end": 44,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njn",
+        "last key": 74,
+        "selection start": 46,
+        "selection end": 46,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njn",
+        "last key": 78,
+        "selection start": 46,
+        "selection end": 46,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn",
+        "last key": 74,
+        "selection start": 48,
+        "selection end": 48,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn",
+        "last key": 78,
+        "selection start": 48,
+        "selection end": 48,
+        "deletes": 0,
+        "typed": 8,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn ",
+        "last key": 32,
+        "selection start": 49,
+        "selection end": 49,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jn",
+        "last key": 74,
+        "selection start": 51,
+        "selection end": 51,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jn",
+        "last key": 78,
+        "selection start": 51,
+        "selection end": 51,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnj",
+        "last key": 74,
+        "selection start": 52,
+        "selection end": 52,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj",
+        "last key": 78,
+        "selection start": 54,
+        "selection end": 54,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj",
+        "last key": 74,
+        "selection start": 54,
+        "selection end": 54,
+        "deletes": 0,
+        "typed": 9,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj ",
+        "last key": 32,
+        "selection start": 55,
+        "selection end": 55,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj j",
+        "last key": 74,
+        "selection start": 56,
+        "selection end": 56,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jn",
+        "last key": 78,
+        "selection start": 57,
+        "selection end": 57,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnj",
+        "last key": 74,
+        "selection start": 58,
+        "selection end": 58,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj",
+        "last key": 78,
+        "selection start": 60,
+        "selection end": 60,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj",
+        "last key": 74,
+        "selection start": 60,
+        "selection end": 60,
+        "deletes": 0,
+        "typed": 10,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj ",
+        "last key": 32,
+        "selection start": 61,
+        "selection end": 61,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jn",
+        "last key": 74,
+        "selection start": 63,
+        "selection end": 63,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jn",
+        "last key": 78,
+        "selection start": 63,
+        "selection end": 63,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnj",
+        "last key": 74,
+        "selection start": 64,
+        "selection end": 64,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn",
+        "last key": 78,
+        "selection start": 65,
+        "selection end": 65,
+        "deletes": 0,
+        "typed": 11,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn ",
+        "last key": 32,
+        "selection start": 66,
+        "selection end": 66,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jn",
+        "last key": 74,
+        "selection start": 68,
+        "selection end": 68,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jn",
+        "last key": 78,
+        "selection start": 68,
+        "selection end": 68,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj",
+        "last key": 74,
+        "selection start": 69,
+        "selection end": 69,
+        "deletes": 0,
+        "typed": 12,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj ",
+        "last key": 32,
+        "selection start": 70,
+        "selection end": 70,
+        "deletes": 0,
+        "typed": 13,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jn",
+        "last key": 74,
+        "selection start": 72,
+        "selection end": 72,
+        "deletes": 0,
+        "typed": 13,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jn",
+        "last key": 78,
+        "selection start": 72,
+        "selection end": 72,
+        "deletes": 0,
+        "typed": 13,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jnj",
+        "last key": 74,
+        "selection start": 73,
+        "selection end": 73,
+        "deletes": 0,
+        "typed": 13,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jnjn",
+        "last key": 78,
+        "selection start": 74,
+        "selection end": 74,
+        "deletes": 0,
+        "typed": 13,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jnjn ",
+        "last key": 32,
+        "selection start": 75,
+        "selection end": 75,
+        "deletes": 0,
+        "typed": 14,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jnjn j",
+        "last key": 74,
+        "selection start": 76,
+        "selection end": 76,
+        "deletes": 0,
+        "typed": 14,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jnjn jn",
+        "last key": 78,
+        "selection start": 77,
+        "selection end": 77,
+        "deletes": 0,
+        "typed": 14,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jnjn jnj",
+        "last key": 74,
+        "selection start": 78,
+        "selection end": 78,
+        "deletes": 0,
+        "typed": 14,
+        "partially deleted": 0
+    },
+    {
+        "text": "asd dfcc hhv jbnj jnjnj njnjn jnjnjn jnjnj njnjn jnjnj jnjnj jnjn jnj jnjn jnj ",
+        "last key": 32,
+        "selection start": 79,
+        "selection end": 79,
+        "deletes": 0,
+        "typed": 15,
+        "partially deleted": 0
+    }
+]
