@@ -1,8 +1,0 @@
-{
-    "text": "as",
-    "log": [
-        "{\"text\":\"\",\"last key\":1,\"selection start\":0,\"selection end\":0,\"deletes\":0,\"typed\":0,\"partially deleted\":0}",
-        "{\"text\":\"\",\"last key\":65,\"selection start\":0,\"selection end\":0,\"deletes\":0,\"typed\":0,\"partially deleted\":0}",
-        "{\"text\":\"a\",\"last key\":83,\"selection start\":1,\"selection end\":1,\"deletes\":0,\"typed\":0,\"partially deleted\":0}"
-    ]
-}

@@ -150,6 +150,8 @@ api/models/*
 data/paper/*.pdf
 nbs/cscw/*.pdf
 api/docs/*
+data/
+experiments/
 data/a/
 data/imdb.tar.gz
 data/pos/
