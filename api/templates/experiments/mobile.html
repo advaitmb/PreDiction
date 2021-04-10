@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PreDiction</title>
+    <style>
+        body {
+            background: white;
+            padding: 20px;
+        }
+        #autocomplete {
+            opacity: 0.6;
+            background: transparent;
+            position: absolute;
+            box-sizing: border-box;
+            cursor: text;
+            pointer-events: none;
+            color: black;
+            width: 600px;
+            
+        }
+        .vc_textarea{
+                padding: 10px;
+                min-height: 100px;
+                resize: none;
+        }
+        #mainInput{
+            background: transparent;
+            color: black;
+            opacity: 1;
+            width: 600px
+        }
+        #autocomplete{
+            opacity: 0.6;
+            background: transparent;
+        }
+        
+        button{
+            height:50px;
+            width:205px;
+            padding:10;
+        }
+    </style>
+    <!-- <link rel="stylesheet" href="./style.css"> -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- <script src="{{url_for('static', filename='data.json')}}"></script> -->
+
+    <script>
+        $(document).ready(function(){
+            var mainInput = document.querySelectorAll("#mainInput");
+            let input_length = 0;            
+
+            $('#mainInput').keyup(function(e){ 
+                if (e.keyCode == 32) {
+                    predictionAPI();
+                    return;
+                } else if(e.key == 'Backspace') {
+                    input_length = mainInput[0].value.length;
+                } else {
+                    autocompletionAPI();
+                    return;
+                }
+            });
+
+            $("#text1").click(function(){
+                var new_text = $("#text1").text();
+                mainInput[0].value = mainInput[0].value.slice(0, input_length) + new_text;
+                $('#mainInput').focus().val($('#mainInput').val() + " ");
+                predictionAPI();
+            }); 
+
+            $("#text2").click(function(){
+                var new_text = $("#text2").text();
+                mainInput[0].value = mainInput[0].value.slice(0, input_length) + new_text;
+                $('#mainInput').focus().val($('#mainInput').val() + " ");
+                predictionAPI();
+            }); 
+
+            $("#text3").click(function(){
+                var new_text = $("#text3").text();
+                mainInput[0].value = mainInput[0].value.slice(0, input_length) + new_text;
+                $('#mainInput').focus().val($('#mainInput').val() + " ");
+                predictionAPI();
+            }); 
+
+            function predictionAPI(event){
+                input_length = mainInput[0].value.length;
+                var texttosend = mainInput[0].value
+                texttosend = texttosend.slice(0, texttosend.length-1)
+                $.ajax({
+                    url: "/predict",
+                    type: "POST",
+                    data: {text:texttosend}}).done(function(response){
+                        $("#text1").html(response.predicted.word2);
+                        $("#text2").html(response.predicted.word1);
+                        $("#text3").html(response.predicted.word3);
+                    });
+            }
+
+            function autocompletionAPI(event){
+                var query = mainInput[0].value
+                let parts = query.split(' ');
+                const wordToComplete = parts.pop();
+                $.ajax({
+                    url: "/autocomplete",
+                    type: "POST",
+                    data: {text:wordToComplete}}).done(function(response){
+                        $("#text1").html(response.autocompleted.word2);
+                        $("#text2").html(response.autocompleted.word1);
+                        $("#text3").html(response.autocompleted.word3);
+                    });
+            }
+        });
+    </script>
+</head>
+<body>
+    <textarea id="mainInput" type="text" name="comments" placeholder="Write some text" class="vc_textarea"></textarea>
+    <br/>
+    <button type="button" id="text1"></button> 
+    <button type="button" id="text2"></button> 
+    <button type="button" id="text3"></button> 
+</body>
+</html> 

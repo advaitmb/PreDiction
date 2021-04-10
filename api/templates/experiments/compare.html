@@ -1,0 +1,390 @@
+<html>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <style>
+        body {
+            background: rgb(228, 236, 245);
+            padding: 20px;
+        }
+
+        baody * {
+            color: hsla(210, 100%, 100%, 0.88) !important;
+            background: hsla(210, 100%, 50%, 0.33) !important;
+            outline: 0.25rem solid hsla(210, 100%, 100%, 0.50) !important;
+        }
+
+        article {
+
+            display: grid;
+            grid-template-columns: 1fr 0.5in [start] 1.23in [count] 5in [submitcol] 1.25in [end] 0.5in 1fr;
+            grid-template-rows: [boom] 1fr 0.1in [submit] 0in [boomend];
+            /* height: 100vh; */
+            padding: 0.5in 0;
+
+        }
+
+        article * {
+            background: white;
+            grid-column: start / end;
+            grid-row: boom / boomend;
+            padding: 4vw;
+            padding-top: 5vw;
+            padding-bottom: 5vw;
+            resize: none;
+            border: none;
+            font-family: 'Merriweather',
+                serif;
+            font-size: small;
+        }
+
+        :focus {
+            outline: 0px;
+        }
+
+        div {
+            display: grid;
+            grid-template-columns: 2.2vw [a] 1fr [b] 5in [c] 1fr [d] 0vw;
+            padding: 0.1in;
+            z-index: 2;
+            align-self: end;
+            border-top: 0.1px solid rgba(20, 63, 112, 0.1);
+            background-color: rgba(238, 243, 245, 0.281);
+            text-align: right;
+            margin: 0%;
+        }
+
+        div button {
+            grid-column: c / d;
+            padding: 6px 0px 6px 0px;
+            margin: 2px;
+            margin-left: 26px;
+            margin-right: 6px;
+            font-family: 'Inter', sans-serif;
+            color: rgba(20, 63, 112, 0.9);
+            font-weight: bold;
+            border-radius: 3px;
+            font-size: 8.5px;
+            text-align: center;
+            text-transform: uppercase;
+            text-decoration: none;
+            background-color: rgb(199, 233, 255);
+            border: 0.01px solid rgba(20, 63, 112, 0.05);
+        }
+
+        div button:hover {
+            color: rgba(20, 63, 112, 0.9);
+            background-color: rgb(192, 226, 250);
+        }
+
+        div p {
+            grid-column: a / b;
+            padding: 0px;
+            color: rgba(13, 47, 83, 0.5);
+            font-family: 'Inter', sans-serif;
+            font-weight: bolder;
+            font-size: 9px;
+            text-align: left;
+            background-color: rgba(155, 155, 155, 0.0);
+        }
+
+        div p span {
+            padding: 0px;
+            padding-left: 2px;
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+        }
+
+        @media (max-width: 8.5in) {
+            article {
+                grid-template-columns: 1fr 5% [start] 15% 60% [submitcol] 15% [end] 5% 1fr;
+            }
+
+            article * {
+                padding: 0.3in;
+                padding-top: 0.5in;
+            }
+
+            form {
+                grid-row: boom;
+                grid-column: submitcol / end;
+                width: 0.001in;
+                height: 0.01in;
+                padding: 0%;
+                padding-bottom: 2vw;
+                z-index: 2;
+                align-self: end;
+            }
+
+        }
+
+        #autocomplete {
+            color: rgb(158, 188, 226);
+            min-height: 5in;
+            cursor: text;
+            pointer-events: none;
+            box-shadow: 0px 2px 2px 0.2px rgba(192, 192, 192, 0.52);
+            border-radius: 2px;
+        }
+
+        #mainInput {
+            color: black;
+            min-height: 5in;
+            background: transparent;
+            opacity: 1;
+            z-index: 2;
+            border-radius: 2px;
+        }
+
+        .code-back {
+            background: #000000;
+            min-height: 5in;
+            color: white;
+            padding: 15px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            border-radius: 2px;
+        }
+    </style>
+
+    <article>
+        <textarea id="autocomplete"></textarea>
+        <textarea id="mainInput" id="textarea" name="comments"></textarea>
+        <div>
+            <button id="submitBtn">SUBMIT</button>
+            <p>Word Count:<span id="display_count">0</span></p>
+        </div>
+
+    </article>
+
+    <script>
+        $(document).ready(function () {
+            //dummy random output. You can use api
+
+            var example = {
+                1: "Lorem Ipsum is simply",
+                2: "Contrary to popular belief",
+                3: "comes from a line in",
+                4: "The Extremes of Good and Evil",
+                5: "dolor sit amet..",
+                6: "or non-characteristic",
+                7: "of a page",
+                8: "PageMaker including",
+                9: "I must explain",
+                10: "On the other hand,"
+            };
+
+            $("#word_count").on('keyup', function () {
+                var words = this.value.match(/\S+/g).length;
+                $('#display_count').text(words);
+            });
+
+            function randomobj(obj) {
+                var objkeys = Object.keys(obj)
+                return objkeys[Math.floor(Math.random() * objkeys.length)]
+            }
+
+            var autocomplete = document.querySelectorAll("#autocomplete");
+            var mainInput = document.querySelectorAll("#mainInput");
+            var foundName = '';
+            var nextWord = '';
+            var nextWordArr;
+            var predicted = '';
+            var apibusy = false;
+            var mlresponsebusy = false;
+            var completing = false;
+
+            $("#submitBtn").click(function () {
+                submit = mainInput[0].value;
+                console.log(submit);
+                $.ajax({
+                    url: "/submit",
+                    type: "POST",
+                    data: {
+                        text: submit
+                    }
+                })
+            });
+
+            $('#mainInput').keyup(function (e) {
+
+                var words = this.value.match(/\S+/g).length;
+                $('#display_count').text(words);
+
+                //check if null value send
+                if (mainInput[0].value == '') {
+                    autocomplete[0].textContent = '';
+                    return;
+                }
+                //check if space key press
+                if (e.keyCode == 32) {
+                    phraseCompleteAPI(e);
+                    scrolltobototm();
+                    return;
+                }
+                //check if Backspace key press
+                if (e.key == 'Backspace') {
+                    autocomplete[0].textContent = '';
+                    predicted = '';
+                    apibusy = true;
+                    return;
+                }
+                if (e.keyCode == 9) {
+                    return;
+                }
+                //check if ArrowRight or Tab key press
+                if (e.key != 'ArrowRight' && e.key != 'Backspace' && e.keyCode !== 32 && e.keyCode !==
+                    9) {
+                    if (autocomplete[0].textContent != '' && predicted) {
+                        var first_character = predicted.charAt(0);
+                        if (e.key == first_character) {
+                            var s1 = predicted;
+                            var s2 = s1.substr(1);
+                            predicted = s2;
+                            apibusy = true;
+                        } else {
+                            autocomplete[0].textContent = '';
+                            apibusy = false;
+                        }
+                    } else {
+                        autocomplete[0].textContent = '';
+                        apibusy = false;
+                    }
+                    return;
+                } else {
+                    if (predicted) {
+                        if (apibusy == true) {
+                            apibusy = false;
+                        }
+                        if (apibusy == false) {
+                            mainInput[0].value = foundName;
+                            autocomplete[0].textContent = '';
+                        }
+                    } else {
+                        return;
+                    }
+                }
+
+                function phraseCompleteAPI(event) {
+                    //call api and get response
+                    var response = {
+                        "predicted": example[randomobj(example)]
+                    };
+                    textToSend = mainInput[0].value.slice(0, -1);
+                    console.log(textToSend)
+                    $.ajax({
+                        url: "/predict",
+                        type: "POST",
+                        data: {
+                            text: textToSend
+                        }
+                    }).done(function (response) {
+                        if (response.predicted != '') {
+                            predicted = response.predicted.predicted;
+                            var new_text = event.target.value + response.predicted.predicted;
+                            autocomplete[0].textContent = new_text;
+                            nextWordArr = predicted.split(" ");
+                            foundName = event.target.value + nextWordArr.shift();
+                            // foundName = new_text
+                            completing = true;
+                        } else {
+                            predicted = '';
+                            var new_text1 = event.target.value + predicted;
+                            autocomplete[0].textContent = new_text1;
+                            foundName = new_text1
+                        }
+                    });
+
+                };
+
+                function wordCompleteAPI(event) {
+                    //call api and get response
+                    var response = {
+                        "predicted": example[randomobj(example)]
+                    };
+                    textToSend = mainInput[0].value.split(" ").pop()
+
+                    $.ajax({
+                        url: "/autocomplete",
+                        type: "POST",
+                        data: {
+                            text: textToSend
+                        }
+                    }).done(function (response) {
+                        if (response.predicted != '') {
+                            predicted = response.predicted.predicted;
+                            var new_text = event.target.value + response.predicted.predicted;
+                            autocomplete[0].textContent = new_text;
+                            foundName = new_text
+
+                        } else {
+                            predicted = '';
+                            var new_text1 = event.target.value + predicted;
+                            autocomplete[0].textContent = new_text1;
+                            foundName = new_text1
+                        }
+                    });
+
+                };
+            });
+
+            $('#mainInput').keypress(function (e) {
+                var sc = 0;
+                $('#mainInput').each(function () {
+                    this.setAttribute('style', 'height:' + (0) + 'px;overflow-y:hidden;');
+                    this.setAttribute('style', 'height:' + (this.scrollHeight + 3) +
+                        'px;overflow-y:hidden;');
+                    sc = this.scrollHeight;
+                });
+                $('#autocomplete').each(function () {
+                    if (sc <= 400) {
+                        this.setAttribute('style', 'height:' + (0) + 'px;overflow-y:hidden;');
+                        this.setAttribute('style', 'height:' + (sc + 2) +
+                            'px;overflow-y:hidden;');
+                    }
+                }).on('input', function () {
+                    this.style.height = 0;
+                    this.style.height = (sc + 2) + 'px';
+                });
+            });
+
+            function scrolltobototm() {
+                var target = document.getElementById('autocomplete');
+                var target1 = document.getElementById('mainInput');
+                setInterval(function () {
+                    target.scrollTop = target1.scrollHeight;
+                }, 1000);
+            };
+            $("#mainInput").keydown(function (e) {
+                if (e.keyCode === 9) {
+                    e.preventDefault();
+                    presstabkey();
+                }
+            });
+
+            function presstabkey() {
+                if (predicted) {
+                    if (apibusy == true) {
+                        apibusy = false;
+                    }
+                    if (apibusy == false) {
+                        mainInput[0].value = foundName;
+                        if (nextWordArr.length > 0) {
+                            foundName += " "
+                            foundName += nextWordArr.shift()
+                            completing = true;
+
+                        } else {
+                            autocomplete[0].textContent = '';
+                            completing = false;
+                        }
+                    }
+                } else {
+                    return;
+                }
+            };
+        });
+    </script>
+</body>
+
+</html>

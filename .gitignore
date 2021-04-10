@@ -150,6 +150,8 @@ api/models/*
 data/paper/*.pdf
 nbs/cscw/*.pdf
 api/docs/*
+data/
+experiments/
 data/a/
 data/imdb.tar.gz
 data/pos/
@@ -165,3 +167,17 @@ api/reviews.csv
 nbs/amazon_reviews_enc.pth
 nbs/models/
 nbs/test.pth
+nbs/*.txt
+nbs/cache*
+nbs/outputs
+nbs/models
+nbs/runs
+nbs/gpt2-imdb-*
+nbs/run_language_modeling.py
+nbs/imdb-dataset.csv
+nbs/negative_test_text
+nbs/negative_train_text
+nbs/positive_test_text
+nbs/positive_train_text
+api/templates/index_baseline_mm.html
+api/example_log.js

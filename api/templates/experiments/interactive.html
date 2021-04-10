@@ -1,0 +1,55 @@
+<head>
+<link href="//code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
+<script src="//code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+
+<script type="text/javascript">
+$(function() {
+    $("#autocomplete").autocomplete({
+        source:function(request, response) {
+            $.getJSON("{{url_for('autocomplete')}}",{
+                q: request.term, // in flask, "q" will be the argument to look for using request.args
+            }, function(data) {
+                response(data.matching_results); // matching_results from jsonify
+            });
+        },
+        disable=true,
+
+        minLength: 2,
+        select: function(event, ui) {
+            console.log(ui.item.value); // not in your question, but might help later
+        },
+        response: function( event, ui ) {
+            ${'#entry1'}.val = data,
+        },
+    });
+})
+
+</script>
+
+<!--
+<script>
+var value = $('#autocomplete').val();
+$.ajax({
+  type: 'POST',
+  url: "{{ url_for('autocomplete') }}",
+  data: JSON.stringify(value),
+  contentType: 'application/json',
+  success: function(data){
+    // do something with the received data
+    $('#entry1').val = data;
+  }
+});    
+
+</script>
+-->
+</head>
+<body>
+    <div>
+        <input name="autocomplete" type="text" id="autocomplete" class="form-control input-lg"/>
+    </div>
+    <div>
+         <button name="entry1" type="button"></button> 
+    </div>
+</body>
+

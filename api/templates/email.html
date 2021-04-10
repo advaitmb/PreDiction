@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="{{url_for('static', filename='debounce.js')}}"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}" />
+  <nav>
+    <p>Welcome to the study!</p><br>
+    <p>Please enter your email to enter the review writing page</p><br>
+    <input type="text" id="mail" name="mail" placeholder="Enter email">
+    <button id="emailSubmit">SUBMIT</button>
+  </nav>
+  <script type="text/javascript">
+
+    let emailTextSelector = document.querySelectorAll("#mail");
+    let suggestionTextSelector = document.querySelectorAll("#suggestionText");
+    let userTextSelector = document.querySelectorAll("#userText");
+
+
+    $("#emailSubmit").click(function (event) {
+      console.log(emailTextSelector[0].value);
+      $.ajax({
+        url: "/email",
+        type: "POST",
+        async: false,
+        data: {
+          mail: emailTextSelector[0].value,
+        }
+      })
+      window.location = '/c';
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,379 @@
+<html>
+
+<body>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="{{url_for('static', filename='debounce.js')}}"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}" />
+  <article>
+    <textarea id="suggestionText"></textarea>
+    <textarea id="userText" id="textarea" name="comments"></textarea>
+    <div>
+      <button id="submitBtn">SUBMIT</button>
+      <p>Word Count:<span id="display_count">0</span></p>
+    </div>
+  </article>
+  <script type="text/javascript">
+    const bias_mapping = {
+      a: "Positive",
+      b: "Negative",
+      c: "Neutral",
+    };
+    const bias_code = window.location.pathname[1];
+    const bias = bias_mapping[bias_code];
+    const urlPhraseComplete = "/" + bias_code + "/phrase_complete_api";
+    const urlWordComplete = "/" + bias_code + "/word_complete_api";
+
+    const ALPHA_NUMERIC_KEY_CODE_LOWER = 48;
+    const ALPHA_NUMERIC_KEY_CODE_UPPER = 90;
+    const SPACE_BAR_KEY_CODE = 32;
+    const SHIFT_KEY_CODE = 16;
+    const BACK_SPACE_KEY_CODE = 8;
+    const TAB_KEY_CODE = 9;
+    const RIGHT_ARROW_KEY_CODE = 39;
+    const DEBOUNCE_TIME = 250;
+    const DEBOUNCE_LITTLE_TIME = 150;
+    const AT_BEGIN_FLAG = false;
+
+    let ajxPhraseComplete;
+    let ajxWordComplete;
+    let suggestionTextSelector = document.querySelectorAll("#suggestionText");
+    let userTextSelector = document.querySelectorAll("#userText");
+    let differentKeyTyped = true;
+    let wordCompleted = false; //change to true later true
+    let phraseCompleted = true;
+    let suggestedText = "";
+    let tabCounter = 0;
+    let lastKey;
+    let keyLogWord = [];
+    let keyLogDump = [];
+    let last_text = [];
+    let new_text = [];
+
+    function displaySuggestion(suggestedText) {
+      suggestionTextSelector[0].value = suggestedText;
+    }
+
+    function clearSuggestion() {
+      suggestionTextSelector[0].value = "";
+    }
+
+    function acceptSuggestion() {
+      let suggestedText = suggestionTextSelector[0].value;
+      userTextSelector[0].value = suggestedText;
+      clearSuggestion();
+    }
+
+    function acceptOneSuggestion() {
+      let suggestedText = suggestionTextSelector[0].value;
+      let userText = userTextSelector[0].value;
+      let update = suggestedText.replace(userText, "");
+      let updateList = update.split(" ").filter(String);
+
+      if (
+        updateList.length <= 0 ||
+        suggestedText == "" ||
+        suggestedText.trim() == userText.trim()
+      ) {
+        return;
+      }
+      console.log(suggestedText);
+      console.log(userText);
+      console.log(updateList);
+      if (isNotTypingTheSameKey(lastKey)) {
+        userTextSelector[0].value += updateList[0];
+      } else {
+        if (!wordCompleted) {
+          if (userText[userText.length - 1] == " ") {
+            console.log("ping");
+            userTextSelector[0].value += updateList[0];
+          } else {
+            userTextSelector[0].value += " ";
+            userTextSelector[0].value += updateList[0];
+          }
+        } else {
+          userTextSelector[0].value += updateList[0];
+        }
+      }
+
+      if (updateList.length <= 1) {
+        updateList = [];
+      }
+      console.log(updateList);
+    }
+    function isNotTypingTheSameKey(char) {
+      let suggestedText = suggestionTextSelector[0].value;
+      let userText = userTextSelector[0].value;
+      let update = suggestedText.replace(userText, "");
+      console.log(update);
+      let resp = false;
+      if (update.charAt(0) != char) {
+        resp = true;
+      } else {
+        resp = false;
+      }
+      return resp;
+    }
+
+    function tagWords() {
+
+      let wordJSON = {
+        word: '',
+        index: 0,
+        tabbed: false,
+        typed: false,
+        partial: false,
+        deleted: false,
+        edited: false,
+        edited_from: '',
+        alt_word: '',
+        tabbed_characters: [],
+        typed_characters: [],
+        deleted_characters: [],
+      }
+
+      let wordJSON = {
+        word: '',
+        index: 0,
+        typed: false,
+        partial: false,
+        deleted: false,
+        edited: false,
+        edited_from: '',
+        alt_word: '',
+        tabbed_characters: [],
+        typed_characters: [],
+        deleted_characters: [],
+      }
+
+      function containsTabbed(letterlog) {
+        if (letterlog.includes("Tab")) {
+          return true;
+        } else { return false }
+      }
+
+      function containsTyped() {
+      }
+
+      function fullTabbed(letterlog) {
+        if (letterlog.includes("Tab") && letterlog.length == 1) {
+          return true;
+        } else { return false }
+      }
+
+      function onlySuffixTabbed(letterlog) {
+        if (letterlog.includes("Tab") && letterlog[1] != "Tab" && letterlog[letterlog.length - 1] == "Tab") {
+          return true;
+        } else { return false }
+      }
+
+      function onlyPrefixTabbed(letterlog) {
+        if (letterlog.includes("Tab") && letterlog[1] == "Tab" && letterlog[letterlog.length - 1] != "Tab") {
+          return true;
+        } else { return false }
+      }
+
+      function notPrefixAndSuffixTabbed(letterlog) {
+        if (letterlog.includes("Tab") && letterlog[1] != "Tab" && letterlog[letterlog.length - 1] != "Tab") {
+          return true;
+        } else { return false }
+      }
+
+      function PrefixAndSuffixTabbed(letterlog) {
+        if (letterlog.includes("Tab") && letterlog[1] == "Tab" && letterlog[letterlog.length - 1] == "Tab") {
+          return true;
+        } else { return false }
+      }
+
+      function 
+
+
+
+      function isDeleted() { }
+      function isEdited() { }
+      function isEditedFrom() { }
+      function altWord() { }
+      function previousWordsDeleted() { }
+      function previousWordEdited() { }
+
+      function giveTabbedCharacters() {
+        'new - old when tabbed'
+      }
+      function giveTypedCharacters() {
+
+      }
+      function giveDeletedCharacters() {
+        if (event.keyCode == BACK_SPACE_KEY_CODE) {
+          deletedKeyLog.push(last_text.filter(x => !new_text.includes(x)))
+        }
+      }
+
+      if deleted:
+        log deleted characters in an array, flip the array, trim the array,
+          count number of spaces, update each word status as deleted,
+            check if first word is equal to corresponding word, 
+          if not update the first word with new name and put the original name in edited_from
+
+
+      $(userTextSelector).keyup(function (event) {
+        last_text = new_text;
+        new_text = userTextSelector[0].value.split(' ');
+
+        console.log(new_text);
+        //console.log("clicked!");
+        if (
+          event.keyCode >= ALPHA_NUMERIC_KEY_CODE_LOWER &&
+          event.keyCode <= ALPHA_NUMERIC_KEY_CODE_UPPER || event.keyCode == TAB_KEY_CODE
+        ) {
+          keyLogWord.push(event.key);
+          keyLogDump.push(event.key);
+        }
+        else if (event.keyCode == SPACE_BAR_KEY_CODE) {
+          keyLogWord.join('').trim()
+          wordList.push(wordJSON);
+          keyLogWord = [];
+
+        }
+
+
+        if ((new_text.length == last_text.length) && (new_text != last_text)) {
+
+          edited_from = last_text.filter(x => !new_text.includes(x));
+          edited_to = tabbed = new_text.filter(x => !last_text.includes(x));
+
+        }
+
+        if (e.keyCode === 9 || e.keyCode === 39) {
+
+          tabbed = new_text.filter(x => !last_text.includes(x));
+
+        } else {
+
+          typed = new_text.filter(x => !last_text.includes(x));
+          deleted = last_text.filter(x => !new_text.includes(x));
+
+        }
+
+
+      });
+    }
+
+
+
+    function updatePhraseSuggestion(text) {
+      ajxPhraseComplete = $.ajax({
+        type: "POST",
+        url: urlPhraseComplete,
+        data: {
+          text: text,
+          bias: bias,
+        },
+        success: function (response) {
+          suggestedText = text + response;
+          displaySuggestion(suggestedText);
+          wordCompleted = false;
+          console.log("call complete");
+        },
+        error: function () {
+          console.log("Error getting response from phrase complete API");
+        },
+      });
+    }
+
+    function updateWordSuggestion(text) {
+      // ajxWordComplete.abort();
+      if (ajxWordComplete && ajxWordComplete.readyState != 4) {
+        console.log(ajxWordComplete.readyState);
+        ajxWordComplete.abort();
+      }
+      ajxWordComplete = $.ajax({
+        type: "POST",
+        url: urlWordComplete,
+        data: {
+          text: text,
+          bias: bias,
+        },
+        success: function (response) {
+          suggestedText = text + response;
+          displaySuggestion(suggestedText);
+          wordCompleted = true;
+          console.log("Recieved an autocomplete response" + response);
+        },
+        error: function () {
+          console.log("Error getting response from word complete API");
+        },
+      });
+    }
+
+    // Try to make an API call and update suggestion
+    $(userTextSelector).keyup(
+      // $.debounce(
+      //  DEBOUNCE_LITTLE_TIME,
+      // (at_begin = AT_BEGIN_FLAG),
+      function (event) {
+        if (
+          event.keyCode >= ALPHA_NUMERIC_KEY_CODE_LOWER &&
+          event.keyCode <= ALPHA_NUMERIC_KEY_CODE_UPPER
+        ) {
+          if (differentKeyTyped) {
+            updateWordSuggestion(event.target.value);
+          }
+        }
+      }
+      //)
+    );
+
+    //mo'vie'
+    /*
+        $(userTextSelector).keyup(
+          $.debounce(DEBOUNCE_TIME, (at_begin = AT_BEGIN_FLAG), function (event) {
+            if (
+              event.keyCode >= ALPHA_NUMERIC_KEY_CODE_LOWER &&
+              event.keyCode <= ALPHA_NUMERIC_KEY_CODE_UPPER
+            ) {
+              if (differentKeyTyped) {
+                if (true) {
+                  updatePhraseSuggestion(suggestedText);
+                }
+              }
+            } else if (
+              event.keyCode == SPACE_BAR_KEY_CODE ||
+              event.keyCode == SHIFT_KEY_CODE
+            ) {
+              if (differentKeyTyped) {
+                console.log("before call");
+                clearSuggestion();
+                updatePhraseSuggestion(event.target.value);
+              }
+            }
+          })
+        ); */
+
+    // If immediately new key is typed, clear any previous suggestion, also check if the key typed by used is same as the one suggested by API
+    $(userTextSelector).keydown(function (event) {
+      //console.log("abort");
+      lastKey = event.key;
+      if (
+        event.keyCode >= ALPHA_NUMERIC_KEY_CODE_LOWER &&
+        event.keyCode <= ALPHA_NUMERIC_KEY_CODE_UPPER
+      ) {
+        wordCompleted = false;
+        if (isNotTypingTheSameKey(event.key)) {
+          clearSuggestion();
+          differentKeyTyped = true;
+        } else {
+          differentKeyTyped = false;
+        }
+      } else if (event.keyCode == BACK_SPACE_KEY_CODE) {
+        clearSuggestion();
+      } else if (
+        event.keyCode == RIGHT_ARROW_KEY_CODE ||
+        event.keyCode == TAB_KEY_CODE
+      ) {
+        event.preventDefault();
+        acceptOneSuggestion();
+      }
+    });
+  </script>
+</body>
+
+</html>
