@@ -76,6 +76,55 @@
     let submit = '';
     let title = '';
 
+    // Logger Variables 
+
+    let LOGGER_logs = []
+    let LOGGER_keys = []
+    let LOGGER_accepted_suggestions = []
+    let LOGGER_cursor_positions = []
+    let LOGGER_suggestions = []
+    let LOGGER_deletions = []
+    let LOGGER_current_accepted = ''
+    let LOGGER_cursorStart = 0
+    let LOGGER_cursorEnd = 0
+
+    function LOGGER_getCursorPos(input) {
+        if ("selectionStart" in input && document.activeElement == input) {
+            return {
+                start: input.selectionStart,
+                end: input.selectionEnd
+            };
+        }
+        else if (input.createTextRange) {
+            var sel = document.selection.createRange();
+            if (sel.parentElement() === input) {
+                var rng = input.createTextRange();
+                rng.moveToBookmark(sel.getBookmark());
+                for (var len = 0;
+                        rng.compareEndPoints("EndToStart", rng) > 0;
+                        rng.moveEnd("character", -1)) {
+                    len++;
+                }
+                rng.setEndPoint("StartToStart", input.createTextRange());
+                for (var pos = { start: 0, end: len };
+                        rng.compareEndPoints("EndToStart", rng) > 0;
+                        rng.moveEnd("character", -1)) {
+                    pos.start++;
+                    pos.end++;
+                }
+                return pos;
+            }
+        }
+        return -1;
+    }
+
+    function LOGGER_updateLogs(e) {
+      LOGGER_accepted_suggestions.push(LOGGER_current_accepted);
+      LOGGER_suggestions.push(suggestionTextSelector[0].value)
+      LOGGER_logs.push($('#userText')[0].value);
+      LOGGER_keys.push(e.keyCode);
+      LOGGER_cursor_positions.push(LOGGER_getCursorPos($('#userText')[0]));
+    }
 
     function displaySuggestion(suggestedText) {
       suggestionTextSelector[0].value = suggestedText.replace("n t ", "n't ");
@@ -103,6 +152,7 @@
         suggestedText == "" ||
         suggestedText.trim() == userText.trim()
       ) {
+        LOGGER_current_accepted = '';
         return;
       }
 
@@ -116,6 +166,7 @@
 
       if (userText[userText.length - 1] == " ") {
         userTextSelector[0].value += updateList[0];
+        LOGGER_current_accepted = updateList[0];
         console.log("3");
 
       } else {
@@ -123,6 +174,7 @@
         if (update[0] == ' ') {
           userTextSelector[0].value += " ";
           userTextSelector[0].value += updateList[0];
+          LOGGER_current_accepted = " " + updateList[0];
           // wordCompleteResquestRecieved = false;
           console.log("2");
         } else if (update == '') {
@@ -131,8 +183,10 @@
           //userTextSelector[0].value += " ";
           //userTextSelector[0].value += updateList[0];
           console.log("4");
+          LOGGER_current_accepted = ''
         } else {
           userTextSelector[0].value += updateList[0];
+          LOGGER_current_accepted = updateList[0];
         }
       }
 
@@ -270,7 +324,7 @@
           } else if (event.keyCode == SPACE_BAR_KEY_CODE) {
 
             console.log("is it happening?: " + event.keyCode)
-            updatePhraseSuggestion(event.target.value);
+            // updatePhraseSuggestion(event.target.value);
             countWords()
           }
         }
@@ -308,6 +362,7 @@
         acceptOneSuggestion();
         countWords()
       }
+      LOGGER_updateLogs(event);
     });
 
     //----------------------------LOGGER---------------------------//
@@ -350,25 +405,46 @@
     });
 
 
+    // $("#submitBtn").click(function () {
+    //   title = titleTextSelector[0].value;
+    //   submit = userTextSelector[0].value;
+    //   console.log(submit);
+    //   $.ajax({
+    //     url: "/submit",
+    //     type: "POST",
+    //     contentType: "application/json",
+    //     async: false,
+    //     data: JSON.stringify({
+    //       'title': title,
+    //       'text': submit,
+    //       'bias': bias,
+    //       'log': log
+    //     })
+    //   })
+    //   window.location = '/done';
+    // });
+
     $("#submitBtn").click(function () {
-      title = titleTextSelector[0].value;
-      submit = userTextSelector[0].value;
-      console.log(submit);
+      LOGGER_logs.push($('#userText')[0].value);
+      let data = {
+        'title': titleTextSelector[0].value,
+        'bias': bias,
+        'full_text': userTextSelector[0].value,
+        'keys': LOGGER_keys,
+        'logs': LOGGER_logs,
+        'cursor_positions': LOGGER_cursor_positions,
+        'suggestions': LOGGER_suggestions,
+        'accepted_suggestions': LOGGER_accepted_suggestions
+      }
       $.ajax({
         url: "/submit",
         type: "POST",
         contentType: "application/json",
         async: false,
-        data: JSON.stringify({
-          'title': title,
-          'text': submit,
-          'bias': bias,
-          'log': log
-        })
+        data: JSON.stringify(data)
       })
       window.location = '/done';
     });
-
 
     function replaceAt(string, index1, index2) {
       str1 = string.substr(0, index1 - 1);

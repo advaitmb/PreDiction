@@ -180,3 +180,4 @@ nbs/negative_train_text
 nbs/positive_test_text
 nbs/positive_train_text
 api/templates/index_baseline_mm.html
+api/example_log.js

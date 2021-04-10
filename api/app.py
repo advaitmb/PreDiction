@@ -7,6 +7,7 @@ import os
 import re
 import csv
 import asyncio
+import json
 
 import nltk
 from nltk.tokenize import word_tokenize, TweetTokenizer
@@ -22,8 +23,8 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("gpt2")
 neutral_model = AutoModelForCausalLM.from_pretrained("lvwerra/gpt2-imdb")
-positive_model = AutoModelForCausalLM.from_pretrained("/home/advaitmb/notebooks/projects/PreDiction/nbs/gpt2-imdb-positive-sentiment")
-negative_model = AutoModelForCausalLM.from_pretrained("/home/advaitmb/notebooks/projects/PreDiction/nbs/gpt2-imdb-negative-sentiment")
+positive_model = AutoModelForCausalLM.from_pretrained("/home/advaitmb/notebooks/projects/PreDiction/api/models/gpt2-imdb-positive-sentiment")
+negative_model = AutoModelForCausalLM.from_pretrained("/home/advaitmb/notebooks/projects/PreDiction/api/models/gpt2-imdb-negative-sentiment")
 neutral_model.to('cuda')
 positive_model.to('cuda')
 negative_model.to('cuda')
@@ -100,14 +101,20 @@ def email():
 
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
-    logDump = request.get_json()
-    print(logDump, sys.stdout)
-    global maily
-    logFile = maily + ".json"
-    print(logFile, sys.stdout)
-    write_json(logDump, logFile)
-    logDump = ['']
+    data = request.get_json(force=True)
+    with open('example_log.js', 'w') as outfile:
+        data = 'let data = '+ str(data)
+        json.dump(data, outfile)
     return '', 204
+# def submit():
+#     logDump = request.get_json()
+#     print(logDump, sys.stdout)
+#     global maily
+#     logFile = maily + ".json"
+#     print(logFile, sys.stdout)
+#     write_json(logDump, logFile)
+#     logDump = ['']
+#     return '', 204
 
 # ------------------ Functions & Inference --------------------- #
 
